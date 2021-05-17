@@ -3,9 +3,19 @@ entries:
   odoo:
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2021-05-17T13:20:25.448703761+02:00"
+    created: "2021-05-17T14:13:59.160670173+02:00"
     description: A Helm chart to deploy Odoo on CampToCamp own platform
-    digest: 140c66ed637d88ceb47853305b7a3ea5ad7174a77adaa6939c604da455c6e3d3
+    digest: fda4a995b38ec11c0b7efb6eec4d44159628f80cf486edee19447919411e5620
+    name: odoo
+    type: application
+    urls:
+    - odoo-0.1.2.tgz
+    version: 0.1.2
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2021-05-17T14:13:59.160131607+02:00"
+    description: A Helm chart to deploy Odoo on CampToCamp own platform
+    digest: 45d785866dfcae93764ace54ae0c1e77ab6f80a685d85ccf7ce3d51fe7db025b
     name: odoo
     type: application
     urls:
@@ -13,7 +23,7 @@ entries:
     version: 0.1.1
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2021-05-17T13:20:25.44667461+02:00"
+    created: "2021-05-17T14:13:59.159569469+02:00"
     description: A Helm chart for Kubernetes
     digest: 338af58ab05bd752f34209cc2cde809577857dd4299c459365a5b8edbbe9a517
     name: odoo
@@ -21,4 +31,4 @@ entries:
     urls:
     - odoo-0.1.0.tgz
     version: 0.1.0
-generated: "2021-05-17T13:20:25.445993264+02:00"
+generated: "2021-05-17T14:13:59.158177862+02:00"

@@ -7,11 +7,11 @@ replicaCount: 1
 image:
   pullPolicy: IfNotPresent
   odoo:
-    repository: ghcr.io/camptocamp/camptocamp_odoo
-    tag: 13.0.0.6.0
+    repository: ghcr.io/camptocamp/customer_odoo
+    tag: xx.0.1.0.0
   nginx:
     repository: camptocamp/odoo-nginx
-    tag: 13.0-1.6.0
+    tag: xx.0-1.6.0
 
 imagePullSecrets:
   - name: github-packages
@@ -31,13 +31,14 @@ tolerations: []
 affinity: {}
 
 odoo:
+  customerName: customer
   env: integration
   aws:
     bucket_name: ""
   db:
     # Default value computed from env
     host: ""
-    name: quiet_sound_2718_integration
+    name: customer_db_name_integration
     # Default to 5432
     port: ""
     # Default to DB name

@@ -4,7 +4,7 @@ metadata:
   name: odoo-config
 data:
   ODOO_BASE_URL: {{ include "odoo.baseURL" . }}
-  AWS_BUCKETNAME: {{ .Values.odoo.bucket_name | default (include "odoo.fullname" .) }}
+  AWS_BUCKETNAME: {{ .Values.odoo.bucket_name | default (include "odoo.name" .) }}
   AWS_HOST: sos-ch-dk-2.exo.io
   DB_HOST: c2c-postgres-{{ .Values.odoo.env }}.postgres.database.azure.com
   DB_NAME: {{ .Values.odoo.db.name }}
@@ -17,6 +17,7 @@ data:
   LIMIT_TIME_CPU: {{ .Values.odoo.limits.time_cpu | default "86400" | quote }}
   LIMIT_TIME_REAL: {{ .Values.odoo.limits.time_real | default "86400" | quote }}
   LIMIT_TIME_REAL_CRON: {{ .Values.odoo.limits.time_real_cron | default "600" | quote }}
+  MAX_CRON_THREADS: {{ .Values.odoo.limits.max_cron | default "1" | quote }}
   DEMO: {{ .Values.odoo.demo | default "False" | quote }}
   MARABUNTA_MODE: {{ .Values.odoo.marabunta.mode | default "Full" }}
   MARABUNTA_ALLOW_SERIE: {{ .Values.odoo.marabunta.allow_series | default "False" | quote }}
@@ -24,7 +25,7 @@ data:
   ODOO_CLOUD_PLATFORM_UNSAFE: '0'
   ODOO_LOGGING_JSON: '1'
   ODOO_SESSION_REDIS: '1'
-  ODOO_SESSION_REDIS_PREFIX: {{ include "odoo.fullname" . }}
+  ODOO_SESSION_REDIS_PREFIX: {{ include "odoo.name" . }}
   ODOO_SESSION_REDIS_HOST: redis.common-services.svc
   RUNNING_ENV: {{ .Values.odoo.env }}
   SERVER_WIDE_MODULES: web,attachment_s3,session_redis,logging_json
@@ -39,10 +40,10 @@ metadata:
   name: odooqueue-config
 data:
   SERVER_WIDE_MODULES: web,attachment_s3,session_redis,logging_json,queue_job
-  QUEUE_JOB_WORKERS: {{ .Values.odoo.queuejob.workers | default "2" | quote }}
-  QUEUE_JOB_LIMIT_MEMORY_SOFT: {{ .Values.odoo.queuejob.limits.soft | default "787973120" | quote }}
-  QUEUE_JOB_LIMIT_MEMORY_HARD: {{ .Values.odoo.queuejob.limits.hard | default "2147483648" | quote }}
-  QUEUE_JOB_MAX_CRON_THREADS: {{ .Values.odoo.queuejob.max_cron | default "0" | quote }}
+  WORKERS: {{ .Values.odoo.queuejob.workers | default "2" | quote }}
+  LIMIT_MEMORY_SOFT: {{ .Values.odoo.queuejob.limits.soft | default "787973120" | quote }}
+  LIMIT_MEMORY_HARD: {{ .Values.odoo.queuejob.limits.hard | default "2147483648" | quote }}
+  MAX_CRON_THREADS: {{ .Values.odoo.queuejob.max_cron | default "0" | quote }}
   ODOO_QUEUE_JOB_CHANNELS: {{ .Values.odoo.queuejob.channels | default "root:2" }}
 {{ end }}
 ---

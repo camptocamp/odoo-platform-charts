@@ -2,7 +2,7 @@
 Expand the name of the chart.
 */}}
 {{- define "odoo.name" -}}
-{{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" }}
+{{- printf "%s-odoo-%s" .Values.odoo.customerName .Values.odoo.env }}
 {{- end }}
 
 {{/*
@@ -54,5 +54,9 @@ app.kubernetes.io/instance: {{ .Release.Name }}
 Odoo FQDN
 */}}
 {{- define "odoo.baseURL" -}}
-{{- printf "%s.apps.blue.odoo-platform-poc.camptocamp.com" .Release.Name -}}
+{{ if eq .Values.odoo.env "prod"}}
+{{- printf "%s.apps.blue.odoo-platform-poc.camptocamp.com" .Values.odoo.customerName -}}
+{{ else }}
+{{- printf "%s-%s.apps.blue.odoo-platform-poc.camptocamp.com" .Values.odoo.customerName .Values.odoo.env -}}
+{{ end }}
 {{- end }}
