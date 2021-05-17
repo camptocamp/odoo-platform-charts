@@ -3,20 +3,20 @@ kind: ConfigMap
 metadata:
   name: odoo-config
 data:
-  ODOO_BASE_URL: {{ include "odoo.baseURL" . }}
+  ODOO_BASE_URL: {{ .Values.odoo.bucket_name | default (include "odoo.baseURL" .) }}
   AWS_BUCKETNAME: {{ include "odoo.fullname" . }}
   AWS_HOST: sos-ch-dk-2.exo.io
   DB_HOST: c2c-postgres-{{ .Values.odoo.env }}.postgres.database.azure.com
   DB_NAME: {{ .Values.odoo.db.name }}
-  DB_PORT: {{ .Values.odoo.db.port | default "5432" }}
+  DB_PORT: {{ .Values.odoo.db.port | default "5432" | quote }}
   DB_USER: {{ .Values.odoo.db.user | default .Values.odoo.db.name }}@c2c-postgres-{{ .Values.odoo.env }}
-  DB_MAXCONN: {{ .Values.odoo.db.max_conn | default "5" }}
-  LIMIT_MEMORY_SOFT: {{ .Values.odoo.limits.soft | default "650117120" }}
-  LIMIT_MEMORY_HARD: {{ .Values.odoo.limits.hard | default "1572864000" }}
-  LIMIT_REQUEST: {{ .Values.odoo.limits.request | default "8192" }}
-  LIMIT_TIME_CPU: {{ .Values.odoo.limits.time_cpu | default "86400" }}
-  LIMIT_TIME_REAL: {{ .Values.odoo.limits.time_real | default "86400" }}
-  LIMIT_TIME_REAL_CRON: {{ .Values.odoo.limits.time_real_cron | default "600" }}
+  DB_MAXCONN: {{ .Values.odoo.db.max_conn | default "5" | quote }}
+  LIMIT_MEMORY_SOFT: {{ .Values.odoo.limits.soft | default "650117120" | quote }}
+  LIMIT_MEMORY_HARD: {{ .Values.odoo.limits.hard | default "1572864000" | quote }}
+  LIMIT_REQUEST: {{ .Values.odoo.limits.request | default "8192" | quote }}
+  LIMIT_TIME_CPU: {{ .Values.odoo.limits.time_cpu | default "86400" | quote }}
+  LIMIT_TIME_REAL: {{ .Values.odoo.limits.time_real | default "86400" | quote }}
+  LIMIT_TIME_REAL_CRON: {{ .Values.odoo.limits.time_real_cron | default "600" | quote }}
   DEMO: {{ .Values.odoo.demo | default "False" | quote }}
   MARABUNTA_MODE: {{ .Values.odoo.marabunta.mode | default "Full" }}
   MARABUNTA_ALLOW_SERIE: {{ .Values.odoo.marabunta.allow_series | default "False" | quote }}
