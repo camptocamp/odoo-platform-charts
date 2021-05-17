@@ -1,0 +1,54 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: odoo-config
+data:
+  ODOO_BASE_URL: {{ include "odoo.baseURL" . }}
+  AWS_BUCKETNAME: {{ include "odoo.fullname" . }}
+  AWS_HOST: sos-ch-dk-2.exo.io
+  DB_HOST: c2c-postgres-{{ .Values.odoo.env }}.postgres.database.azure.com
+  DB_NAME: {{ .Values.odoo.db.name }}
+  DB_PORT: {{ .Values.odoo.db.port | default "5432" }}
+  DB_USER: {{ .Values.odoo.db.user | default .Values.odoo.db.name }}@c2c-postgres-{{ .Values.odoo.env }}
+  DB_MAXCONN: {{ .Values.odoo.db.max_conn | default "5" }}
+  LIMIT_MEMORY_SOFT: {{ .Values.odoo.limits.soft | default "650117120" }}
+  LIMIT_MEMORY_HARD: {{ .Values.odoo.limits.hard | default "1572864000" }}
+  LIMIT_REQUEST: {{ .Values.odoo.limits.request | default "8192" }}
+  LIMIT_TIME_CPU: {{ .Values.odoo.limits.time_cpu | default "86400" }}
+  LIMIT_TIME_REAL: {{ .Values.odoo.limits.time_real | default "86400" }}
+  LIMIT_TIME_REAL_CRON: {{ .Values.odoo.limits.time_real_cron | default "600" }}
+  DEMO: {{ .Values.odoo.demo | default "False" | quote }}
+  MARABUNTA_MODE: {{ .Values.odoo.marabunta.mode | default "Full" }}
+  MARABUNTA_ALLOW_SERIE: {{ .Values.odoo.marabunta.allow_series | default "False" | quote }}
+  MIGRATE: {{ .Values.odoo.marabunta.enabled | default "True" | quote }}
+  ODOO_CLOUD_PLATFORM_UNSAFE: '0'
+  ODOO_LOGGING_JSON: '1'
+  ODOO_SESSION_REDIS: '1'
+  ODOO_SESSION_REDIS_PREFIX: {{ include "odoo.fullname" . }}
+  ODOO_SESSION_REDIS_HOST: redis.common-services.svc
+  RUNNING_ENV: {{ .Values.odoo.env }}
+  SERVER_WIDE_MODULES: web,attachment_s3,session_redis,logging_json
+  WORKERS: {{ .Values.odoo.workers | default "0" | quote }}
+  LOG_HANDLER: :INFO,werkzeug:ERROR
+  LOG_LEVEL: info
+{{ if .Values.odoo.queuejob.enabled }}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: odooqueue-config
+data:
+  SERVER_WIDE_MODULES: web,attachment_s3,session_redis,logging_json,queue_job
+  QUEUE_JOB_WORKERS: {{ .Values.odoo.queuejob.workers | default "2" | quote }}
+  QUEUE_JOB_LIMIT_MEMORY_SOFT: {{ .Values.odoo.queuejob.limits.soft | default "787973120" | quote }}
+  QUEUE_JOB_LIMIT_MEMORY_HARD: {{ .Values.odoo.queuejob.limits.hard | default "2147483648" | quote }}
+  QUEUE_JOB_MAX_CRON_THREADS: {{ .Values.odoo.queuejob.max_cron | default "0" | quote }}
+  ODOO_QUEUE_JOB_CHANNELS: {{ .Values.odoo.queuejob.channels | default "root:2" }}
+{{ end }}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nginx-config
+data:
+  NGX_ODOO_HOST: localhost

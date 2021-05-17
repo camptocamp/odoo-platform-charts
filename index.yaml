@@ -1,0 +1,14 @@
+apiVersion: v1
+entries:
+  odoo:
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2021-05-17T12:15:05.670588381+02:00"
+    description: A Helm chart for Kubernetes
+    digest: 338af58ab05bd752f34209cc2cde809577857dd4299c459365a5b8edbbe9a517
+    name: odoo
+    type: application
+    urls:
+    - odoo-0.1.0.tgz
+    version: 0.1.0
+generated: "2021-05-17T12:15:05.669856416+02:00"

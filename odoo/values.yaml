@@ -1,0 +1,66 @@
+# Default values for odoo.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+
+image:
+  pullPolicy: IfNotPresent
+  odoo:
+    repository: ghcr.io/camptocamp/camptocamp_odoo
+    tag: 13.0.0.6.0
+  nginx:
+    repository: camptocamp/odoo-nginx
+    tag: 13.0-1.6.0
+
+imagePullSecrets:
+  - name: github-packages
+
+resources:
+  nginx:
+    limits:
+      cpu: 500m
+      memory: 256Mi
+  odoo:
+    limits:
+      cpu: 1
+      memory: 2Gi
+
+nodeSelector: {}
+tolerations: []
+affinity: {}
+
+odoo:
+  env: integration
+  aws:
+    bucket_name: ""
+  db:
+    # Default value computed from env
+    host: ""
+    name: quiet_sound_2718_integration
+    # Default to 5432
+    port: ""
+    # Default to DB name
+    user: ""
+    max_conn: 5
+  demo: "False"
+  marabunta:
+    enabled: "True"
+    mode: Full
+    allow_series: "False"
+  workers: '0'
+  limits:
+    soft: "650117120"
+    hard: "1572864000"
+    time_cpu: 86400
+    time_real: 86400
+    time_real_cron: 600
+    request: 8192
+  queuejob:
+    enabled: False
+    workers: '2'
+    limits:
+      soft: "787973120"
+      hard: "2147483648"
+    max_cron: '0'
+    channels: "root:2"
