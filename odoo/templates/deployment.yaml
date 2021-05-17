@@ -83,13 +83,13 @@ spec:
   selector:
     matchLabels:
       {{- include "odoo.selectorLabels" . | nindent 6 }}
-      queuejob: true
+      queuejob: "true"
   template:
     metadata:
       labels:
         {{- include "odoo.selectorLabels" . | nindent 8 }}
         aadpodidbinding: azure-pod-identity-binding-selector
-        queuejob: true
+        queuejob: "true"
     spec:
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
