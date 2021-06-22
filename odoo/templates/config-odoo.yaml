@@ -6,10 +6,10 @@ data:
   ODOO_BASE_URL: {{ include "odoo.baseURL" . }}
   AWS_BUCKETNAME: {{ .Values.odoo.aws.bucket_name | default (include "odoo.name" .) }}
   AWS_HOST: sos-ch-dk-2.exo.io
-  DB_HOST: c2c-postgres-{{ .Values.odoo.env }}.postgres.database.azure.com
-  DB_NAME: {{ .Values.odoo.db.name }}
+  DB_HOST: {{ .Values.odoo.db.host | quote }}
+  DB_NAME: {{ .Values.odoo.db.name | quote }}
   DB_PORT: {{ .Values.odoo.db.port | default "5432" | quote }}
-  DB_USER: {{ .Values.odoo.db.user | default .Values.odoo.db.name }}
+  DB_USER: {{ .Values.odoo.db.user | default .Values.odoo.db.name | quote }}
   DB_PASSWORD: {{ .Values.odoo.db.password | quote }}
   DB_MAXCONN: {{ .Values.odoo.db.max_conn | default "5" | quote }}
   LIMIT_MEMORY_SOFT: {{ .Values.odoo.limits.soft | default "650117120" | quote }}
