@@ -10,7 +10,7 @@ data:
   DB_NAME: {{ .Values.odoo.db.name }}
   DB_PORT: {{ .Values.odoo.db.port | default "5432" | quote }}
   DB_USER: {{ .Values.odoo.db.user | default .Values.odoo.db.name }}@c2c-postgres-{{ .Values.odoo.env }}
-  DB_PASSWORD: {{ .Values.odoo.db.password | quote }}
+  DB_PASSWORD: {{ .Values.odoo.db.password | quote }}
   DB_MAXCONN: {{ .Values.odoo.db.max_conn | default "5" | quote }}
   LIMIT_MEMORY_SOFT: {{ .Values.odoo.limits.soft | default "650117120" | quote }}
   LIMIT_MEMORY_HARD: {{ .Values.odoo.limits.hard | default "1572864000" | quote }}
