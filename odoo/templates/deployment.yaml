@@ -21,43 +21,36 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       containers:
-      - name: odoo
-        image: "{{ .Values.image.odoo.repository }}:{{ .Values.image.odoo.tag }}"
-        imagePullPolicy: {{ .Values.image.pullPolicy }}
-        envFrom:
-          - configMapRef:
-              name: odoo-config
-          - secretRef:
-              name: odoo-secret
-        ports:
-          - containerPort: 8069
-            name: odoo
-          - containerPort: 8072
-            name: longpolling
-        volumeMounts:
-          - name: secrets-vault
-            mountPath: "/mnt/secrets-store"
-            readOnly: true
-        resources:
-          {{- toYaml .Values.resources.odoo | nindent 12 }}
-      - name: nginx
-        image: "{{ .Values.image.nginx.repository }}:{{ .Values.image.nginx.tag }}"
-        imagePullPolicy: {{ .Values.image.pullPolicy }}
-        envFrom:
-          - configMapRef:
-              name: nginx-config
-        resources:
-          {{- toYaml .Values.resources.nginx | nindent 12 }}
-        ports:
-          - containerPort: 80
-            name: http
+        - name: odoo
+          image: "{{ .Values.image.odoo.repository }}:{{ .Values.image.odoo.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          envFrom:
+            - configMapRef:
+                name: odoo-config
+            - secretRef:
+                name: odoo-secret
+          ports:
+            - containerPort: 8069
+              name: odoo
+            - containerPort: 8072
+              name: longpolling
+          volumeMounts:
+            {{- toYaml .Values.volumeMounts | nindent 12 }}
+          resources:
+            {{- toYaml .Values.resources.odoo | nindent 12 }}
+        - name: nginx
+          image: "{{ .Values.image.nginx.repository }}:{{ .Values.image.nginx.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          envFrom:
+            - configMapRef:
+                name: nginx-config
+          resources:
+            {{- toYaml .Values.resources.nginx | nindent 12 }}
+          ports:
+            - containerPort: 80
+              name: http
       volumes:
-        - name: secrets-vault
-          csi:
-            driver: secrets-store.csi.k8s.io
-            readOnly: true
-            volumeAttributes:
-              secretProviderClass: "azure-sync"
+        {{- toYaml .Values.volumes | nindent 8 }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
@@ -96,29 +89,22 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       containers:
-      - name: odooqueue
-        image: "{{ .Values.image.odoo.repository }}:{{ .Values.image.odoo.tag }}"
-        imagePullPolicy: {{ .Values.image.pullPolicy }}
-        envFrom:
-          - configMapRef:
-              name: odoo-config
-          - configMapRef:
-              name: odooqueue-config
-          - secretRef:
-              name: odoo-secret
-        volumeMounts:
-          - name: secrets-vault
-            mountPath: "/mnt/secrets-store"
-            readOnly: true
-        resources:
-          {{- toYaml .Values.resources.odoo | nindent 12 }}
+        - name: odooqueue
+          image: "{{ .Values.image.odoo.repository }}:{{ .Values.image.odoo.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          envFrom:
+            - configMapRef:
+                name: odoo-config
+            - configMapRef:
+                name: odooqueue-config
+            - secretRef:
+                name: odoo-secret
+          volumeMounts:
+            {{- toYaml .Values.volumeMounts | nindent 12 }}
+          resources:
+            {{- toYaml .Values.resources.odoo | nindent 12 }}
       volumes:
-        - name: secrets-vault
-          csi:
-            driver: secrets-store.csi.k8s.io
-            readOnly: true
-            volumeAttributes:
-              secretProviderClass: "azure-sync"
+        {{- toYaml .Values.volumes | nindent 8 }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
@@ -137,6 +123,8 @@ apiVersion: v1
 kind: Service
 metadata:
   name: {{ include "odoo.fullname" . }}
+  labels:
+    {{- include "odoo.labels" . | nindent 4 }}
 spec:
   ports:
     - port: 80
