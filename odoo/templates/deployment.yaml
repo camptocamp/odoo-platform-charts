@@ -15,6 +15,7 @@ spec:
       labels:
         {{- include "odoo.selectorLabels" . | nindent 8 }}
         aadpodidbinding: azure-pod-identity-binding-selector
+        config-hash: {{ include (print $.Template.BasePath "/config-odoo.yaml") $ | sha256sum }}
     spec:
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
