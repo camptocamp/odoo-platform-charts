@@ -27,8 +27,6 @@ spec:
           envFrom:
             - configMapRef:
                 name: odoo-config
-            - secretRef:
-                name: odoo-secret
           ports:
             - containerPort: 8069
               name: odoo
@@ -97,8 +95,6 @@ spec:
                 name: odoo-config
             - configMapRef:
                 name: odooqueue-config
-            - secretRef:
-                name: odoo-secret
           volumeMounts:
             {{- toYaml .Values.volumeMounts | nindent 12 }}
           resources:
