@@ -33,3 +33,4 @@ data:
   WORKERS: {{ .Values.odoo.workers | default "0" | quote }}
   LOG_HANDLER: :INFO,werkzeug:ERROR
   LOG_LEVEL: info
+  PGCLIENTENCODING: UTF8
