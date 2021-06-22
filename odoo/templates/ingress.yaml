@@ -1,4 +1,6 @@
+{{- if .Values.ingress.enabled -}}
 {{- $fullName := include "odoo.fullname" . -}}
+{{- $svcPort := .Values.service.port -}}
 {{- if semverCompare ">=1.14-0" .Capabilities.KubeVersion.GitVersion -}}
 apiVersion: networking.k8s.io/v1beta1
 {{- else -}}
@@ -9,23 +11,31 @@ metadata:
   name: {{ $fullName }}
   labels:
     {{- include "odoo.labels" . | nindent 4 }}
+  {{- with .Values.ingress.annotations }}
   annotations:
-    cert-manager.io/cluster-issuer: letsencrypt-prod
-    ingress.kubernetes.io/ssl-redirect: 'true'
-    ingress.kubernetes.io/force-ssl-redirect: 'true'
-    kubernetes.io/ingress.allow-http: 'false'
-    traefik.ingress.kubernetes.io/router.entrypoints: websecure
-    traefik.ingress.kubernetes.io/router.tls: 'true'
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
 spec:
+  {{- if .Values.ingress.tls }}
+  tls:
+    {{- range .Values.ingress.tls }}
+    - hosts:
+        {{- range .hosts }}
+        - {{ . | quote }}
+        {{- end }}
+      secretName: {{ .secretName }}
+    {{- end }}
+  {{- end }}
   rules:
-    - host: {{ include "odoo.baseURL" . }}
+    {{- range .Values.ingress.hosts }}
+    - host: {{ .host | quote }}
       http:
         paths:
-          - path: /
+          {{- range .paths }}
+          - path: {{ .path }}
             backend:
               serviceName: {{ $fullName }}
-              servicePort: 80
-  tls:
-    - hosts:
-      - {{ include "odoo.baseURL" . }}
-      secretName: {{ $fullName }}-tls
+              servicePort: {{ $svcPort }}
+          {{- end }}
+    {{- end }}
+  {{- end }}
