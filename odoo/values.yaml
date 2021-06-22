@@ -18,12 +18,16 @@ imagePullSecrets:
 
 resources:
   nginx:
+    requests:
+      cpu: 10m
+      memory: 64Mi
     limits:
-      cpu: 500m
       memory: 256Mi
   odoo:
+    requests:
+      cpu: 10m
+      memory: 128Mi
     limits:
-      cpu: 1
       memory: 2Gi
 
 nodeSelector: {}
