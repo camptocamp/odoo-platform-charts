@@ -48,6 +48,7 @@ Selector labels
 {{- define "odoo.selectorLabels" -}}
 app.kubernetes.io/name: {{ include "odoo.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
+aadpodidbinding: odoo
 {{- end }}
 
 {{/*
