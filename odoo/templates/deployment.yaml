@@ -12,10 +12,13 @@ spec:
       {{- include "odoo.selectorLabels" . | nindent 6 }}
   template:
     metadata:
+      annotations:
+        config-hash: {{ include (print $.Template.BasePath "/config-odoo.yaml") $ | sha256sum | trunc 63 }}
       labels:
         {{- include "odoo.selectorLabels" . | nindent 8 }}
-        aadpodidbinding: azure-pod-identity-binding-selector
-        config-hash: {{ include (print $.Template.BasePath "/config-odoo.yaml") $ | sha256sum | trunc 63 }}
+        {{- with .Values.additionalLabels }}
+          {{- toYaml . | nindent 8 }}
+        {{- end }}
     spec:
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
@@ -78,9 +81,13 @@ spec:
       queuejob: "true"
   template:
     metadata:
+      annotations:
+        config-hash: {{ include (print $.Template.BasePath "/config-odoo.yaml") $ | sha256sum | trunc 63 }}
       labels:
         {{- include "odoo.selectorLabels" . | nindent 8 }}
-        aadpodidbinding: azure-pod-identity-binding-selector
+        {{- with .Values.additionalLabels }}
+          {{- toYaml . | nindent 8 }}
+        {{- end }}
         queuejob: "true"
     spec:
       {{- with .Values.imagePullSecrets }}

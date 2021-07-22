@@ -55,6 +55,9 @@ nodeSelector: {}
 tolerations: []
 affinity: {}
 
+additionalLabels: {}
+  # aadpodidbinding: some-identity
+
 odoo:
   customerName: customer
   env: integration
