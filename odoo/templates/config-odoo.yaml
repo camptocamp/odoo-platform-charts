@@ -4,14 +4,16 @@ metadata:
   name: odoo-config
 data:
   ODOO_BASE_URL: {{ include "odoo.baseURL" . }}
-  AWS_BUCKETNAME: {{ .Values.odoo.aws.bucket_name | default (include "odoo.name" .) }}
-  AWS_HOST: sos-ch-dk-2.exo.io
-  DB_HOST: {{ .Values.odoo.db.host | quote }}
-  DB_NAME: {{ .Values.odoo.db.name | quote }}
-  DB_PORT: {{ .Values.odoo.db.port | default "5432" | quote }}
-  DB_USER: {{ .Values.odoo.db.user | default .Values.odoo.db.name | quote }}
-  DB_PASSWORD: {{ .Values.odoo.db.password | quote }}
-  DB_MAXCONN: {{ .Values.odoo.db.max_conn | default "5" | quote }}
+  {{- if .Values.odoo.storage.use_aad }}
+  AZURE_STORAGE_USE_AAD: '1'
+  AZURE_STORAGE_ACCOUNT_URL: {{ .Values.odoo.storage.account_url }}
+  {{- else if .Values.odoo.storage.connection_string }}
+  AZURE_STORAGE_CONNECTION_STRING: {{ .Values.odoo.storage.connection_string }}
+  {{- else }}
+  AZURE_STORAGE_ACCOUNT_NAME: {{ .Values.odoo.storage.account_name }}
+  AZURE_STORAGE_ACCOUNT_URL: {{ .Values.odoo.storage.account_url }}
+  AZURE_STORAGE_ACCOUNT_KEY: {{ .Values.odoo.storage.account_key }}
+  {{- end }}
   LIMIT_MEMORY_SOFT: {{ .Values.odoo.limits.soft | default "650117120" | quote }}
   LIMIT_MEMORY_HARD: {{ .Values.odoo.limits.hard | default "1572864000" | quote }}
   LIMIT_REQUEST: {{ .Values.odoo.limits.request | default "8192" | quote }}
@@ -25,9 +27,10 @@ data:
   MIGRATE: {{ .Values.odoo.marabunta.enabled | default "True" | quote }}
   ODOO_CLOUD_PLATFORM_UNSAFE: '0'
   ODOO_LOGGING_JSON: '1'
+  {{- if .Values.odoo.redis.enabled }}
   ODOO_SESSION_REDIS: '1'
   ODOO_SESSION_REDIS_PREFIX: {{ include "odoo.name" . }}
-  ODOO_SESSION_REDIS_HOST: redis.common-services.svc
+  {{- end }}
   RUNNING_ENV: {{ .Values.odoo.env }}
   SERVER_WIDE_MODULES: web,attachment_s3,session_redis,logging_json
   WORKERS: {{ .Values.odoo.workers | default "0" | quote }}

@@ -55,8 +55,8 @@ Odoo FQDN
 */}}
 {{- define "odoo.baseURL" -}}
 {{ if eq .Values.odoo.env "prod"}}
-{{- printf "%s.apps.blue.odoo-platform-poc.camptocamp.com" .Values.odoo.customerName -}}
+{{- printf "%s.apps.odoo-fr-dev.camptocamp.com" .Values.odoo.customerName -}}
 {{ else }}
-{{- printf "%s-%s.apps.blue.odoo-platform-poc.camptocamp.com" .Values.odoo.customerName .Values.odoo.env -}}
+{{- printf "%s-%s.apps.odoo-fr-dev.camptocamp.com" .Values.odoo.customerName .Values.odoo.env -}}
 {{ end }}
 {{- end }}

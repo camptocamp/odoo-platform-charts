@@ -61,17 +61,32 @@ additionalLabels: {}
 odoo:
   customerName: customer
   env: integration
-  aws:
-    bucket_name: ""
+  storage:
+    account_url: ""
+    use_aad: '1'
   db:
-    # Default value computed from env
-    host: ""
-    name: customer_db_name_integration
-    # Default to 5432
-    port: ""
-    # Default to DB name
-    user: ""
+    hostSecret:
+      name: database
+      key: master
+    userSecret:
+      name: database
+      key: username
+    passwordSecret:
+      name: database
+      key: password
+    nameSecret:
+      name: database
+      key: database
+    port: "5432"
     max_conn: 5
+  redis:
+    enabled: False
+    hostSecret:
+      name: redis
+      key: hostname
+    passwordSecret:
+      name: redis
+      key: primary_access_key
   demo: "False"
   marabunta:
     enabled: "True"
