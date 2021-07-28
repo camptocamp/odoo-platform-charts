@@ -38,4 +38,15 @@ spec:
               servicePort: {{ $svcPort }}
           {{- end }}
     {{- end }}
-  {{- end }}
+{{- if .Values.ingress.tls }}
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: redirect-https
+spec:
+  redirectScheme:
+    scheme: https
+    permanent: true
+{{- end }}
+{{- end }}
