@@ -2,7 +2,16 @@ apiVersion: v1
 entries:
   odoo:
   - apiVersion: v2
-    created: "2021-07-30T13:34:07.541866628+02:00"
+    created: "2021-07-30T13:39:05.723478347+02:00"
+    description: A Helm chart to deploy Odoo on CampToCamp own platform
+    digest: 629ee7ebd863a26b342f6c38705c22314617392b1036e9b06bcf1fdf978746d9
+    name: odoo
+    type: application
+    urls:
+    - odoo-0.1.22.tgz
+    version: 0.1.22
+  - apiVersion: v2
+    created: "2021-07-30T13:39:05.722703749+02:00"
     description: A Helm chart to deploy Odoo on CampToCamp own platform
     digest: 8fcc69749966f202a83a1044b56f0185c0e03dc1295059fbce824d5bb207c9bd
     name: odoo
@@ -11,7 +20,7 @@ entries:
     - odoo-0.1.21.tgz
     version: 0.1.21
   - apiVersion: v2
-    created: "2021-07-30T13:34:07.541038436+02:00"
+    created: "2021-07-30T13:39:05.721964993+02:00"
     description: A Helm chart to deploy Odoo on CampToCamp own platform
     digest: eb7df07dddc5ddb019c494be6091587fde23fad2d4177da98dbebeb5c3a1ac6c
     name: odoo
@@ -20,7 +29,7 @@ entries:
     - odoo-0.1.20.tgz
     version: 0.1.20
   - apiVersion: v2
-    created: "2021-07-30T13:34:07.538593371+02:00"
+    created: "2021-07-30T13:39:05.721188856+02:00"
     description: A Helm chart to deploy Odoo on CampToCamp own platform
     digest: 80b478730e94887469d39659f18d5afb092becd30f20bfbd7ad16139db282505
     name: odoo
@@ -28,4 +37,4 @@ entries:
     urls:
     - odoo-0.1.19.tgz
     version: 0.1.19
-generated: "2021-07-30T13:34:07.537688792+02:00"
+generated: "2021-07-30T13:39:05.719698973+02:00"
