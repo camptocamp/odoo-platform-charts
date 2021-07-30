@@ -59,7 +59,7 @@ additionalLabels: {}
   # aadpodidbinding: some-identity
 
 odoo:
-  customerName: customer
+  base_url: ""
   env: integration
   storage:
     account_url: ""
@@ -87,6 +87,10 @@ odoo:
     passwordSecret:
       name: redis
       key: primary_access_key
+  log_handler: :INFO,werkzeug:ERROR
+  log_level: info
+  server_env_config: ""
+  server_wide_modules: ""
   demo: "False"
   marabunta:
     enabled: "True"

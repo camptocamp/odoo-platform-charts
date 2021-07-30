@@ -49,14 +49,3 @@ Selector labels
 app.kubernetes.io/name: {{ include "odoo.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
-
-{{/*
-Odoo FQDN
-*/}}
-{{- define "odoo.baseURL" -}}
-{{ if eq .Values.odoo.env "prod"}}
-{{- printf "%s.apps.odoo-fr-dev.camptocamp.com" .Values.odoo.customerName -}}
-{{ else }}
-{{- printf "%s-%s.apps.odoo-fr-dev.camptocamp.com" .Values.odoo.customerName .Values.odoo.env -}}
-{{ end }}
-{{- end }}
