@@ -60,6 +60,7 @@ odoo:
   storage:
     account_url: ""
     use_aad: '1'
+    name: ""
   db:
     hostSecret:
       name: database

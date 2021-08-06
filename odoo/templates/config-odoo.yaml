@@ -14,6 +14,7 @@ data:
   AZURE_STORAGE_ACCOUNT_URL: {{ .Values.odoo.storage.account_url }}
   AZURE_STORAGE_ACCOUNT_KEY: {{ .Values.odoo.storage.account_key }}
   {{- end }}
+  AZURE_STORAGE_NAME: {{ .Values.odoo.storage.name | default "" | quote }}
   LIMIT_MEMORY_SOFT: {{ .Values.odoo.limits.soft | default "650117120" | quote }}
   LIMIT_MEMORY_HARD: {{ .Values.odoo.limits.hard | default "1572864000" | quote }}
   LIMIT_REQUEST: {{ .Values.odoo.limits.request | default "8192" | quote }}
