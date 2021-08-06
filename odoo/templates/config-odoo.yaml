@@ -24,7 +24,7 @@ data:
   DEMO: {{ .Values.odoo.demo | default "False" | quote }}
   MARABUNTA_MODE: {{ .Values.odoo.marabunta.mode | default "Full" }}
   MARABUNTA_ALLOW_SERIE: {{ .Values.odoo.marabunta.allow_series | default "False" | quote }}
-  MIGRATE: {{ .Values.odoo.marabunta.enabled | default "True" | quote }}
+  MIGRATE: "False"
   ODOO_CLOUD_PLATFORM_UNSAFE: '0'
   ODOO_LOGGING_JSON: '1'
   {{- if .Values.odoo.redis.enabled }}

@@ -49,3 +49,46 @@ Selector labels
 app.kubernetes.io/name: {{ include "odoo.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
+
+
+{{/*
+Odoo configuration to be reused within multiple pods
+*/}}
+{{- define "odoo.common-environment" -}}
+- name: DB_HOST
+  valueFrom:
+  secretKeyRef:
+    name: {{ .Values.odoo.db.hostSecret.name | quote }}
+    key: {{ .Values.odoo.db.hostSecret.key | quote }}
+- name: DB_NAME
+  valueFrom:
+  secretKeyRef:
+    name: {{ .Values.odoo.db.nameSecret.name | quote }}
+    key: {{ .Values.odoo.db.nameSecret.key | quote }}
+- name: DB_USER
+  valueFrom:
+  secretKeyRef:
+    name: {{ .Values.odoo.db.userSecret.name | quote }}
+    key: {{ .Values.odoo.db.userSecret.key | quote }}
+- name: DB_PASSWORD
+  valueFrom:
+  secretKeyRef:
+    name: {{ .Values.odoo.db.passwordSecret.name | quote }}
+    key: {{ .Values.odoo.db.passwordSecret.key | quote }}
+- name: DB_PORT
+  value: {{ .Values.odoo.db.port | default "5432" | quote }}
+- name: DB_MAXCONN
+  value: {{ .Values.odoo.db.max_conn | default "5" | quote }}
+{{- if .Values.odoo.redis.enabled }}
+- name: ODOO_SESSION_REDIS_HOST
+  valueFrom:
+  secretKeyRef:
+    name: {{ .Values.odoo.redis.hostSecret.name | quote }}
+    key: {{ .Values.odoo.redis.hostSecret.key | quote }}
+- name: ODOO_SESSION_REDIS_PASSWORD
+  valueFrom:
+  secretKeyRef:
+    name: {{ .Values.odoo.redis.passwordSecret.name | quote }}
+    key: {{ .Values.odoo.redis.passwordSecret.key | quote }}
+{{- end }}
+{{- end }}
