@@ -44,7 +44,7 @@ spec:
           image: "{{ .Values.image.odoo.repository }}:{{ .Values.image.odoo.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
-            {{- include "odoo.common-environment" . | nindent 12 }}
+          {{- include "odoo.common-environment" . | nindent 12 }}
           envFrom:
             - configMapRef:
                 name: odoo-config
