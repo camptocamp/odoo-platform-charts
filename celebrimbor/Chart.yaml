@@ -1,0 +1,5 @@
+apiVersion: v2
+name: celebrimbor
+description: A Helm chart to deploy Celebrimbor on CampToCamp own platform
+type: application
+version: 0.1.0
