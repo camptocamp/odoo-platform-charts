@@ -1,0 +1,82 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "celebrimbor.name" . }}
+  labels:
+    {{- include "celebrimbor.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "celebrimbor.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      annotations:
+        config-hash: {{ include (print $.Template.BasePath "/config-celebrimbor.yaml") $ | sha256sum | trunc 63 }}
+      labels:
+        {{- include "celebrimbor.selectorLabels" . | nindent 8 }}
+        {{- with .Values.additionalLabels }}
+          {{- toYaml . | nindent 8 }}
+        {{- end }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      containers:
+        - name: celebrimbor
+          image: "{{ .Values.image.celebrimbor.repository }}:{{ .Values.image.celebrimbor.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          envFrom:
+            - configMapRef:
+                name: celebrimbor-config
+            - secretRef:
+                name: celebrimbor-secret
+                optional: true
+          ports:
+            - containerPort: 5000
+              name: celebrimbor
+          volumeMounts:
+            {{- toYaml .Values.volumeMounts | nindent 12 }}
+          resources:
+            {{- toYaml .Values.resources.celebrimbor | nindent 12 }}
+        - name: nginx
+          image: "{{ .Values.image.nginx.repository }}:{{ .Values.image.nginx.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          envFrom:
+            - configMapRef:
+                name: nginx-config
+          resources:
+            {{- toYaml .Values.resources.nginx | nindent 12 }}
+          ports:
+            - containerPort: 80
+              name: http
+      volumes:
+        {{- toYaml .Values.volumes | nindent 8 }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "celebrimbor.fullname" . }}
+  labels:
+    {{- include "celebrimbor.labels" . | nindent 4 }}
+spec:
+  ports:
+    - port: 80
+      targetPort: http
+  selector:
+    {{- include "celebrimbor.selectorLabels" . | nindent 4 }}
+...
