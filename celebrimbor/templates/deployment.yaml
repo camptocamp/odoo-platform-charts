@@ -33,7 +33,6 @@ spec:
                 name: celebrimbor-config
             - secretRef:
                 name: celebrimbor-secret
-                optional: true
           ports:
             - containerPort: 5000
               name: celebrimbor

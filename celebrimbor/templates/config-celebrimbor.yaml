@@ -4,3 +4,10 @@ metadata:
   name: celebrimbor-config
 data:
   UWSGI_PROCESSES: {{ .Values.celebrimbor.uwsgi_processes | default "1" | quote }}
+  EXCLUDE_DATABASE: {{ .Values.celebrimbor.exclude_database | default "template0,template1,postgres" }}
+  AZURE_ACCOUNT_URL: {{ .Values.celebrimbor.azure_account_url | default "" }}
+  AZURE_STORAGE_NAME: {{ .Values.celebrimbor.azure_storage_name | default "" }}
+  GPG_PROVIDER: {{ .Values.celebrimbor.gpg_provider | default "env" }}
+  GPG_KEYVAULT_NAME: {{ .Values.celebrimbor.gpg_keyvault_name | default "" }}
+  GPG_KEYVAULT_SECRET: {{ .Values.celebrimbor.gpg_keyvault_secret | default "" }}
+  GPG_RECIPIENTS: {{ .Values.celebrimbor.gpg_recipients | default "" }}

@@ -56,3 +56,4 @@ additionalLabels: {}
 celebrimbor:
   uwsgi_processes: 1
   secrets: {}
+  clusters: {}
