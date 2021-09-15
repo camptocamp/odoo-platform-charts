@@ -28,6 +28,12 @@ spec:
         - name: celebrimbor
           image: "{{ .Values.image.celebrimbor.repository }}:{{ .Values.image.celebrimbor.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            - name: SESSION_REDIS_URL
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.celebrimbor.redis_secret_name }}
+                  key: {{ .Values.celebrimbor.redis_secret_key }}
           envFrom:
             - configMapRef:
                 name: celebrimbor-config
