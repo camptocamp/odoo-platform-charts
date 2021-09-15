@@ -2,7 +2,16 @@ apiVersion: v1
 entries:
   celebrimbor:
   - apiVersion: v2
-    created: "2021-09-15T08:09:17.217183756+02:00"
+    created: "2021-09-15T08:30:25.348875439+02:00"
+    description: A Helm chart to deploy Celebrimbor on CampToCamp own platform
+    digest: dc369910fae8993d8293cff0a299568aa8eb943c0145aa8bd1e1c7296e7b9057
+    name: celebrimbor
+    type: application
+    urls:
+    - celebrimbor-0.1.3.tgz
+    version: 0.1.3
+  - apiVersion: v2
+    created: "2021-09-15T08:30:25.347894317+02:00"
     description: A Helm chart to deploy Celebrimbor on CampToCamp own platform
     digest: bd60778dd02ae49ce9de9ccf7819e0591f44dd883ec5d790b42c76156abdd3cd
     name: celebrimbor
@@ -11,7 +20,7 @@ entries:
     - celebrimbor-0.1.2.tgz
     version: 0.1.2
   - apiVersion: v2
-    created: "2021-09-15T08:09:17.216700249+02:00"
+    created: "2021-09-15T08:30:25.346918019+02:00"
     description: A Helm chart to deploy Celebrimbor on CampToCamp own platform
     digest: c72592ea793a0ec2bd68007480b70d293254e2894656ec05fa21d84425717bc5
     name: celebrimbor
@@ -20,7 +29,7 @@ entries:
     - celebrimbor-0.1.1.tgz
     version: 0.1.1
   - apiVersion: v2
-    created: "2021-09-15T08:09:17.215972926+02:00"
+    created: "2021-09-15T08:30:25.345637123+02:00"
     description: A Helm chart to deploy Celebrimbor on CampToCamp own platform
     digest: 65d65a550615b1aca4593799aa12447230a3f35f47192ca5283ba3f4555eb236
     name: celebrimbor
@@ -30,7 +39,7 @@ entries:
     version: 0.1.0
   odoo:
   - apiVersion: v2
-    created: "2021-09-15T08:09:17.221135733+02:00"
+    created: "2021-09-15T08:30:25.360079174+02:00"
     description: A Helm chart to deploy Odoo on CampToCamp own platform
     digest: 18f1fe3ac407aaa559342f1e44eac08b5fe1f56e0762a8be357786ad8513446c
     name: odoo
@@ -39,7 +48,7 @@ entries:
     - odoo-0.1.26.tgz
     version: 0.1.26
   - apiVersion: v2
-    created: "2021-09-15T08:09:17.22016897+02:00"
+    created: "2021-09-15T08:30:25.35789149+02:00"
     description: A Helm chart to deploy Odoo on CampToCamp own platform
     digest: 5443f95bcaae2424bafa6ba04be363a6968e914474de3eaa74150bc64960a8a8
     name: odoo
@@ -48,7 +57,7 @@ entries:
     - odoo-0.1.25.tgz
     version: 0.1.25
   - apiVersion: v2
-    created: "2021-09-15T08:09:17.219015936+02:00"
+    created: "2021-09-15T08:30:25.353306986+02:00"
     description: A Helm chart to deploy Odoo on CampToCamp own platform
     digest: 15b0e060e45e0708e32d83d00c957bb4f917a6e4292ffb436ad2c2ad62e8a8cc
     name: odoo
@@ -57,7 +66,7 @@ entries:
     - odoo-0.1.24.tgz
     version: 0.1.24
   - apiVersion: v2
-    created: "2021-09-15T08:09:17.218093735+02:00"
+    created: "2021-09-15T08:30:25.351188916+02:00"
     description: A Helm chart to deploy Odoo on CampToCamp own platform
     digest: 4bd22deb128b90d2d3cf8919ada67661921415eac5351f28289b02c10cc7841a
     name: odoo
@@ -65,4 +74,4 @@ entries:
     urls:
     - odoo-0.1.23.tgz
     version: 0.1.23
-generated: "2021-09-15T08:09:17.214962937+02:00"
+generated: "2021-09-15T08:30:25.343530191+02:00"

@@ -12,4 +12,4 @@ data:
   GPG_KEYVAULT_SECRET: {{ .Values.celebrimbor.gpg_keyvault_secret | default "" }}
   GPG_RECIPIENTS: {{ .Values.celebrimbor.gpg_recipients | default "" }}
   SESSION_TYPE: {{ .Values.celebrimbor.session_type | default "filesystem" }}
-  SESSION_KEY_PREFIX: {{ .Values.celebrimbor.session_key_prefix | default "celebrimbor:" }}
+  SESSION_KEY_PREFIX: {{ .Values.celebrimbor.session_key_prefix | default "celebrimbor:" | quote }}
