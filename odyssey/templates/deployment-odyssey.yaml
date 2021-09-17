@@ -14,12 +14,12 @@ spec:
       labels:
         {{- include "odyssey.labels" . | nindent 8 }}
       annotations:
-        checksum/ini: {{ include "odyssey.ini.1.0.0" . | sha256sum }}
+        checksum/ini: {{ include "odyssey.conf.1.0.0" . | sha256sum }}
         {{- if .Values.spec.annotations }}
         {{- tpl (toJson .Values.spec.annotations) . | fromJson | toYaml |  nindent 8 }}
         {{- end }}
       labels:
-        {{- include "odoo.selectorLabels" . | nindent 8 }}
+        {{- include "odyssey.selectorLabels" . | nindent 8 }}
         {{- with .Values.additionalLabels }}
           {{- toYaml . | nindent 8 }}
         {{- end }}
@@ -27,8 +27,6 @@ spec:
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
-      imagePullSecrets:
-        - name: {{ .Values.imagePullSecretName }}
       {{- end }}
       volumes:
         - name: config

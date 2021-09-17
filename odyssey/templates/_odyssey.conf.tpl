@@ -3,30 +3,32 @@
 {{- $root := . -}}
 
 ## Global configuration
-{{- range $k, $v := .Values.setting.global }}
-{{ $k }} = {{ $v }}
-{{-end}}
+{{- range $k, $v := .Values.settings.globals}}
+{{ $k }} = "{{ $v }}"
+{{- end }}
 ## Listen configuration
 listen {
-{{- range $k, $v := .Values.setting.listen }}
-{{ $k }} = {{ $v }}
-{{-end}}
+{{- range $k, $v := .Values.settings.listen }}
+{{ $k }} = "{{ $v }}"
+{{- end }}
 }
 
-{{- range $k, $v := .Values.setting.storages }}
+{{- range $k, $v := .Values.settings.storages }}
 
 storage {{ $k }} {
 {{- range $subk, $subv := $v }}
-{{ $subk }} = {{ $subv }}
-{{-end}}
+{{ $subk }} = "{{ $subv }}"
+{{- end }}
 }
-{{-end}}
+{{- end }}
 
-{{- range $k, $v := .Values.setting.databases }}
 
+{{- range $k, $v := .Values.settings.databases }}
 database {{ $k }} {
 {{- range $subk, $subv := $v }}
-{{ $subk }} = {{ $subv }}
-{{-end}}
+{{ $subk }} = "{{ $subv }}"
+{{- end }}
 }
-{{-end}}
+{{- end }}
+
+{{ end }}
