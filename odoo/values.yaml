@@ -60,30 +60,23 @@ odoo:
   storage:
     account_url: ""
     use_aad: '1'
-    name: ""
+    secret:
+      name: storage
+      container: container_name
   db:
-    hostSecret:
+    secret:
       name: database
-      key: master
-    userSecret:
-      name: database
-      key: username
-    passwordSecret:
-      name: database
-      key: password
-    nameSecret:
-      name: database
-      key: database
+      host: master
+      user: username
+      password: password
+      database: database
     port: "5432"
     max_conn: 5
   redis:
     enabled: False
-    hostSecret:
+    secret:
       name: redis
-      key: hostname
-    passwordSecret:
-      name: redis
-      key: primary_access_key
+      url: url
   log_handler: :INFO,werkzeug:ERROR
   log_level: info
   server_env_config: ""
