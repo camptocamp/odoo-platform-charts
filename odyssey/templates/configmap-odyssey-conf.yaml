@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ template "odyssey.fullname" . }}-config
+  labels:
+    {{- include "odyssey.labels" . | nindent 4 }}
+data:
+  odyssey.conf: |-
+{{ include "odyssey.conf.1.0.0" . | indent 4 }}

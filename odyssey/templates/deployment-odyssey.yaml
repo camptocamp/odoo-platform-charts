@@ -1,0 +1,59 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "odyssey.fullname" . }}
+  labels:
+    {{- include "odyssey.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "odyssey.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "odyssey.labels" . | nindent 8 }}
+      annotations:
+        checksum/ini: {{ include "odyssey.conf.1.0.0" . | sha256sum }}
+        {{- if .Values.spec.annotations }}
+        {{- tpl (toJson .Values.spec.annotations) . | fromJson | toYaml |  nindent 8 }}
+        {{- end }}
+      labels:
+        {{- include "odyssey.selectorLabels" . | nindent 8 }}
+        {{- with .Values.additionalLabels }}
+          {{- toYaml . | nindent 8 }}
+        {{- end }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      volumes:
+        - name: config
+          configMap:
+            name: {{ template "odyssey.fullname" . }}-config
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      containers:
+        - name: odyssey
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: odyssey
+              containerPort: {{ .Values.internalPort }}
+          readinessProbe:
+            tcpSocket:
+              port: {{ .Values.internalPort }}
+          livenessProbe:
+            tcpSocket:
+              port: {{ .Values.internalPort }}
+          volumeMounts:
+            - name: config
+              subPath: odyssey.conf
+              mountPath: /etc/odyssey/odyssey.conf
+              readOnly: true
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+
