@@ -353,99 +353,100 @@ settings:
 
   #databases:
   #  default:
-  #    name: 'default'
-      #Authentication method.
-      #"none"       	- authentication turned off
-      #"block"      	- block this user
-      #"clear_text" 	- PostgreSQL clear text authentication
-      #"md5"        	- PostgreSQL md5 authentication
-      #"scram-sha-256" - PostgreSQL scram-sha-256 authentication
-      #"cert"       	- Compare client certificate Common Name against auth_common_name's
-  #    authentication: "none"
-      #Authentication certificate CN.
-      #Specify common names to check for "cert" authentification method.
-      #If there are more then one common name is defined, all of them
-      #will be checked until match.
-      #Set 'default' to check for current user.
-  #    auth_common_name: "default"
-      #Authentication method password.
-      #Depending on selected method, password can be in plain text or md5 hash.
-  #    password: ""
-      #Authentication query.
-      #Use selected 'auth_query_db' and 'auth_query_user' to match a route.
-      #Use matched route server to send 'auth_query' to get username and password needed
-      #to authenticate a client.
-  #    auth_query: "SELECT usename, passwd FROM pg_shadow WHERE usename=$1"
-  #    auth_query_db: ""
-  #    auth_query_user: ""
-      #Authentication PAM.
-  #    auth_pam_service: "passwd"
-      #Client connections limit.
-      #Comment 'client_max' to disable the limit. On client limit reach, Odyssey will
-      #reply with 'too many connections'.
-  #    client_max: 100
-      #Remote server to use.
-      #By default route database and user names are used as connection
-      #parameters to remote server. It is possible to override this values
-      #by specifying 'storage_db' and 'storage_user'. Remote server password
-      #can be set using 'storage_password' field.
-  #    storage: "postgres_server"
-      #storage_db "database"
-      #storage_user "test"
-      #storage_password "test"
-      #Remote server auth  
-  #    password_passthrough: "yes"
-      #By default odyssey authenticate users itself, but if side auth application is used,
-      #like LDAP server, PAM module, or custom auth module, sometimes, 
-      #instead of configuring storage_password, it is more convenient to reuse
-      #client-provided password to perform backend auth. If you set this option to "yes"
-      #Odyssey will store client token and use when new server connection is Opened. Anyway, if
-      #you configure storage_password for route, password_passthrough is essentially ignored
-      #Server pool mode.
-      #"session"     - assign server connection to a client until it disconnects
-      #"transaction" - assign server connection to a client during a transaction lifetime
-  #    pool: "transaction"
-      #Server pool size.
-      #Keep the number of servers in the pool as much as 'pool_size'.
-      #Clients are put in a wait queue, when all servers are busy.
-      #Set to zero to disable the limit.
-  #    pool_size: 0
-      #Server pool wait timeout.
-      #Time to wait in milliseconds for an available server.
-      #Disconnect client on timeout reach.
-      #Set to zero to disable.
-  #    pool_timeout: 0
-      #Server pool idle timeout.
-      #Close an server connection when it becomes idle for 'pool_ttl' seconds.
-      #Set to zero to disable.
-  #    pool_ttl: 60
-      #Server pool parameters discard.
-      #Execute 'DISCARD ALL' and reset client parameters before using server
-      #from the pool.
-  #    pool_discard: "no"
-      #Server pool auto-cancel.
-      #Start additional Cancel connection in case if server left with
-      #executing query. Close connection otherwise.
-  #    pool_cancel: "yes"
-      #Server pool auto-rollback.
-      #Execute 'ROLLBACK' if server left in active transaction.
-      #Close connection otherwise.
-  #    pool_rollback: "yes"
-      #drop stale client connection after this much seconds of idleness, which is not in transaction. 0 means inf (never drop)
-  #    pool_client_idle_timeout: 0 
-      #drop client connection in transaction after this much seconds of idleness. 0 means inf (never drop)
-  #    pool_idle_in_transaction_timeout: 0
-      #Forward PostgreSQL errors during remote server connection.
-  #    client_fwd_error: "yes"
-      #Add client host name to application_name parameter
-  #    application_name_add_host: "yes"
-      #Connect new client to server immediately or wait for first query
-  #    reserve_session_server_connection: "yes"
-      #Server lifetime - maximum number of seconds for a server connetion to live. Prevents cache bloat.
-      #Defaults to 3600 (1 hour)
-  #    server_lifetime: 3600
-      #Enable verbose mode for a specific route only.
-  #    log_debug: "no"
-      #Compute quantiles of query and transaction times
-  #    quantiles: "0.99,0.95,0.5"
-  
+  #    default:
+        #Authentication method.
+        #"none"       	- authentication turned off
+        #"block"      	- block this user
+        #"clear_text" 	- PostgreSQL clear text authentication
+        #"md5"        	- PostgreSQL md5 authentication
+        #"scram-sha-256" - PostgreSQL scram-sha-256 authentication
+        #"cert"       	- Compare client certificate Common Name against auth_common_name's
+  #      authentication: "none"
+        #Authentication certificate CN.
+        #Specify common names to check for "cert" authentification method.
+        #If there are more then one common name is defined, all of them
+        #will be checked until match.
+        #Set 'default' to check for current user.
+  #      auth_common_name: "default"
+        #Authentication method password.
+        #Depending on selected method, password can be in plain text or md5 hash.
+  #      password: ""
+        #Authentication query.
+        #Use selected 'auth_query_db' and 'auth_query_user' to match a route.
+        #Use matched route server to send 'auth_query' to get username and password needed
+        #to authenticate a client.
+    #    auth_query: "SELECT usename, passwd FROM pg_shadow WHERE usename=$1"
+    #    auth_query_db: ""
+    #    auth_query_user: ""
+        #Authentication PAM.
+    #    auth_pam_service: "passwd"
+        #Client connections limit.
+        #Comment 'client_max' to disable the limit. On client limit reach, Odyssey will
+        #reply with 'too many connections'.
+    #    client_max: 100
+        #Remote server to use.
+        #By default route database and user names are used as connection
+        #parameters to remote server. It is possible to override this values
+        #by specifying 'storage_db' and 'storage_user'. Remote server password
+        #can be set using 'storage_password' field.
+    #    storage: "postgres_server"
+        #storage_db "database"
+        #storage_user "test"
+        #storage_password "test"
+        #Remote server auth  
+    #    password_passthrough: "yes"
+        #By default odyssey authenticate users itself, but if side auth application is used,
+        #like LDAP server, PAM module, or custom auth module, sometimes, 
+        #instead of configuring storage_password, it is more convenient to reuse
+        #client-provided password to perform backend auth. If you set this option to "yes"
+        #Odyssey will store client token and use when new server connection is Opened. Anyway, if
+        #you configure storage_password for route, password_passthrough is essentially ignored
+        #Server pool mode.
+        #"session"     - assign server connection to a client until it disconnects
+        #"transaction" - assign server connection to a client during a transaction lifetime
+    #    pool: "transaction"
+        #Server pool size.
+        #Keep the number of servers in the pool as much as 'pool_size'.
+        #Clients are put in a wait queue, when all servers are busy.
+        #Set to zero to disable the limit.
+    #    pool_size: 0
+        #Server pool wait timeout.
+        #Time to wait in milliseconds for an available server.
+        #Disconnect client on timeout reach.
+        #Set to zero to disable.
+    #    pool_timeout: 0
+        #Server pool idle timeout.
+        #Close an server connection when it becomes idle for 'pool_ttl' seconds.
+        #Set to zero to disable.
+    #    pool_ttl: 60
+        #Server pool parameters discard.
+        #Execute 'DISCARD ALL' and reset client parameters before using server
+        #from the pool.
+    #    pool_discard: "no"
+        #Server pool auto-cancel.
+        #Start additional Cancel connection in case if server left with
+        #executing query. Close connection otherwise.
+    #    pool_cancel: "yes"
+        #Server pool auto-rollback.
+        #Execute 'ROLLBACK' if server left in active transaction.
+        #Close connection otherwise.
+    #    pool_rollback: "yes"5TxEffER5vjrPe4
+        #drop stale client connection after this much seconds of idleness, which is not in transaction. 0 means inf (never drop)
+    #    pool_client_idle_timeout: 0 
+        #drop client connection in transaction after this much seconds of idleness. 0 means inf (never drop)
+    #    pool_idle_in_transaction_timeout: 0
+        #Forward PostgreSQL errors during remote server connection.
+    #    client_fwd_error: "yes"
+        #Add client host name to application_name parameter
+    #    application_name_add_host: "yes"
+        #Connect new client to server immediately or wait for first query
+    #    reserve_session_server_connection: "yes"
+        #Server lifetime - maximum number of seconds for a server connetion to live. Prevents cache bloat.
+        #Defaults to 3600 (1 hour)
+    #    server_lifetime: 3600
+        #Enable verbose mode for a specific route only.
+    #    log_debug: "no"
+        #Compute quantiles of query and transaction times
+    #    quantiles: "0.99,0.95,0.5"
+    
+    

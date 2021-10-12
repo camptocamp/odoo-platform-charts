@@ -25,8 +25,12 @@ storage {{ $k }} {
 
 {{- range $k, $v := .Values.settings.databases }}
 database {{ $k }} {
-{{- range $subk, $subv := $v }}
-{{ $subk }} = "{{ $subv }}"
+{{- range $subdbk, $subdbv := $v }}
+user {{ $subdbk }} {
+{{- range $subuserk, $subuserv := $subdbv }}
+{{ $subuserk }} = "{{ $subuserv }}"
+{{- end }}
+}
 {{- end }}
 }
 {{- end }}
