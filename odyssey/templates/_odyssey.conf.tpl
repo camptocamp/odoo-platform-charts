@@ -35,4 +35,18 @@ user {{ $subdbk }} {
 }
 {{- end }}
 
+{{- range $key, $value := .Values.settings.databases_list }}
+database {{ $value.database }} {
+user {{ $value.username }} {
+password = "{{ $value.password }}"
+{{- range $k, $v := .Values.settings.databases_default_value }}
+{{ $k }} = "{{ $v }}"
+{{- end }}
+}
+}
+{{- end }}
+
+
+
 {{ end }}
+

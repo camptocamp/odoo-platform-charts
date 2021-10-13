@@ -2,7 +2,7 @@ apiVersion: v1
 entries:
   celebrimbor:
   - apiVersion: v2
-    created: "2021-10-12T12:58:21.42133886+02:00"
+    created: "2021-10-13T09:13:41.615991293+02:00"
     description: A Helm chart to deploy Celebrimbor on CampToCamp own platform
     digest: 6b2afe14cf9676e39b19d9adc613ee13eabe828ccd1793aed7d076471cad6744
     name: celebrimbor
@@ -12,7 +12,7 @@ entries:
     version: 0.1.4
   odoo:
   - apiVersion: v2
-    created: "2021-10-12T12:58:21.424890807+02:00"
+    created: "2021-10-13T09:13:41.619850633+02:00"
     description: A Helm chart to deploy Odoo on CampToCamp own platform
     digest: 25686f393ae1a1812b379b4406c6bf0f27277b5d0f9298ebd43964232819924f
     name: odoo
@@ -21,7 +21,7 @@ entries:
     - odoo-0.1.27.tgz
     version: 0.1.27
   - apiVersion: v2
-    created: "2021-10-12T12:58:21.424188688+02:00"
+    created: "2021-10-13T09:13:41.619183331+02:00"
     description: A Helm chart to deploy Odoo on CampToCamp own platform
     digest: 18f1fe3ac407aaa559342f1e44eac08b5fe1f56e0762a8be357786ad8513446c
     name: odoo
@@ -30,7 +30,7 @@ entries:
     - odoo-0.1.26.tgz
     version: 0.1.26
   - apiVersion: v2
-    created: "2021-10-12T12:58:21.423464194+02:00"
+    created: "2021-10-13T09:13:41.618435842+02:00"
     description: A Helm chart to deploy Odoo on CampToCamp own platform
     digest: 5443f95bcaae2424bafa6ba04be363a6968e914474de3eaa74150bc64960a8a8
     name: odoo
@@ -39,7 +39,7 @@ entries:
     - odoo-0.1.25.tgz
     version: 0.1.25
   - apiVersion: v2
-    created: "2021-10-12T12:58:21.422759136+02:00"
+    created: "2021-10-13T09:13:41.617697988+02:00"
     description: A Helm chart to deploy Odoo on CampToCamp own platform
     digest: 15b0e060e45e0708e32d83d00c957bb4f917a6e4292ffb436ad2c2ad62e8a8cc
     name: odoo
@@ -48,7 +48,7 @@ entries:
     - odoo-0.1.24.tgz
     version: 0.1.24
   - apiVersion: v2
-    created: "2021-10-12T12:58:21.422046663+02:00"
+    created: "2021-10-13T09:13:41.617002208+02:00"
     description: A Helm chart to deploy Odoo on CampToCamp own platform
     digest: 4bd22deb128b90d2d3cf8919ada67661921415eac5351f28289b02c10cc7841a
     name: odoo
@@ -59,11 +59,11 @@ entries:
   odyssey:
   - apiVersion: v1
     appVersion: "1.0"
-    created: "2021-10-12T12:58:21.425517656+02:00"
+    created: "2021-10-13T09:13:41.620618132+02:00"
     description: Odyssey chart
-    digest: a46fabd7fc74c98ad313eaad4a870f350688319e0b2d8b34a146c1a8bc7916e3
+    digest: 87962f89fd35ef692221b11e41078ae83bf1d4131456b5212b2287785332a253
     name: odyssey
     urls:
     - odyssey-0.1.0.tgz
     version: 0.1.0
-generated: "2021-10-12T12:58:21.420409762+02:00"
+generated: "2021-10-13T09:13:41.615053923+02:00"
