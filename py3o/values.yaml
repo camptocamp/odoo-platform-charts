@@ -1,0 +1,53 @@
+# Default values for py3o.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+
+image:
+  pullPolicy: IfNotPresent
+  py3orenderserver:
+    repository: xcgd/py3oserver-docker 
+    tag: 0.5.2 
+  oooserver:
+    repository: xcgd/libreoffice
+    tag: 5.1 
+  py3ofusion:
+    repository: xcgd/py3o.fusion 
+    tag: 0.8.9
+
+services:
+  py3orenderserver:
+    targetPort: 8994
+  oooserver:
+    targetPort: 8997
+  py3ofusion:
+    targetPort: 8765
+
+resources:
+  py3orenderserver:
+    requests:
+      cpu: 10m
+      memory: 64Mi
+    limits:
+      memory: 256Mi
+  oooserver:
+    requests:
+      cpu: 10m
+      memory: 64Mi
+    limits:
+      memory: 256Mi
+  py3ofusion:
+    requests:
+      cpu: 10m
+      memory: 64Mi
+    limits:
+      memory: 256Mi
+
+nodeSelector: {}
+tolerations: []
+affinity: {}
+
+additionalLabels: {}
+  # aadpodidbinding: some-identity
+

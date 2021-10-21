@@ -1,0 +1,74 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "py3o.name" . }}
+  labels:
+    {{- include "py3o.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "py3o.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "py3o.selectorLabels" . | nindent 8 }}
+        {{- with .Values.additionalLabels }}
+          {{- toYaml . | nindent 8 }}
+        {{- end }}
+    spec:
+      containers:
+        - name: py3orenderserver
+          image: "{{ .Values.image.py3orenderserver.repository }}:{{ .Values.image.py3orenderserver.tag }}"
+          ports:
+            - containerPort: 8994
+              name: py3orenderserver
+          volumeMounts:
+            {{- toYaml .Values.volumeMounts | nindent 12 }}
+          resources:
+            {{- toYaml .Values.resources.py3o | nindent 12 }}
+        - name: oooserver
+          image: "{{ .Values.image.oooserver.repository }}:{{ .Values.image.oooserver.tag }}"
+          ports:
+            - containerPort: 8997
+              name: oooserver
+        - name: py3ofusion
+          image: "{{ .Values.image.py3ofusion.repository }}:{{ .Values.image.py3ofusion.tag }}"
+          ports:
+            - containerPort: 8765
+              name: py3ofusion
+
+      volumes:
+        {{- toYaml .Values.volumes | nindent 8 }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "py3o.fullname" . }}
+  labels:
+    {{- include "py3o.labels" . | nindent 4 }}
+spec:
+  ports:
+    - port: {{ .Values.services.py3orenderserver.targetPort }}
+      targetPort: py3orenderserver
+    - port: {{ .Values.services.oooserver.targetPort }}
+      targetPort: oooserver
+    - port: {{ .Values.services.py3ofusion.targetPort }}
+      targetPort: py3ofusion
+
+  selector:
+    {{- include "py3o.selectorLabels" . | nindent 4 }}
+...
