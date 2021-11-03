@@ -29,11 +29,51 @@ spec:
           image: "{{ .Values.image.celebrimbor.repository }}:{{ .Values.image.celebrimbor.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
+            - name: AZURE_ACCOUNT_URL
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.celebrimbor.storage.secret_name }}
+                  key: {{ .Values.celebrimbor.storage.account_url_key }}
+            - name: AZURE_STORAGE_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.celebrimbor.storage.secret_name }}
+                  key: {{ .Values.celebrimbor.storage.storage_name_key }}
+            - name: GPG_KEYVAULT_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.celebrimbor.gpg.secret_name }}
+                  key: {{ .Values.celebrimbor.gpg.vault_name_key }}
+            - name: GPG_KEYVAULT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.celebrimbor.gpg.secret_name }}
+                  key: {{ .Values.celebrimbor.gpg.secret_name_key }}
+            - name: GPG_RECIPIENTS
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.celebrimbor.gpg.secret_name }}
+                  key: {{ .Values.celebrimbor.gpg.recipients_key }}
             - name: SESSION_REDIS_URL
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.celebrimbor.redis_secret_name }}
-                  key: {{ .Values.celebrimbor.redis_secret_key }}
+                  name: {{ .Values.celebrimbor.redis.secret_name }}
+                  key: {{ .Values.celebrimbor.redis.primary_connection_url_key }}
+            - name: CLIENT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.celebrimbor.azure_app.secret_name }}
+                  key: {{ .Values.celebrimbor.azure_app.client_id_key }}
+            - name: CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.celebrimbor.azure_app.secret_name }}
+                  key: {{ .Values.celebrimbor.azure_app.client_secret_key }}
+            - name: TENANT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.celebrimbor.azure_app.secret_name }}
+                  key: {{ .Values.celebrimbor.azure_app.tenant_id_key }}
           envFrom:
             - configMapRef:
                 name: celebrimbor-config

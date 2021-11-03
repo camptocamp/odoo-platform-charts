@@ -54,6 +54,23 @@ additionalLabels: {}
   # aadpodidbinding: some-identity
 
 celebrimbor:
+  azure_app:
+    secret_name: 'azure-app'
+    client_id_key: 'client_id'
+    client_secret_key: 'client_secret'
+    tenant_id_key: 'tenant_id'
+  gpg:
+    secret_name: 'gpg'
+    vault_name_key: 'vault_name'
+    secret_name_key: 'secret_name'
+    recipients_key: 'recipients'
+  storage:
+    secret_name: 'storage'
+    account_url_key: 'account_url'
+    storage_name_key: 'storage_name'
+  redis:
+    secret_name: 'redis'
+    primary_connection_url_key: 'primary_connection_url'
   uwsgi_processes: 1
   secrets: {}
   clusters: {}
