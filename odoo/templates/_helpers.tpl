@@ -92,3 +92,47 @@ Odoo configuration to be reused within multiple pods
       key: {{ .Values.odoo.redis.secret.url | quote }}
 {{- end }}
 {{- end }}
+
+
+{{/*
+Resources configuration according to instance type
+*/}}
+{{- define "odoo.physical-resources" -}}
+{{- if eq .Values.odoo.instance_type "xlarge" -}}
+requests:
+  cpu: 0.35
+  memory: 1.2Gi
+limits:
+  cpu: 1
+  memory: 3.5Gi
+{{- else if eq .Values.odoo.instance_type "large" -}}
+requests:
+  cpu: 0.35
+  memory: 650Mi
+limits:
+  cpu: 0.7
+  memory: 3Gi
+{{- else -}}
+requests:
+  cpu: 0.35
+  memory: 650Mi
+limits:
+  cpu: 0.5
+  memory: 2.2Gi
+{{- end }}
+{{- end }}
+
+
+{{/*
+Odoo specific resources configuration according to instance type
+*/}}
+{{- define "odoo.internal-resources" -}}
+LIMIT_MEMORY_SOFT: "650117120"
+{{- if or (eq .Values.odoo.instance_type "xlarge") (eq .Values.odoo.instance_type "large") }}
+LIMIT_MEMORY_HARD: "4194304000"
+WORKERS: "14"
+{{- else }}
+LIMIT_MEMORY_HARD: "2097152000"
+WORKERS: "7"
+{{- end }}
+{{- end }}

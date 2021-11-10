@@ -59,7 +59,7 @@ spec:
           volumeMounts:
             {{- toYaml .Values.volumeMounts | nindent 12 }}
           resources:
-            {{- toYaml .Values.resources.odoo | nindent 12 }}
+          {{- include "odoo.physical-resources" . | nindent 12 }}
         - name: nginx
           image: "{{ .Values.image.nginx.repository }}:{{ .Values.image.nginx.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}

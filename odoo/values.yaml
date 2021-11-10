@@ -39,12 +39,6 @@ resources:
       memory: 64Mi
     limits:
       memory: 256Mi
-  odoo:
-    requests:
-      cpu: 10m
-      memory: 128Mi
-    limits:
-      memory: 2Gi
 
 nodeSelector: {}
 tolerations: []
@@ -55,6 +49,7 @@ additionalLabels: {}
 
 odoo:
   customerName: customer
+  instance_type: standard
   base_url: ""
   env: integration
   storage:
@@ -86,10 +81,7 @@ odoo:
     enabled: "True"
     mode: Full
     allow_series: "False"
-  workers: '0'
   limits:
-    soft: "650117120"
-    hard: "1572864000"
     time_cpu: 86400
     time_real: 86400
     time_real_cron: 600
