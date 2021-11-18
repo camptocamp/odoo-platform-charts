@@ -47,6 +47,8 @@ affinity: {}
 additionalLabels: {}
   # aadpodidbinding: some-identity
 
+additionalAnnotations: {}
+
 odoo:
   customerName: customer
   instance_type: standard
