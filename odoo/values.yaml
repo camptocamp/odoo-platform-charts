@@ -58,11 +58,11 @@ odoo:
     account_url: ""
     use_aad: '1'
     secret:
-      name: storage
+      name: odoo-storage
       container: container_name
   db:
     secret:
-      name: database
+      name: odoo-database
       host: master
       user: username
       password: password
@@ -72,7 +72,7 @@ odoo:
   redis:
     enabled: False
     secret:
-      name: redis
+      name: odoo-redis
       url: url
   log_handler: :INFO,werkzeug:ERROR
   log_level: info
