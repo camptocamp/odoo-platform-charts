@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: odoo-config
+  name: odoo-config{{- include "odoo-cs-suffix" . }}
 data:
   ODOO_BASE_URL: {{ .Values.odoo.base_url | default "http://localhost:8069" }}
   {{- if .Values.odoo.storage.use_aad }}

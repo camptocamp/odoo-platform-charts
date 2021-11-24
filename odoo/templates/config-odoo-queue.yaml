@@ -3,7 +3,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: odooqueue-config
+  name: odooqueue-config{{- include "odoo-cs-suffix" . }}
 data:
   SERVER_WIDE_MODULES: web,attachment_s3,session_redis,logging_json,queue_job
   WORKERS: {{ .Values.odoo.queuejob.workers | default "2" | quote }}

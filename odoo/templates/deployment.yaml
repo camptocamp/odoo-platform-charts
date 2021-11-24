@@ -39,9 +39,9 @@ spec:
             {{- include "odoo.common-environment" . | nindent 12 }}
           envFrom:
             - configMapRef:
-                name: odoo-config
+                name: odoo-config{{- include "odoo-cs-suffix" . }}
             - secretRef:
-                name: odoo-secret
+                name: odoo-secret{{- include "odoo-cs-suffix" . }}
                 optional: true
       {{- end }}
       containers:
@@ -52,9 +52,9 @@ spec:
           {{- include "odoo.common-environment" . | nindent 12 }}
           envFrom:
             - configMapRef:
-                name: odoo-config
+                name: odoo-config{{- include "odoo-cs-suffix" . }}
             - secretRef:
-                name: odoo-secret
+                name: odoo-secret{{- include "odoo-cs-suffix" . }}
                 optional: true
           ports:
             - containerPort: 8069
@@ -70,7 +70,7 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           envFrom:
             - configMapRef:
-                name: nginx-config
+                name: nginx-config{{- include "odoo-cs-suffix" . }}
           resources:
             {{- toYaml .Values.resources.nginx | nindent 12 }}
           ports:
@@ -129,9 +129,9 @@ spec:
             {{- include "odoo.common-environment" . | nindent 12 }}
           envFrom:
             - configMapRef:
-                name: odoo-config
+                name: odoo-config{{- include "odoo-cs-suffix" . }}
             - secretRef:
-                name: odoo-secret
+                name: odoo-secret{{- include "odoo-cs-suffix" . }}
                 optional: true
       {{- end }}
       containers:
@@ -142,11 +142,11 @@ spec:
             {{- include "odoo.common-environment" . | nindent 12 }}
           envFrom:
             - configMapRef:
-                name: odoo-config
+                name: odoo-config{{- include "odoo-cs-suffix" . }}
             - configMapRef:
-                name: odooqueue-config
+                name: odooqueue-config{{- include "odoo-cs-suffix" . }}
             - secretRef:
-                name: odoo-secret
+                name: odoo-secret{{- include "odoo-cs-suffix" . }}
                 optional: true
           volumeMounts:
             {{- toYaml .Values.volumeMounts | nindent 12 }}

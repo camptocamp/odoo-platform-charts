@@ -50,6 +50,15 @@ app.kubernetes.io/name: {{ include "odoo.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
+{{/*
+Config/Secret suffix
+*/}}
+{{- define "odoo-cs-suffix" -}}
+{{- if eq .Values.odoo.env "labs" }}
+{{- printf "-%s" .Values.odoo.lab_name | trunc 63 | trimSuffix "-" }}
+{{- end }}
+{{- end }}
+
 
 {{/*
 Odoo configuration to be reused within multiple pods
