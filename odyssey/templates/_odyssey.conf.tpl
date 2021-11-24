@@ -43,7 +43,7 @@ password = "{{ $value.password }}"
 {{- range $keyopt, $vopt := $value.options}}
 {{ $keyopt }} = "{{ $vopt }}"
 {{- end }}
-{{- range $k, $v := .Values.settings.databases_default_value }}
+{{- range $k, $v := $.Values.settings.databases_default_value }}
 {{ $k }} = "{{ $v }}"
 {{- end }}
 }
