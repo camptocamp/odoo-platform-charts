@@ -2,7 +2,11 @@
 Expand the name of the chart.
 */}}
 {{- define "odoo.name" -}}
+{{- if eq .Values.odoo.env "labs" }}
+{{- printf "%s-odoo-%s" .Values.odoo.customerName .Values.odoo.lab_name }}
+{{- else }}
 {{- printf "%s-odoo-%s" .Values.odoo.customerName .Values.odoo.env }}
+{{- end }}
 {{- end }}
 
 {{/*
