@@ -40,6 +40,7 @@ spec:
         - name: odyssey
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          args: [/etc/odyssey/odyssey.conf]
           ports:
             - name: odyssey
               containerPort: {{ .Values.internalPort }}
