@@ -30,15 +30,13 @@ settings:
     #
     # By default Odyssey does not run as a daemon. Set to 'yes' to enable.
     #
-    daemonize: no
+    daemonize: "no"
 
 
     #
     # Directory to place odyssey internal-used locks
     # Odyssey will use /tmp by default
     #
-
-    locks_dir: "/tmp/odyssey"
 
 
     ###
@@ -68,7 +66,7 @@ settings:
     # %r = client port
     # %h = client host
     #
-    log_format: "%p %t %l [%i %s] (%c) %m\n"
+    log_format: "%p %t %l [%i %s] (%c) %m"
 
     #
     # Log to stdout.
@@ -76,7 +74,7 @@ settings:
     # Set to 'yes' if you need to additionally display log output in stdout.
     # Enabled by default.
     #
-    log_to_stdout: yes
+    log_to_stdout: "yes"
 
     #
     # Log to system logger.
@@ -84,7 +82,7 @@ settings:
     # To enable syslog(3) usage, set log_syslog to 'yes'. Additionally set
     # log_syslog_ident and log_syslog_facility.
     #
-    log_syslog: no
+    log_syslog: "no"
     log_syslog_ident: "odyssey"
     log_syslog_facility: "daemon"
 
@@ -97,35 +95,35 @@ settings:
     # It is also possible to enable verbose logging for specific users
     # (see routes section).
     #
-    log_debug: no
+    log_debug: "yes"
 
     #
     # Log configuration.
     #
     # Write configuration to the log during start and config reload.
     #
-    log_config: yes
+    log_config: "yes"
 
     #
     # Log session events.
     #
     # Write client connect and disconnect events to the log.
     #
-    log_session: yes
+    log_session: "yes"
 
     #
     # Log client queries.
     #
     # Write client queries text to the log. Disabled by default.
     #
-    log_query: no
+    log_query: "no"
 
     #
     # Log client statistics.
     #
     # Periodically display information about active routes.
     #
-    log_stats: yes
+    log_stats: "yes"
 
     #
     # Statistics update inverval.
@@ -196,31 +194,7 @@ settings:
     #
     # Set to 'yes', to enable nodelay.
     #
-    nodelay: yes
-
-    #
-    # TCP keepalive time.
-    #
-    # Set to zero, to disable keepalive.
-    #
-    keepalive: 15
-
-    #
-    # TCP keepalive interval
-    #
-
-    keepalive_keep_interval: 75
-
-    #
-    # TCP keepalive probes
-    #
-
-    keepalive_probes: 9
-
-    #
-    # TCP user timeout
-    #
-    keepalive_usr_timeout: 0
+    nodelay: "yes"
 
     ###
     ### GLOBAL LIMITS
@@ -280,12 +254,10 @@ settings:
     #"verify_ca"   - require valid client certificate
     #"verify_full" - require valid client certificate
     tls: "allow"
-    tls_ca_file: ""
-    tls_key_file: ""
-    tls_cert_file: ""
-    tls_protocols: ""
-    #Support of PostgreSQL protocol compression (experimental). Set to 'yes' to enable, disabled by default.
-    compression: "no"
+    #tls_ca_file: ""
+    #tls_key_file: ""
+    #tls_cert_file: ""
+    #tls_protocols: ""
   ###
   ### ROUTING
   ###
@@ -376,7 +348,7 @@ settings:
     #Server pool mode.
     #"session"     - assign server connection to a client until it disconnects
     #"transaction" - assign server connection to a client during a transaction lifetime
-#    pool: "transaction"
+    pool: "transaction"
     #Server pool size.
     #Keep the number of servers in the pool as much as 'pool_size'.
     #Clients are put in a wait queue, when all servers are busy.
@@ -420,5 +392,3 @@ settings:
 #    log_debug: "no"
     #Compute quantiles of query and transaction times
 #    quantiles: "0.99,0.95,0.5"
-    
-    

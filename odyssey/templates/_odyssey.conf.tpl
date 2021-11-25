@@ -13,7 +13,8 @@
   {{- end }}
 {{- end }}
 ## Listen configuration
-listen {
+listen 
+{
 {{- range $k, $v := .Values.settings.listen }}
   {{ if regexMatch "^[0-9]" ( $v | toString ) }}
    {{ $k }} {{ $v }}
@@ -27,24 +28,46 @@ listen {
 
 {{- range $k, $v := .Values.settings.storages }}
 
-storage "{{ $k }}" {
+storage "{{ $k }}" 
+{
 {{- range $subk, $subv := $v }}
-  {{ $subk }} {{ $subv }}
+  {{ if regexMatch "^[0-9]" ( $subv | toString ) }}
+   {{ $subk }} {{ $subv }}
+  {{ else if regexMatch "^(?:yes|no)" ( $subv | toString ) }}
+   {{ $subk }} {{ $subv }}
+  {{ else }}
+   {{ $subk }} "{{ $subv }}"
+  {{- end }}
+
 {{- end }}
 }
 {{- end }}
 
 
 {{- range $key, $value := .Values.settings.databases_list }}
-database "{{ $value.database }}"" {
+database "{{ $value.database }}" {
   user "{{ $value.username }}" {
-  storage = {{ $value.storage }}
-  password = {{ $value.password }}
+  storage "{{ $value.storage }}"
+  password "{{ $value.password }}"
 {{- range $keyopt, $vopt := $value.options}}
-{{ $keyopt }} {{ $vopt }}
+  {{ if regexMatch "^[0-9]" ( $vopt | toString ) }}
+   {{ $keyopt }} {{ $vopt }}
+  {{ else if regexMatch "^(?:yes|no)" ( $vopt | toString ) }}
+   {{ $keyopt }} {{ $vopt }}
+  {{ else }}
+   {{ $keyopt }} "{{ $vopt }}"
+  {{- end }}
+
 {{- end }}
   {{- range $k, $v := $.Values.settings.databases_default_value }}
-{{ $k }} {{ $v }}
+  {{ if regexMatch "^[0-9]" ( $v | toString ) }}
+   {{ $k }} {{ $v }}
+  {{ else if regexMatch "^(?:yes|no)" ( $v | toString ) }}
+   {{ $k }} {{ $v }}
+  {{ else }}
+   {{ $k }} "{{ $v }}"
+  {{- end }}
+
 {{- end }}
 }
 }
