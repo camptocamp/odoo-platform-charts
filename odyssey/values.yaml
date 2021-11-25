@@ -25,13 +25,12 @@ spec:
 settings:
   databases_list: {}
   globals:
-    auth_type: plain
     #
     # Start as a daemon.
     #
     # By default Odyssey does not run as a daemon. Set to 'yes' to enable.
     #
-    daemonize: "no"
+    daemonize: no
 
 
     #
@@ -41,12 +40,6 @@ settings:
 
     locks_dir: "/tmp/odyssey"
 
-    #
-    # In this mode odyssey will perform gracefully shutdown 
-    # when signalled with SIGUSR2: 
-    # it will not terminate established connections, but do not accept new ones
-    #
-    graceful_die_on_errors: "no"
 
     ###
     ### LOGGING
@@ -83,7 +76,7 @@ settings:
     # Set to 'yes' if you need to additionally display log output in stdout.
     # Enabled by default.
     #
-    log_to_stdout: "yes"
+    log_to_stdout: yes
 
     #
     # Log to system logger.
@@ -91,7 +84,7 @@ settings:
     # To enable syslog(3) usage, set log_syslog to 'yes'. Additionally set
     # log_syslog_ident and log_syslog_facility.
     #
-    log_syslog: "no"
+    log_syslog: no
     log_syslog_ident: "odyssey"
     log_syslog_facility: "daemon"
 
@@ -104,35 +97,35 @@ settings:
     # It is also possible to enable verbose logging for specific users
     # (see routes section).
     #
-    log_debug: "no"
+    log_debug: no
 
     #
     # Log configuration.
     #
     # Write configuration to the log during start and config reload.
     #
-    log_config: "yes"
+    log_config: yes
 
     #
     # Log session events.
     #
     # Write client connect and disconnect events to the log.
     #
-    log_session: "yes"
+    log_session: yes
 
     #
     # Log client queries.
     #
     # Write client queries text to the log. Disabled by default.
     #
-    log_query: "no"
+    log_query: no
 
     #
     # Log client statistics.
     #
     # Periodically display information about active routes.
     #
-    log_stats: "yes"
+    log_stats: yes
 
     #
     # Statistics update inverval.
@@ -141,12 +134,6 @@ settings:
     #
     stats_interval: 60
 
-    #
-    # Log stats in Prometheus format.
-    #
-    # Write stats in Prometheus format in addition to ordinary logs.
-    #
-    log_stats_prom: "no"
 
     ###
     ### PERFORMANCE
@@ -356,7 +343,6 @@ settings:
     authentication: "md5"
     #Authentication method password.
     #Depending on selected method, password can be in plain text or md5 hash.
-    password: ""
     #Authentication query.
     #Use selected 'auth_query_db' and 'auth_query_user' to match a route.
     #Use matched route server to send 'auth_query' to get username and password needed
