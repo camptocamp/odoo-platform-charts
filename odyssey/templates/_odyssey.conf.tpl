@@ -8,7 +8,7 @@
 {{- end }}
 ## Listen configuration
 listen {
-{{- range $k, $v := .Values.settings.listen }}
+  {{- range $k, $v := .Values.settings.listen }}
 {{ $k }} = "{{ $v }}"
 {{- end }}
 }
@@ -17,33 +17,21 @@ listen {
 
 storage {{ $k }} {
 {{- range $subk, $subv := $v }}
-{{ $subk }} = "{{ $subv }}"
+  {{ $subk }} = "{{ $subv }}"
 {{- end }}
 }
 {{- end }}
 
-
-{{- range $k, $v := .Values.settings.databases }}
-database {{ $k }} {
-{{- range $subdbk, $subdbv := $v }}
-user {{ $subdbk }} {
-{{- range $subuserk, $subuserv := $subdbv }}
-{{ $subuserk }} = "{{ $subuserv }}"
-{{- end }}
-}
-{{- end }}
-}
-{{- end }}
 
 {{- range $key, $value := .Values.settings.databases_list }}
 database {{ $value.database }} {
-user {{ $value.username }} {
-storage = "{{ $value.storage }}
-password = "{{ $value.password }}"
+  user {{ $value.username }} {
+  storage = "{{ $value.storage }}
+  password = "{{ $value.password }}"
 {{- range $keyopt, $vopt := $value.options}}
 {{ $keyopt }} = "{{ $vopt }}"
 {{- end }}
-{{- range $k, $v := $.Values.settings.databases_default_value }}
+  {{- range $k, $v := $.Values.settings.databases_default_value }}
 {{ $k }} = "{{ $v }}"
 {{- end }}
 }
