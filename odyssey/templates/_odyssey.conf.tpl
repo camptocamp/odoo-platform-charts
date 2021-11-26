@@ -49,6 +49,8 @@ database "{{ $value.database }}" {
   user "{{ $value.username }}" {
   storage "{{ $value.storage }}"
   password "{{ $value.password }}"
+  storage_user "{{ $value.username }}"
+  storage_password "{{ $value.password }}"
 {{- range $keyopt, $vopt := $value.options}}
   {{ if regexMatch "^[0-9]" ( $vopt | toString ) }}
    {{ $keyopt }} {{ $vopt }}

@@ -66,7 +66,7 @@ settings:
     # %r = client port
     # %h = client host
     #
-    log_format: "%p %t %l [%i %s] (%c) %m"
+    log_format: "%p %t %l [%i %s] (%c) %m \\n"
 
     #
     # Log to stdout.
@@ -312,19 +312,8 @@ settings:
   #    server_max_routing: 4
 
   databases_default_value:
-    authentication: "md5"
     #Authentication method password.
     #Depending on selected method, password can be in plain text or md5 hash.
-    #Authentication query.
-    #Use selected 'auth_query_db' and 'auth_query_user' to match a route.
-    #Use matched route server to send 'auth_query' to get username and password needed
-    #to authenticate a client.
-    auth_query: "SELECT usename, passwd FROM pg_shadow WHERE usename=$1"
-    auth_query_db: ""
-    auth_query_user: ""
-    #Authentication PAM.
-    #auth_pam_service: "passwd"
-    #Client connections limit.
     #Comment 'client_max' to disable the limit. On client limit reach, Odyssey will
     #reply with 'too many connections'.
     client_max: 100
@@ -353,42 +342,3 @@ settings:
     #Keep the number of servers in the pool as much as 'pool_size'.
     #Clients are put in a wait queue, when all servers are busy.
     #Set to zero to disable the limit.
-#    pool_size: 0
-    #Server pool wait timeout.
-    #Time to wait in milliseconds for an available server.
-    #Disconnect client on timeout reach.
-    #Set to zero to disable.
-#    pool_timeout: 0
-    #Server pool idle timeout.
-    #Close an server connection when it becomes idle for 'pool_ttl' seconds.
-    #Set to zero to disable.
-#    pool_ttl: 60
-    #Server pool parameters discard.
-    #Execute 'DISCARD ALL' and reset client parameters before using server
-    #from the pool.
-#    pool_discard: "no"
-    #Server pool auto-cancel.
-    #Start additional Cancel connection in case if server left with
-    #executing query. Close connection otherwise.
-#    pool_cancel: "yes"
-    #Server pool auto-rollback.
-    #Execute 'ROLLBACK' if server left in active transaction.
-    #Close connection otherwise.
-#    pool_rollback: "yes"5TxEffER5vjrPe4
-    #drop stale client connection after this much seconds of idleness, which is not in transaction. 0 means inf (never drop)
-#    pool_client_idle_timeout: 0 
-    #drop client connection in transaction after this much seconds of idleness. 0 means inf (never drop)
-#    pool_idle_in_transaction_timeout: 0
-    #Forward PostgreSQL errors during remote server connection.
-#    client_fwd_error: "yes"
-    #Add client host name to application_name parameter
-#    application_name_add_host: "yes"
-    #Connect new client to server immediately or wait for first query
-#    reserve_session_server_connection: "yes"
-    #Server lifetime - maximum number of seconds for a server connetion to live. Prevents cache bloat.
-    #Defaults to 3600 (1 hour)
-#    server_lifetime: 3600
-    #Enable verbose mode for a specific route only.
-#    log_debug: "no"
-    #Compute quantiles of query and transaction times
-#    quantiles: "0.99,0.95,0.5"
