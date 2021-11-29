@@ -57,4 +57,15 @@ spec:
               readOnly: true
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
-
+       # Download TLS certificate
+      initContainers:
+        - name: install
+          image: busybox
+          command:
+          - wget
+          - "-O"
+          - "/etc/odyssey/DigiCertGlobalRootCA.crt.pem"
+          - https://dl.cacerts.digicert.com/DigiCertGlobalRootCA.crt.pem
+          volumeMounts:
+            - name: config
+              mountPath: "/etc/odyssey"
