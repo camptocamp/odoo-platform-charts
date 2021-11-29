@@ -66,5 +66,8 @@ spec:
           - "/etc/odyssey/DigiCertGlobalRootCA.crt.pem"
           - https://dl.cacerts.digicert.com/DigiCertGlobalRootCA.crt.pem
           volumeMounts:
-            - name: config
-              mountPath: "/etc/odyssey"
+            - name: certdir
+              mountPath: "/tmp/odyssey-cert"
+      volumes:
+        - name: certdir
+          emptyDir: {}
