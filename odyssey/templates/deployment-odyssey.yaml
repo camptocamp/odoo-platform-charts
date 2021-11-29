@@ -54,7 +54,6 @@ spec:
             - name: config
               subPath: odyssey.conf
               mountPath: /etc/odyssey/odyssey.conf
-              readOnly: true
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
        # Download TLS certificate
