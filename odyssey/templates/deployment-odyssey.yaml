@@ -63,7 +63,7 @@ spec:
           command:
           - wget
           - "-O"
-          - "/etc/odyssey/DigiCertGlobalRootCA.crt.pem"
+          - "/tmp/odyssey-cert/DigiCertGlobalRootCA.crt.pem"
           - https://dl.cacerts.digicert.com/DigiCertGlobalRootCA.crt.pem
           volumeMounts:
             - name: certdir
