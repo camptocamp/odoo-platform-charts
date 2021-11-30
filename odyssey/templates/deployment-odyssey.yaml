@@ -29,6 +29,8 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       volumes:
+        - name: certdir
+          emptyDir: {}
         - name: config
           configMap:
             name: {{ template "odyssey.fullname" . }}-config
@@ -68,6 +70,3 @@ spec:
           volumeMounts:
             - name: certdir
               mountPath: "/tmp/odyssey-cert"
-      volumes:
-        - name: certdir
-          emptyDir: {}
