@@ -56,6 +56,9 @@ spec:
             - name: config
               subPath: odyssey.conf
               mountPath: /etc/odyssey/odyssey.conf
+          volumeMounts:
+            - name: certdir
+              mountPath: "/tmp/odyssey-cert"
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
        # Download TLS certificate
