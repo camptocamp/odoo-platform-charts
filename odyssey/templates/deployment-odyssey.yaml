@@ -56,7 +56,6 @@ spec:
             - name: config
               subPath: odyssey.conf
               mountPath: /etc/odyssey/odyssey.conf
-          volumeMounts:
             - name: certdir
               mountPath: "/tmp/odyssey-cert"
           resources:
