@@ -29,8 +29,6 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       volumes:
-        - name: certdir
-          emptyDir: {}
         - name: config
           configMap:
             name: {{ template "odyssey.fullname" . }}-config
@@ -56,19 +54,5 @@ spec:
             - name: config
               subPath: odyssey.conf
               mountPath: /etc/odyssey/odyssey.conf
-            - name: certdir
-              mountPath: "/tmp/odyssey-cert"
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
-       # Download TLS certificate
-      initContainers:
-        - name: install
-          image: busybox
-          command:
-          - wget
-          - "-O"
-          - "/tmp/odyssey-cert/DigiCertGlobalRootCA.crt.pem"
-          - https://dl.cacerts.digicert.com/DigiCertGlobalRootCA.crt.pem
-          volumeMounts:
-            - name: certdir
-              mountPath: "/tmp/odyssey-cert"
