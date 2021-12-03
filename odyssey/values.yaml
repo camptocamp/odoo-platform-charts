@@ -239,13 +239,13 @@ settings:
     # Odyssey will fail in case it could not bind on any resolved address.
     #
 
-  listen: 
+    #listen: 
     #Bind address.
-    host: "*"
+    #host: "*"
     #Listen port.
-    port: 5432
+    #port: 5432
     #TCP listen backlog.
-    backlog: 128
+    #backlog: 128
     #TLS support.
     #Supported TLS modes:
     #"disable"     - disable TLS protocol
@@ -253,7 +253,7 @@ settings:
     #"require"     - TLS clients only
     #"verify_ca"   - require valid client certificate
     #"verify_full" - require valid client certificate
-    tls: "allow"
+    #tls: "allow"
     #tls_ca_file: ""
     #tls_key_file: ""
     #tls_cert_file: ""
@@ -311,12 +311,12 @@ settings:
       #	Unset or zero 'server_max_routing' will set it's value equal to number of workers
   #    server_max_routing: 4
 
-  databases_default_value:
+  #databases_default_value:
     #Authentication method password.
     #Depending on selected method, password can be in plain text or md5 hash.
     #Comment 'client_max' to disable the limit. On client limit reach, Odyssey will
     #reply with 'too many connections'.
-    client_max: 100
+    #client_max: 100
     #Remote server to use.
     #By default route database and user names are used as connection
     #parameters to remote server. It is possible to override this values
@@ -337,7 +337,7 @@ settings:
     #Server pool mode.
     #"session"     - assign server connection to a client until it disconnects
     #"transaction" - assign server connection to a client during a transaction lifetime
-    pool: "transaction"
+    #pool: "transaction"
     #Server pool size.
     #Keep the number of servers in the pool as much as 'pool_size'.
     #Clients are put in a wait queue, when all servers are busy.
