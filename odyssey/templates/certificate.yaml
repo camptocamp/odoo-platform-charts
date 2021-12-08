@@ -1,0 +1,16 @@
+{{- if .Values.certificate.enabled -}}
+{{- $fullName := include "odyssey.fullname" . -}}
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: odyssey
+  labels:
+    {{- include "odyssey.labels" . | nindent 4 }}
+  namespace:  odyssey
+spec:
+  secretName: {{ .Values.certificate.secretName }}
+  issuerRef:
+  {{- toYaml .Values.certificate.issuerRef | nindent 4 }}
+  dnsNames:
+  {{- toYaml .Values.certificate.dnsNames | nindent 4 }}
+{{- end }}
