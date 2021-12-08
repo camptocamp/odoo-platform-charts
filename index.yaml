@@ -2,7 +2,7 @@ apiVersion: v1
 entries:
   celebrimbor:
   - apiVersion: v2
-    created: "2021-12-08T11:05:04.721720968+01:00"
+    created: "2021-12-08T11:19:45.86099282+01:00"
     description: A Helm chart to deploy Celebrimbor on CampToCamp own platform
     digest: dd6135979a467c4c411fdcbac382a822e6700ddd89a5c95193de9878192542a9
     name: celebrimbor
@@ -11,7 +11,7 @@ entries:
     - celebrimbor-0.1.5.tgz
     version: 0.1.5
   - apiVersion: v2
-    created: "2021-12-08T11:05:04.721273538+01:00"
+    created: "2021-12-08T11:19:45.859188479+01:00"
     description: A Helm chart to deploy Celebrimbor on CampToCamp own platform
     digest: 6b2afe14cf9676e39b19d9adc613ee13eabe828ccd1793aed7d076471cad6744
     name: celebrimbor
@@ -21,7 +21,16 @@ entries:
     version: 0.1.4
   odoo:
   - apiVersion: v2
-    created: "2021-12-08T11:05:04.725502735+01:00"
+    created: "2021-12-08T11:19:45.916906693+01:00"
+    description: A Helm chart to deploy Odoo on CampToCamp own platform
+    digest: 3b4a4dbf6fd3a8c19ed74fad103befa965175282dc33abc3ba7298acdf991bc9
+    name: odoo
+    type: application
+    urls:
+    - odoo-0.2.5.tgz
+    version: 0.2.5
+  - apiVersion: v2
+    created: "2021-12-08T11:19:45.915460556+01:00"
     description: A Helm chart to deploy Odoo on CampToCamp own platform
     digest: 0e495b7f58d564a4d4c896657721a7e387a5dfe4218eb82961d77a3df072f7f7
     name: odoo
@@ -30,7 +39,7 @@ entries:
     - odoo-0.2.4.tgz
     version: 0.2.4
   - apiVersion: v2
-    created: "2021-12-08T11:05:04.724960667+01:00"
+    created: "2021-12-08T11:19:45.913373726+01:00"
     description: A Helm chart to deploy Odoo on CampToCamp own platform
     digest: 63ef88bccffb061e22b025b1ed9bbfae7e05d2d20fe9eb8de946eb60a526a9d5
     name: odoo
@@ -39,7 +48,7 @@ entries:
     - odoo-0.2.3.tgz
     version: 0.2.3
   - apiVersion: v2
-    created: "2021-12-08T11:05:04.72441532+01:00"
+    created: "2021-12-08T11:19:45.910933169+01:00"
     description: A Helm chart to deploy Odoo on CampToCamp own platform
     digest: c0bcef67d6acbc1e117a668d4f617281a153d15e0bff0456f3b0d9936dc884b0
     name: odoo
@@ -48,7 +57,7 @@ entries:
     - odoo-0.2.1.tgz
     version: 0.2.1
   - apiVersion: v2
-    created: "2021-12-08T11:05:04.72386698+01:00"
+    created: "2021-12-08T11:19:45.893385322+01:00"
     description: A Helm chart to deploy Odoo on CampToCamp own platform
     digest: d6d84fef63f49ec0802803f2bfbbdf0231801d68ed8e7f34a75b081718112bde
     name: odoo
@@ -57,7 +66,7 @@ entries:
     - odoo-0.2.0.tgz
     version: 0.2.0
   - apiVersion: v2
-    created: "2021-12-08T11:05:04.723352469+01:00"
+    created: "2021-12-08T11:19:45.891636463+01:00"
     description: A Helm chart to deploy Odoo on CampToCamp own platform
     digest: 460af065a5fe9d5372f9f84ecf29cfdea2d41e310bb14eda796b89c17143be46
     name: odoo
@@ -66,7 +75,7 @@ entries:
     - odoo-0.1.29.tgz
     version: 0.1.29
   - apiVersion: v2
-    created: "2021-12-08T11:05:04.722805107+01:00"
+    created: "2021-12-08T11:19:45.889920646+01:00"
     description: A Helm chart to deploy Odoo on CampToCamp own platform
     digest: 07f829db61f208d356af3799470ab8f4fc02f8804c6a04e02c1d8bac65b92e47
     name: odoo
@@ -75,7 +84,7 @@ entries:
     - odoo-0.1.28.tgz
     version: 0.1.28
   - apiVersion: v2
-    created: "2021-12-08T11:05:04.722277172+01:00"
+    created: "2021-12-08T11:19:45.864007802+01:00"
     description: A Helm chart to deploy Odoo on CampToCamp own platform
     digest: 25686f393ae1a1812b379b4406c6bf0f27277b5d0f9298ebd43964232819924f
     name: odoo
@@ -86,7 +95,7 @@ entries:
   odyssey:
   - apiVersion: v1
     appVersion: "1.0"
-    created: "2021-12-08T11:05:04.731460899+01:00"
+    created: "2021-12-08T11:19:45.976642376+01:00"
     description: Odyssey chart
     digest: 4b9667dfca23a349e061cc9f4eb10e7a5486ba5aea50345a4f9cce08dda7680c
     name: odyssey
@@ -95,7 +104,7 @@ entries:
     version: 0.1.17
   - apiVersion: v1
     appVersion: "1.0"
-    created: "2021-12-08T11:05:04.730976473+01:00"
+    created: "2021-12-08T11:19:45.956074627+01:00"
     description: Odyssey chart
     digest: 5b2bdaf247bafa9ae29bdad78caa0190a4b472d2b06f8d5be3d1da6b74eb5fbd
     name: odyssey
@@ -104,7 +113,7 @@ entries:
     version: 0.1.16
   - apiVersion: v1
     appVersion: "1.0"
-    created: "2021-12-08T11:05:04.730498011+01:00"
+    created: "2021-12-08T11:19:45.954983882+01:00"
     description: Odyssey chart
     digest: a7cc71b226143c433799e1dcc6e94b3784e1cecc85ac73ac7edb79407b1856ad
     name: odyssey
@@ -113,7 +122,7 @@ entries:
     version: 0.1.15
   - apiVersion: v1
     appVersion: "1.0"
-    created: "2021-12-08T11:05:04.729973194+01:00"
+    created: "2021-12-08T11:19:45.95372234+01:00"
     description: Odyssey chart
     digest: 5973f873623cc53ba1bfc05953a65beb47fbf753db1eeecdb09e7b93b2358b2e
     name: odyssey
@@ -122,7 +131,7 @@ entries:
     version: 0.1.14
   - apiVersion: v1
     appVersion: "1.0"
-    created: "2021-12-08T11:05:04.729471087+01:00"
+    created: "2021-12-08T11:19:45.945043105+01:00"
     description: Odyssey chart
     digest: 95e5d1a3869e119f4969e53d4cb749884d4d0aa2afa0e8662ffc0dd98de9ca27
     name: odyssey
@@ -131,7 +140,7 @@ entries:
     version: 0.1.13
   - apiVersion: v1
     appVersion: "1.0"
-    created: "2021-12-08T11:05:04.728963781+01:00"
+    created: "2021-12-08T11:19:45.943616141+01:00"
     description: Odyssey chart
     digest: c361b14ac90b499c8e523933700e112953b9af2d2656a2d94db18ffe995bb2f9
     name: odyssey
@@ -140,7 +149,7 @@ entries:
     version: 0.1.12
   - apiVersion: v1
     appVersion: "1.0"
-    created: "2021-12-08T11:05:04.728437006+01:00"
+    created: "2021-12-08T11:19:45.932132651+01:00"
     description: Odyssey chart
     digest: 17b221507fc9316351960144c585099963a30cccb09db0dda7faeddf6406c9c6
     name: odyssey
@@ -149,7 +158,7 @@ entries:
     version: 0.1.11
   - apiVersion: v1
     appVersion: "1.0"
-    created: "2021-12-08T11:05:04.727306984+01:00"
+    created: "2021-12-08T11:19:45.93030456+01:00"
     description: Odyssey chart
     digest: feebb117d1a9e4b465b5f8d010e6d37d7669b61a30ea6591ebfe91fbd8b0ebef
     name: odyssey
@@ -158,7 +167,7 @@ entries:
     version: 0.1.10
   - apiVersion: v1
     appVersion: "1.0"
-    created: "2021-12-08T11:05:04.735871364+01:00"
+    created: "2021-12-08T11:19:45.992013566+01:00"
     description: Odyssey chart
     digest: 19e0d8b701773259338ac0456bb2fd9b97e2efca9ec048253ae7bb23ce8e2228
     name: odyssey
@@ -167,7 +176,7 @@ entries:
     version: 0.1.9
   - apiVersion: v1
     appVersion: "1.0"
-    created: "2021-12-08T11:05:04.735375662+01:00"
+    created: "2021-12-08T11:19:45.990952171+01:00"
     description: Odyssey chart
     digest: bfd73183dd1a90487e8f9ec204388f3fc4c2fc94f2ee4603d07bf1d34c9a4b6a
     name: odyssey
@@ -176,7 +185,7 @@ entries:
     version: 0.1.8
   - apiVersion: v1
     appVersion: "1.0"
-    created: "2021-12-08T11:05:04.7348698+01:00"
+    created: "2021-12-08T11:19:45.989598645+01:00"
     description: Odyssey chart
     digest: 774ab6e2915aeb27a1bece389a87901974dad3a13a8c9d60c40f2a14b2c5277d
     name: odyssey
@@ -185,7 +194,7 @@ entries:
     version: 0.1.7
   - apiVersion: v1
     appVersion: "1.0"
-    created: "2021-12-08T11:05:04.734374062+01:00"
+    created: "2021-12-08T11:19:45.988061489+01:00"
     description: Odyssey chart
     digest: 6beba5c29b4634f4427ce7699b802df5b46a977ce23a008cf7c1193f38ff4ebd
     name: odyssey
@@ -194,7 +203,7 @@ entries:
     version: 0.1.6
   - apiVersion: v1
     appVersion: "1.0"
-    created: "2021-12-08T11:05:04.733817863+01:00"
+    created: "2021-12-08T11:19:45.985619991+01:00"
     description: Odyssey chart
     digest: 15041779a506b6c9d6a36786cf347d2aef38f047725f28f686149d34a3a594d2
     name: odyssey
@@ -203,7 +212,7 @@ entries:
     version: 0.1.5
   - apiVersion: v1
     appVersion: "1.0"
-    created: "2021-12-08T11:05:04.733243291+01:00"
+    created: "2021-12-08T11:19:45.984163874+01:00"
     description: Odyssey chart
     digest: 3a2707bb98c29b8b94f2456b18132667519357a34902058ae3814cc50753244c
     name: odyssey
@@ -212,7 +221,7 @@ entries:
     version: 0.1.4
   - apiVersion: v1
     appVersion: "1.0"
-    created: "2021-12-08T11:05:04.732671647+01:00"
+    created: "2021-12-08T11:19:45.980756307+01:00"
     description: Odyssey chart
     digest: fe68a93aa4b3015b661edd5251f1feb7cc06ae33618a8e4e0509ea0cb935bd50
     name: odyssey
@@ -221,7 +230,7 @@ entries:
     version: 0.1.3
   - apiVersion: v1
     appVersion: "1.0"
-    created: "2021-12-08T11:05:04.732058422+01:00"
+    created: "2021-12-08T11:19:45.979166746+01:00"
     description: Odyssey chart
     digest: bfe6c660958d3e5d7908dd9ce2306dea740dc6bd1111b498025d4c9e44d7453f
     name: odyssey
@@ -230,7 +239,7 @@ entries:
     version: 0.1.2
   - apiVersion: v1
     appVersion: "1.0"
-    created: "2021-12-08T11:05:04.72677382+01:00"
+    created: "2021-12-08T11:19:45.927884053+01:00"
     description: Odyssey chart
     digest: affec7202413a4f26dafd7d49f632c997ec7adcb46dda6559735596910b88952
     name: odyssey
@@ -239,7 +248,7 @@ entries:
     version: 0.1.1
   - apiVersion: v1
     appVersion: "1.0"
-    created: "2021-12-08T11:05:04.726147853+01:00"
+    created: "2021-12-08T11:19:45.925864302+01:00"
     description: Odyssey chart
     digest: abacd3fe6e3e20caf9e9b252044f9c3f8d7a6f70e8204fe92b652451147be9de
     name: odyssey
@@ -248,7 +257,7 @@ entries:
     version: 0.1.0
   py3o:
   - apiVersion: v2
-    created: "2021-12-08T11:05:04.736176823+01:00"
+    created: "2021-12-08T11:19:46.002144976+01:00"
     description: A Helm chart to deploy py3o on Camptocamp own platform
     digest: 65a099a3475d1dbf1f10a47e096d262fa1c7f91869bfd2353261587f77b898bf
     name: py3o
@@ -256,4 +265,4 @@ entries:
     urls:
     - py3o-0.1.0.tgz
     version: 0.1.0
-generated: "2021-12-08T11:05:04.720771457+01:00"
+generated: "2021-12-08T11:19:45.851738753+01:00"

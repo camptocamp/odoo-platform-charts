@@ -32,7 +32,7 @@ data:
   {{- end }}
   RUNNING_ENV: {{ .Values.odoo.env }}
   SERVER_WIDE_MODULES: {{ .Values.odoo.server_wide_modules | default "web,attachment_azure,session_redis,logging_json" }}
-  SERVER_ENV_CONFIG: {{ toYaml .Values.odoo.server_env_config | default "" }}
+  SERVER_ENV_CONFIG: {{ toYaml .Values.odoo.server_env_config | indent 2 | default "" }}
   LOG_HANDLER: {{ .Values.odoo.log_handler | default ":INFO,werkzeug:ERROR" }}
   LOG_LEVEL: {{ .Values.odoo.log_level | default "info" }}
   PGCLIENTENCODING: UTF8
