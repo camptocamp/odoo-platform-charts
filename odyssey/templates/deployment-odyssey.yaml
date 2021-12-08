@@ -32,6 +32,7 @@ spec:
         - name: config
           configMap:
             name: {{ template "odyssey.fullname" . }}-config
+      {{- toYaml .Values.volumes | nindent 8 }}    
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
@@ -47,12 +48,19 @@ spec:
           readinessProbe:
             tcpSocket:
               port: {{ .Values.internalPort }}
+          {{- if .Values.livenessProbe.enabled  }}
           livenessProbe:
-            tcpSocket:
-              port: {{ .Values.internalPort }}
+           {{- toYaml .Values.livenessProbe | nindent 12 }}
+          {{- end }}
+          {{- if .Values.ingress.enabled  }}
+          ingress:
+           {{- toYaml .Values.ingress | nindent 12 }}
+          {{- end }}
           volumeMounts:
             - name: config
               subPath: odyssey.conf
               mountPath: /etc/odyssey/odyssey.conf
+           # extra volumes mounts
+           {{- toYaml .Values.volumeMounts | nindent 12 }}    
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
