@@ -48,13 +48,9 @@ spec:
           readinessProbe:
             tcpSocket:
               port: {{ .Values.internalPort }}
-          {{- if .Values.livenessProbe.enabled  }}
+          {{- if .Values.livenessProbe}}
           livenessProbe:
            {{- toYaml .Values.livenessProbe | nindent 12 }}
-          {{- end }}
-          {{- if .Values.ingress.enabled  }}
-          ingress:
-           {{- toYaml .Values.ingress | nindent 12 }}
           {{- end }}
           volumeMounts:
             - name: config
