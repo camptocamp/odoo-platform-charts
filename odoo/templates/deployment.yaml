@@ -99,7 +99,7 @@ metadata:
   labels:
     {{- include "odoo.labels" . | nindent 4 }}
 spec:
-  replicas: {{ .Values.replicaCount }}
+  replicas: 1
   selector:
     matchLabels:
       {{- include "odoo.selectorLabels" . | nindent 6 }}
