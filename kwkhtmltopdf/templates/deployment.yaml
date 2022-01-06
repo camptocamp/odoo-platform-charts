@@ -1,0 +1,60 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "kwkhtmltopdf.name" . }}
+  labels:
+    {{- include "kwkhtmltopdf.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "kwkhtmltopdf.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "kwkhtmltopdf.selectorLabels" . | nindent 8 }}
+        {{- with .Values.additionalLabels }}
+          {{- toYaml . | nindent 8 }}
+        {{- end }}
+    spec:
+      containers:
+        - name: kwkhtmltopdfserver
+          image: "{{ .Values.image.kwkhtmltopdfserver.repository }}:{{ .Values.image.kwkhtmltopdfserver.tag }}"
+          ports:
+            - containerPort: 8080
+              name: kwkhtmltopdfserver
+          volumeMounts:
+            {{- toYaml .Values.volumeMounts | nindent 12 }}
+          resources:
+            {{- toYaml .Values.resources.kwkhtmltopdf | nindent 12 }}
+
+      volumes:
+        {{- toYaml .Values.volumes | nindent 8 }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "kwkhtmltopdf.name" . }}
+  labels:
+    {{- include "kwkhtmltopdf.labels" . | nindent 4 }}
+spec:
+  ports:
+    - port: {{ .Values.services.kwkhtmltopdfserver.targetPort }}
+      targetPort: kwkhtmltopdfserver
+
+  selector:
+    {{- include "kwkhtmltopdf.selectorLabels" . | nindent 4 }}
+...
