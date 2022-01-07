@@ -17,10 +17,11 @@ services:
 resources:
   kwkhtmltopdf:
     requests:
-      cpu: 10h
-      memory: 64Mi
+      cpu: 125m
+      memory: 128Mi
     limits:
-      memory: 8Gb
+      cpu: 500m
+      memory: 8Gi
 
 nodeSelector: {}
 tolerations: []
