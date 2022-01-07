@@ -19,11 +19,11 @@ spec:
         {{- end }}
     spec:
       containers:
-        - name: py3orenderserver
-          image: "{{ .Values.image.py3orenderserver.repository }}:{{ .Values.image.py3orenderserver.tag }}"
+        - name: py3orender
+          image: "{{ .Values.image.py3orender.repository }}:{{ .Values.image.py3orender.tag }}"
           ports:
             - containerPort: 8994
-              name: py3orenderserver
+              name: py3orender
           volumeMounts:
             {{- toYaml .Values.volumeMounts | nindent 12 }}
           resources:
@@ -62,8 +62,8 @@ metadata:
     {{- include "py3o.labels" . | nindent 4 }}
 spec:
   ports:
-    - port: {{ .Values.services.py3orenderserver.targetPort }}
-      targetPort: py3orenderserver
+    - port: {{ .Values.services.py3orender.targetPort }}
+      targetPort: py3orender
     - port: {{ .Values.services.oooserver.targetPort }}
       targetPort: oooserver
     - port: {{ .Values.services.py3ofusion.targetPort }}
