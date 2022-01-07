@@ -24,6 +24,12 @@ spec:
           ports:
             - containerPort: 8080
               name: kwkhtmltopdf
+          readinessProbe:
+            tcpSocket:
+              port: 8080
+          livenessProbe:
+            tcpSocket:
+              port: 8080
           volumeMounts:
             {{- toYaml .Values.volumeMounts | nindent 12 }}
           resources:
