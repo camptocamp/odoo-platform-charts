@@ -62,11 +62,11 @@ metadata:
     {{- include "py3o.labels" . | nindent 4 }}
 spec:
   ports:
-    - port: {{ .Values.services.py3orender.targetPort }}
+    - port: 8994
       targetPort: py3orender
-    - port: {{ .Values.services.oooserver.targetPort }}
+    - port: 8997
       targetPort: oooserver
-    - port: {{ .Values.services.py3ofusion.targetPort }}
+    - port: 8765
       targetPort: py3ofusion
 
   selector:
