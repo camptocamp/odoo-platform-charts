@@ -19,11 +19,11 @@ spec:
         {{- end }}
     spec:
       containers:
-        - name: kwkhtmltopdfserver
-          image: "{{ .Values.image.kwkhtmltopdfserver.repository }}:{{ .Values.image.kwkhtmltopdfserver.tag }}"
+        - name: kwkhtmltopdf
+          image: "{{ .Values.image.kwkhtmltopdf.repository }}:{{ .Values.image.kwkhtmltopdf.tag }}"
           ports:
             - containerPort: 8080
-              name: kwkhtmltopdfserver
+              name: kwkhtmltopdf
           volumeMounts:
             {{- toYaml .Values.volumeMounts | nindent 12 }}
           resources:
@@ -52,8 +52,8 @@ metadata:
     {{- include "kwkhtmltopdf.labels" . | nindent 4 }}
 spec:
   ports:
-    - port: {{ .Values.services.kwkhtmltopdfserver.targetPort }}
-      targetPort: kwkhtmltopdfserver
+    - port: {{ .Values.services.kwkhtmltopdf.targetPort }}
+      targetPort: kwkhtmltopdf
 
   selector:
     {{- include "kwkhtmltopdf.selectorLabels" . | nindent 4 }}
