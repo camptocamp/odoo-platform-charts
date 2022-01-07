@@ -24,20 +24,34 @@ spec:
           ports:
             - containerPort: 8994
               name: py3orender
-          volumeMounts:
-            {{- toYaml .Values.volumeMounts | nindent 12 }}
-          resources:
-            {{- toYaml .Values.resources.py3o | nindent 12 }}
+          readinessProbe:
+            tcpSocket:
+              port: 8994
+          livenessProbe:
+            tcpSocket:
+              port: 8994
         - name: oooserver
           image: "{{ .Values.image.oooserver.repository }}:{{ .Values.image.oooserver.tag }}"
           ports:
             - containerPort: 8997
               name: oooserver
+          readinessProbe:
+            tcpSocket:
+              port: 8997
+          livenessProbe:
+            tcpSocket:
+              port: 8997
         - name: py3ofusion
           image: "{{ .Values.image.py3ofusion.repository }}:{{ .Values.image.py3ofusion.tag }}"
           ports:
             - containerPort: 8765
               name: py3ofusion
+          readinessProbe:
+            tcpSocket:
+              port: 8765
+          livenessProbe:
+            tcpSocket:
+              port: 8765
 
       volumes:
         {{- toYaml .Values.volumes | nindent 8 }}
