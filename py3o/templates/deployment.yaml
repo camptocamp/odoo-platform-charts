@@ -57,7 +57,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "py3o.fullname" . }}
+  name: {{ include "py3o.name" . }}
   labels:
     {{- include "py3o.labels" . | nindent 4 }}
 spec:
