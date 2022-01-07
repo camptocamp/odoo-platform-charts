@@ -63,10 +63,13 @@ metadata:
 spec:
   ports:
     - port: 8994
+      name: py3orender
       targetPort: py3orender
     - port: 8997
+      name: oooserver
       targetPort: oooserver
     - port: 8765
+      name: py3ofusion
       targetPort: py3ofusion
 
   selector:
