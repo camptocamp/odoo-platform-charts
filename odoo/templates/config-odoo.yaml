@@ -4,6 +4,7 @@ metadata:
   name: odoo-config{{- include "odoo-cs-suffix" . }}
 data:
   ODOO_BASE_URL: {{ .Values.odoo.base_url | default "http://localhost:8069" }}
+  ODOO_REPORT_URL: {{ .Values.odoo.report_url | default "http://localhost:8069" }}
   {{- if .Values.odoo.storage.use_aad }}
   AZURE_STORAGE_USE_AAD: '1'
   AZURE_STORAGE_ACCOUNT_URL: {{ .Values.odoo.storage.account_url }}
