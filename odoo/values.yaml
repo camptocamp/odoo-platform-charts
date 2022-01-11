@@ -53,6 +53,7 @@ odoo:
   customerName: customer
   instance_type: standard
   base_url: ""
+  report_url: ""
   env: integration
   storage:
     account_url: ""
