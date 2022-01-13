@@ -1,0 +1,8 @@
+{{- range $roleBinding, $spec := .Values.roleBindings}}
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: {{ $roleBinding }}
+{{ toYaml $spec }}
+{{- end }}

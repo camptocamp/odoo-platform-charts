@@ -49,6 +49,18 @@ additionalLabels: {}
 
 additionalAnnotations: {}
 
+roleBindings: {}
+# roleBindings:
+#   bs-superuser-pod-exec:
+#     subjects:
+#     - kind: Group
+#       name: 77e80ab2-b3b8-4dac-a5db-99b131169e73
+#       apiGroup: rbac.authorization.k8s.io
+#     roleRef:
+#       kind: ClusterRole
+#       name: pod-exec
+#       apiGroup: rbac.authorization.k8s.io
+
 odoo:
   customerName: customer
   instance_type: standard
