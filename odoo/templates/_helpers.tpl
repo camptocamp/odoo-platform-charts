@@ -116,22 +116,22 @@ requests:
   cpu: 0.35
   memory: 1.2Gi
 limits:
-  cpu: 1
-  memory: 3.5Gi
+  cpu: {{ .Values.odoo.override_resources.cpu | default 1 }}
+  memory: {{ .Values.odoo.override_resources.memory | default "3.5Gi" }}
 {{- else if eq .Values.odoo.instance_type "large" -}}
 requests:
   cpu: 0.35
   memory: 650Mi
 limits:
-  cpu: 0.7
-  memory: 3Gi
+  cpu: {{ .Values.odoo.override_resources.cpu | default 0.7 }}
+  memory: {{ .Values.odoo.override_resources.memory | default "3Gi" }}
 {{- else -}}
 requests:
   cpu: 0.35
   memory: 650Mi
 limits:
-  cpu: 0.5
-  memory: 2.2Gi
+  cpu: {{ .Values.odoo.override_resources.cpu | default 0.5 }}
+  memory: {{ .Values.odoo.override_resources.memory | default "2.2Gi" }}
 {{- end }}
 {{- end }}
 
@@ -140,12 +140,12 @@ limits:
 Odoo specific resources configuration according to instance type
 */}}
 {{- define "odoo.internal-resources" -}}
-LIMIT_MEMORY_SOFT: "650117120"
+LIMIT_MEMORY_SOFT: {{ .Values.odoo.override_limits.memory_soft | default "650117120" | quote }}
 {{- if or (eq .Values.odoo.instance_type "xlarge") (eq .Values.odoo.instance_type "large") }}
-LIMIT_MEMORY_HARD: "4194304000"
-WORKERS: "14"
+LIMIT_MEMORY_HARD: {{ .Values.odoo.override_limits.memory_hard | default "4194304000" | quote }}
+WORKERS: {{ .Values.odoo.override_limits.workers | default "14" | quote }}
 {{- else }}
-LIMIT_MEMORY_HARD: "2097152000"
-WORKERS: "7"
+LIMIT_MEMORY_HARD: {{ .Values.odoo.override_limits.memory_hard | default "2097152000" | quote }}
+WORKERS: {{ .Values.odoo.override_limits.workers | default "7" | quote }}
 {{- end }}
 {{- end }}

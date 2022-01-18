@@ -118,6 +118,13 @@ odoo:
     time_real: 86400
     time_real_cron: 600
     request: 8192
+  override_limits: {}
+    # memory_soft: 650117120
+    # memory_hard: 2097152000
+    # workers: 12
+  override_resources: {}
+    # cpu: 5
+    # memory: 8Gi
   queuejob:
     enabled: False
     workers: '2'
