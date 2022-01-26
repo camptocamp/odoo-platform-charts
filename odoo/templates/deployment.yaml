@@ -15,7 +15,8 @@ spec:
   template:
     metadata:
       annotations:
-        config-hash: {{ include (print $.Template.BasePath "/config-odoo.yaml") $ | sha256sum | trunc 63 }}
+        config-hash-odoo: {{ include (print $.Template.BasePath "/config-odoo.yaml") $ | sha256sum | trunc 63 }}
+        config-hash-secret: {{ include (print $.Template.BasePath "/config-odoo-secret.yaml") $ | sha256sum | trunc 63 }}
         {{- with .Values.additionalAnnotations }}
           {{- toYaml . | nindent 8 }}
         {{- end }}
@@ -107,7 +108,9 @@ spec:
   template:
     metadata:
       annotations:
-        config-hash: {{ include (print $.Template.BasePath "/config-odoo.yaml") $ | sha256sum | trunc 63 }}
+        config-hash-odoo: {{ include (print $.Template.BasePath "/config-odoo.yaml") $ | sha256sum | trunc 63 }}
+        config-hash-queuejob: {{ include (print $.Template.BasePath "/config-odoo-queue.yaml") $ | sha256sum | trunc 63 }}
+        config-hash-secret: {{ include (print $.Template.BasePath "/config-odoo-secret.yaml") $ | sha256sum | trunc 63 }}
       labels:
         {{- include "odoo.selectorLabels" . | nindent 8 }}
         {{- with .Values.additionalLabels }}
