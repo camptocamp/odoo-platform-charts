@@ -106,6 +106,21 @@ spec:
               value: "localhost"
             - name: CELEB_PORT
               value: "80"
+            - name: CLIENT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.celebrimbor.azure_app.secret_name }}
+                  key: {{ .Values.celebrimbor.azure_app.client_id_key }}
+            - name: CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.celebrimbor.azure_app.secret_name }}
+                  key: {{ .Values.celebrimbor.azure_app.client_secret_key }}
+            - name: TENANT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.celebrimbor.azure_app.secret_name }}
+                  key: {{ .Values.celebrimbor.azure_app.tenant_id_key }}
           envFrom:
             - secretRef:
                 name: celebrimbor-secret
