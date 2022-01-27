@@ -105,7 +105,7 @@ spec:
             - name: CELEB_SVC
               value: "localhost"
             - name: CELEB_PORT
-              value: 80
+              value: "80"
           envFrom:
             - secretRef:
                 name: celebrimbor-secret
