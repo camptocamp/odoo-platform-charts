@@ -98,7 +98,7 @@ spec:
           ports:
             - containerPort: 80
               name: http
-        - name: curl_proxy
+        - name: curl-proxy
           image: "{{ .Values.image.curl_proxy.repository }}:{{ .Values.image.curl_proxy.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
