@@ -12,6 +12,9 @@ image:
   nginx:
     repository: ghcr.io/camptocamp/celebrimbor
     tag: nginx-latest
+  curl_proxy:
+    repository: ghcr.io/camptocamp/celebrimbor
+    tag: curl_proxy-latest
 
 imagePullSecrets:
   - name: github-packages
@@ -34,6 +37,12 @@ ingress:
 
 resources:
   nginx:
+    requests:
+      cpu: 10m
+      memory: 64Mi
+    limits:
+      memory: 256Mi
+  curl_proxy:
     requests:
       cpu: 10m
       memory: 64Mi
