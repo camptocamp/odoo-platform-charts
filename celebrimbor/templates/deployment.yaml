@@ -139,8 +139,10 @@ spec:
   ports:
     - port: 80
       targetPort: http
+      name: http
     - port: 8080
       targetPort: curl-http
+      name: curl-http
   selector:
     {{- include "celebrimbor.selectorLabels" . | nindent 4 }}
 ...
