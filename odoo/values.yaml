@@ -42,6 +42,13 @@ resources:
 
 nodeSelector: {}
 tolerations: []
+
+spreadOdooPodsOverNodes:
+  enabled: true
+  maxSkew: 1
+  topologyKey: "kubernetes.io/hostname"
+  whenUnsatisfiable: ScheduleAnyway
+
 affinity: {}
 
 additionalLabels: {}

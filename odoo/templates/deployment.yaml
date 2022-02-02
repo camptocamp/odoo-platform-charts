@@ -21,6 +21,8 @@ spec:
           {{- toYaml . | nindent 8 }}
         {{- end }}
       labels:
+        app: {{ template "odoo.name" . }}
+        release: "{{ .Release.Name }}"
         {{- include "odoo.selectorLabels" . | nindent 8 }}
         {{- with .Values.additionalLabels }}
           {{- toYaml . | nindent 8 }}
@@ -90,6 +92,16 @@ spec:
       {{- with .Values.tolerations }}
       tolerations:
         {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- if .Values.spreadOdooPodsOverNodes.enabled }}
+      topologySpreadConstraints:
+        - labelSelector:
+            matchLabels:
+              app: {{ template "odoo.name" . }}
+              release: "{{ .Release.Name }}"
+          maxSkew: {{ .Values.spreadOdooPodsOverNodes.maxSkew }}
+          topologyKey: {{ .Values.spreadOdooPodsOverNodes.topologyKey }}
+          whenUnsatisfiable: {{ .Values.spreadOdooPodsOverNodes.whenUnsatisfiable }}
       {{- end }}
 {{ if .Values.odoo.queuejob.enabled }}
 ---
