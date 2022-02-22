@@ -56,21 +56,26 @@ additionalLabels: {}
 
 additionalAnnotations: {}
 
-ingressRoute: {}
-# ingressRoute:
-#   cert:
-#     hosts:
-#       - "odoo-camptocamp-int.apps.odoo-ch-prod.camptocamp.com"
-#       - "integration.c2c.odoo.camptocamp.ch"
-#     issuerRef: letsencrypt-prod
-#   pathPrefix: '/'
-#   rateLimit:
-#     average: 3
-#     burst: 5
-#     paths:
-#       - "/web/login"
-#       - "/longpolling/poll"
-#   ipFilter: false
+rateLimit: {}
+  # average: 3
+  # burst: 5
+  # paths:
+  #   - "/web/login"
+  #   - "/longpolling/poll"
+
+ipFilter: false
+
+issuerRef: letsencrypt-prod
+
+ingressRouteClient: {}
+  # hosts:
+  #   - "integration.c2c.odoo.camptocamp.ch"
+  # pathPrefix: '/'
+
+ingressRouteInternal: {}
+  # hosts:
+  #   - "odoo-camptocamp-int.apps.odoo-ch-prod.camptocamp.com"
+  # pathPrefix: '/'
 
 roleBindings: {}
 # roleBindings:

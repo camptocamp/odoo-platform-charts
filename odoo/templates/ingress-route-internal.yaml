@@ -1,26 +1,11 @@
 {{- $svcName := include "odoo.fullname" . }}
-{{- with .Values.ingressRouteClient }}
+{{- with .Values.ingressRouteInternal }}
 {{- $match := printf "Host(`%s`)" ( join "`) || Host(`" .hosts ) }}
----
-apiVersion: cert-manager.io/v1
-kind: Certificate
-metadata:
-  name: odoo-cert
-spec:
-  secretName: odoo-tls
-  dnsNames:
-    {{- range .hosts }}
-    - {{ . | quote }}
-    {{- end }}
-  issuerRef:
-    group: cert-manager.io
-    kind: ClusterIssuer
-    name: {{ $.Values.issuerRef }}
 ---
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
-  name: odoo-ingressroute-client
+  name: odoo-ingressroute-internal
 spec:
   entryPoints:
     - websecure
@@ -50,5 +35,6 @@ spec:
           port: 80
       priority: 1
   tls:
-    secretName: odoo-tls
+    store: 
+      name: default
 {{- end }}
