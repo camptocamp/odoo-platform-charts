@@ -30,6 +30,9 @@ spec:
           livenessProbe:
             tcpSocket:
               port: 8994
+          resources:
+            {{- toYaml .Values.resources.py3orender | nindent 12 }}
+
         - name: oooserver
           image: "{{ .Values.image.oooserver.repository }}:{{ .Values.image.oooserver.tag }}"
           ports:
@@ -41,6 +44,9 @@ spec:
           livenessProbe:
             tcpSocket:
               port: 8997
+          resources:
+            {{- toYaml .Values.resources.oooserver | nindent 12 }}
+
         - name: py3ofusion
           image: "{{ .Values.image.py3ofusion.repository }}:{{ .Values.image.py3ofusion.tag }}"
           ports:
@@ -52,6 +58,9 @@ spec:
           livenessProbe:
             tcpSocket:
               port: 8765
+          resources:
+            {{- toYaml .Values.resources.py3ofusion | nindent 12 }}
+
 
       volumes:
         {{- toYaml .Values.volumes | nindent 8 }}
