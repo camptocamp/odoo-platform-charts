@@ -6,6 +6,10 @@ replicaCount: 1
 
 image:
   pullPolicy: IfNotPresent
+  backup_manager:
+    repository: ghcr.io/camptocamp/odoo-preinit-manager
+    # TODO: change to stable
+    tag: latest
   odoo:
     repository: ghcr.io/camptocamp/customer_odoo
     tag: xx.0.1.0.0
@@ -125,6 +129,7 @@ odoo:
     enabled: "True"
     mode: Full
     allow_series: "False"
+    force_backup: False
   limits:
     time_cpu: 86400
     time_real: 86400
