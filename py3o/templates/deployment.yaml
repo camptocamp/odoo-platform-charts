@@ -19,11 +19,11 @@ spec:
         {{- end }}
     spec:
       containers:
-        - name: py3orender
-          image: "{{ .Values.image.py3orender.repository }}:{{ .Values.image.py3orender.tag }}"
+        - name: py3orenderserver
+          image: "{{ .Values.image.py3orenderserver.repository }}:{{ .Values.image.py3orenderserver.tag }}"
           ports:
             - containerPort: 8994
-              name: py3orender
+              name: py3orenderserver
           readinessProbe:
             tcpSocket:
               port: 8994
@@ -31,7 +31,7 @@ spec:
             tcpSocket:
               port: 8994
           resources:
-            {{- toYaml .Values.resources.py3orender | nindent 12 }}
+            {{- toYaml .Values.resources.py3orenderserver | nindent 12 }}
 
         - name: oooserver
           image: "{{ .Values.image.oooserver.repository }}:{{ .Values.image.oooserver.tag }}"
@@ -86,8 +86,8 @@ metadata:
 spec:
   ports:
     - port: 8994
-      name: py3orender
-      targetPort: py3orender
+      name: py3orenderserver
+      targetPort: py3orenderserver
     - port: 8997
       name: oooserver
       targetPort: oooserver

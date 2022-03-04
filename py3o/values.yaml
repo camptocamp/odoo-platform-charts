@@ -6,7 +6,7 @@ replicaCount: 1
 
 image:
   pullPolicy: IfNotPresent
-  py3orender:
+  py3orenderserver:
     repository: xcgd/py3oserver-docker 
     tag: 0.5.2 
   oooserver:
@@ -17,7 +17,7 @@ image:
     tag: 0.8.9
 
 services:
-  py3orender:
+  py3orenderserver:
     targetPort: 8994
   oooserver:
     targetPort: 8997
@@ -25,7 +25,7 @@ services:
     targetPort: 8765
 
 resources:
-  py3orender:
+  py3orenderserver:
     requests:
       cpu: 10m
       memory: 64Mi
