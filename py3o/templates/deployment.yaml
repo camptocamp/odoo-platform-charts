@@ -23,7 +23,7 @@ spec:
           image: "{{ .Values.image.py3orenderserver.repository }}:{{ .Values.image.py3orenderserver.tag }}"
           ports:
             - containerPort: 8994
-              name: py3orenderserver
+              name: py3orender
           readinessProbe:
             tcpSocket:
               port: 8994
@@ -86,8 +86,8 @@ metadata:
 spec:
   ports:
     - port: 8994
-      name: py3orenderserver
-      targetPort: py3orenderserver
+      name: py3orender
+      targetPort: py3orender
     - port: 8997
       name: oooserver
       targetPort: oooserver
