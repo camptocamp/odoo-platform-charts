@@ -62,6 +62,8 @@ affinity: {}
 additionalLabels: {}
   # aadpodidbinding: some-identity
 
+additionalAnnotations: {}
+
 celebrimbor:
   azure_app:
     secret_name: 'azure-app'

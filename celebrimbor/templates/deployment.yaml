@@ -15,6 +15,9 @@ spec:
       annotations:
         config-hash: {{ include (print $.Template.BasePath "/config-celebrimbor.yaml") $ | sha256sum | trunc 63 }}
         secret-hash: {{ include (print $.Template.BasePath "/config-celebrimbor-secret.yaml") $ | sha256sum | trunc 63 }}
+        {{- with .Values.additionalAnnotations }}
+          {{- toYaml . | nindent 8 }}
+        {{- end }}
       labels:
         {{- include "celebrimbor.selectorLabels" . | nindent 8 }}
         {{- with .Values.additionalLabels }}
