@@ -39,6 +39,8 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           command: ['sh', '-c', "docker-entrypoint.sh gosu odoo migrate"]
           env:
+            - name: LIMIT_MEMORY_SOFT
+              value: "1300234240"
             {{- include "odoo.common-environment" . | nindent 12 }}
           envFrom:
             - configMapRef:
