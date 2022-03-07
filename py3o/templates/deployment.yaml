@@ -30,9 +30,11 @@ spec:
           livenessProbe:
             tcpSocket:
               port: 8994
+          volumeMounts:
+            - mountPath: /tmp
+              name: ooovolume
           resources:
             {{- toYaml .Values.resources.py3orenderserver | nindent 12 }}
-
         - name: oooserver
           image: "{{ .Values.image.oooserver.repository }}:{{ .Values.image.oooserver.tag }}"
           ports:
@@ -46,7 +48,9 @@ spec:
               port: 8997
           resources:
             {{- toYaml .Values.resources.oooserver | nindent 12 }}
-
+          volumeMounts:
+            - mountPath: /tmp
+              name: ooovolume
         - name: py3ofusion
           image: "{{ .Values.image.py3ofusion.repository }}:{{ .Values.image.py3ofusion.tag }}"
           ports:
@@ -60,12 +64,16 @@ spec:
               port: 8765
           resources:
             {{- toYaml .Values.resources.py3ofusion | nindent 12 }}
-
-
+      hostAliases:
+       - ip: 127.0.0.1
+         hostnames:
+         - py3orenderserver
+         - oooserver
       volumes:
-        {{- toYaml .Values.volumes | nindent 8 }}
-      {{- with .Values.nodeSelector }}
+        - name: ooovolume
+          emptyDir: {}
       nodeSelector:
+      {{- with .Values.nodeSelector }}
         {{- toYaml . | nindent 8 }}
       {{- end }}
       {{- with .Values.affinity }}
