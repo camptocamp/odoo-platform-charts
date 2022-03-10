@@ -6,43 +6,21 @@ replicaCount: 1
 
 image:
   pullPolicy: IfNotPresent
-  py3orenderserver:
-    repository: xcgd/py3oserver-docker 
-    tag: 0.5.2 
-  oooserver:
-    repository: xcgd/libreoffice
-    tag: 5.1 
-  py3ofusion:
-    repository: xcgd/py3o.fusion 
-    tag: 0.8.9
+  py3o:
+    repository: xcgd/py3o
+    tag: 1.0.0
 
 services:
-  py3orenderserver:
-    targetPort: 8994
-  oooserver:
-    targetPort: 8997
-  py3ofusion:
+  py3o:
     targetPort: 8765
 
 resources:
-  py3orenderserver:
+  py3o:
     requests:
-      cpu: 10m
-      memory: 64Mi
-    limits:
+      cpu: 0.5
       memory: 256Mi
-  oooserver:
-    requests:
-      cpu: 10m
-      memory: 64Mi
     limits:
-      memory: 256Mi
-  py3ofusion:
-    requests:
-      cpu: 10m
-      memory: 64Mi
-    limits:
-      memory: 256Mi
+      memory: 1Gi
 
 nodeSelector: {}
 tolerations: []

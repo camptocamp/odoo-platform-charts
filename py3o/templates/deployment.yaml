@@ -19,43 +19,11 @@ spec:
         {{- end }}
     spec:
       containers:
-        - name: py3orenderserver
-          image: "{{ .Values.image.py3orenderserver.repository }}:{{ .Values.image.py3orenderserver.tag }}"
-          ports:
-            - containerPort: 8994
-              name: py3orender
-          readinessProbe:
-            tcpSocket:
-              port: 8994
-          livenessProbe:
-            tcpSocket:
-              port: 8994
-          volumeMounts:
-            - mountPath: /tmp
-              name: ooovolume
-          resources:
-            {{- toYaml .Values.resources.py3orenderserver | nindent 12 }}
-        - name: oooserver
-          image: "{{ .Values.image.oooserver.repository }}:{{ .Values.image.oooserver.tag }}"
-          ports:
-            - containerPort: 8997
-              name: oooserver
-          readinessProbe:
-            tcpSocket:
-              port: 8997
-          livenessProbe:
-            tcpSocket:
-              port: 8997
-          resources:
-            {{- toYaml .Values.resources.oooserver | nindent 12 }}
-          volumeMounts:
-            - mountPath: /tmp
-              name: ooovolume
-        - name: py3ofusion
-          image: "{{ .Values.image.py3ofusion.repository }}:{{ .Values.image.py3ofusion.tag }}"
+        - name: py3o
+          image: "{{ .Values.image.py3o.repository }}:{{ .Values.image.py3o.tag }}"
           ports:
             - containerPort: 8765
-              name: py3ofusion
+              name: py3o
           readinessProbe:
             tcpSocket:
               port: 8765
@@ -63,15 +31,7 @@ spec:
             tcpSocket:
               port: 8765
           resources:
-            {{- toYaml .Values.resources.py3ofusion | nindent 12 }}
-      hostAliases:
-       - ip: 127.0.0.1
-         hostnames:
-         - py3orenderserver
-         - oooserver
-      volumes:
-        - name: ooovolume
-          emptyDir: {}
+            {{- toYaml .Values.resources.py3o | nindent 12 }}
       nodeSelector:
       {{- with .Values.nodeSelector }}
         {{- toYaml . | nindent 8 }}
@@ -93,15 +53,9 @@ metadata:
     {{- include "py3o.labels" . | nindent 4 }}
 spec:
   ports:
-    - port: 8994
-      name: py3orender
-      targetPort: py3orender
-    - port: 8997
-      name: oooserver
-      targetPort: oooserver
     - port: 8765
-      name: py3ofusion
-      targetPort: py3ofusion
+      name: py3o
+      targetPort: py3o
 
   selector:
     {{- include "py3o.selectorLabels" . | nindent 4 }}
