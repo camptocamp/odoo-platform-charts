@@ -15,6 +15,9 @@ image:
   curl_proxy:
     repository: ghcr.io/camptocamp/celebrimbor
     tag: curl_proxy-latest
+  key_backup:
+    repository: ghcr.io/camptocamp/celebrimbor
+    tag: key_backup-latest
 
 imagePullSecrets:
   - name: github-packages
@@ -65,6 +68,9 @@ additionalLabels: {}
 additionalAnnotations: {}
 
 celebrimbor:
+  key_backup:
+    enabled: False
+    secrets: {}
   azure_app:
     secret_name: 'azure-app'
     client_id_key: 'client_id'
