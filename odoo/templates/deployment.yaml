@@ -34,6 +34,33 @@ spec:
       {{- end }}
       {{- if .Values.odoo.marabunta.enabled }}
       initContainers:
+        {{- if or (eq .Values.odoo.env "prod") .Values.odoo.marabunta.force_backup }}
+        - name: marabunta-setup
+          image: "{{ .Values.image.odoo.repository }}:{{ .Values.image.odoo.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          command: ['cp', '/odoo/migration.yml', '/tmp/migration.yml']
+          volumeMounts:
+            - name: marabunta-tmp
+              mountPath: "/tmp"
+        - name: backup-manager
+          image: "{{ .Values.image.backup_manager.repository }}:{{ .Values.image.backup_manager.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          volumeMounts:
+            - name: marabunta-tmp
+              mountPath: "/tmp"
+          env:
+            - name: MIGRATION_FILE_PATH
+              value: "/tmp/migration.yml"
+            - name: CUSTOMER_NAME
+              value: {{ .Values.odoo.customerName }}
+            - name: ODOO_ENV
+              value: {{ .Values.odoo.env }}
+            - name: LAB_NAME
+              value: {{ .Values.odoo.lab_name | default "" }}
+            - name: CELEBRIMBOR_SVC
+              value: "http://celebrimbor.bs-celebrimbor.svc.cluster.local:8080"
+            {{- include "odoo.common-environment" . | nindent 12 }}
+        {{- end }}
         - name: marabunta-migration
           image: "{{ .Values.image.odoo.repository }}:{{ .Values.image.odoo.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
@@ -82,7 +109,8 @@ spec:
             - containerPort: 80
               name: http
       volumes:
-        {{- toYaml .Values.volumes | nindent 8 }}
+        - name: marabunta-tmp
+          emptyDir: {}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
@@ -136,21 +164,11 @@ spec:
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      {{- if .Values.odoo.marabunta.enabled }}
       initContainers:
-        - name: marabunta-migration
-          image: "{{ .Values.image.odoo.repository }}:{{ .Values.image.odoo.tag }}"
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
-          command: ['sh', '-c', "docker-entrypoint.sh gosu odoo migrate"]
-          env:
-            {{- include "odoo.common-environment" . | nindent 12 }}
-          envFrom:
-            - configMapRef:
-                name: odoo-config{{- include "odoo-cs-suffix" . }}
-            - secretRef:
-                name: odoo-secret{{- include "odoo-cs-suffix" . }}
-                optional: true
-      {{- end }}
+        - name: wait-for-odoo
+          image: curlimages/curl:7.81.0
+          imagePullPolicy: IfNotPresent
+          command: ['sh', '-c', "until [ $(curl -sw '%{http_code}' {{ include "odoo.fullname" . }}.$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace).svc.cluster.local -o /dev/null) = 200 ]; do echo waiting for Odoo; sleep 60; done"]
       containers:
         - name: odooqueue
           image: "{{ .Values.image.odoo.repository }}:{{ .Values.image.odoo.tag }}"
@@ -169,8 +187,6 @@ spec:
             {{- toYaml .Values.volumeMounts | nindent 12 }}
           resources:
           {{- include "odoo.physical-resources" . | nindent 12 }}
-      volumes:
-        {{- toYaml .Values.volumes | nindent 8 }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
