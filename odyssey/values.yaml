@@ -83,8 +83,8 @@ settings:
     # log_syslog_ident and log_syslog_facility.
     #
     log_syslog: "no"
-    log_syslog_ident: "odyssey"
-    log_syslog_facility: "daemon"
+    #log_syslog_ident: "odyssey"
+    #log_syslog_facility: "daemon"
 
     #
     # Verbose logging.
@@ -95,7 +95,7 @@ settings:
     # It is also possible to enable verbose logging for specific users
     # (see routes section).
     #
-    log_debug: "yes"
+    log_debug: "no"
 
     #
     # Log configuration.
@@ -123,7 +123,7 @@ settings:
     #
     # Periodically display information about active routes.
     #
-    log_stats: "yes"
+    log_stats: "no"
 
     #
     # Statistics update inverval.
