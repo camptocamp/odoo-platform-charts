@@ -143,6 +143,8 @@ metadata:
     {{- include "odoo.labels" . | nindent 4 }}
 spec:
   replicas: 1
+  strategy:
+    type: Recreate
   selector:
     matchLabels:
       {{- include "odoo.selectorLabels" . | nindent 6 }}
