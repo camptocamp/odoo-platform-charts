@@ -36,5 +36,6 @@ data:
   SERVER_ENV_CONFIG: {{ toYaml .Values.odoo.server_env_config | indent 2 | default "" }}
   LOG_HANDLER: {{ .Values.odoo.log_handler | default ":INFO,werkzeug:ERROR,azure:ERROR" }}
   LOG_LEVEL: {{ .Values.odoo.log_level | default "info" }}
+  UNACCENT: {{ .Values.odoo.unaccent | default "False" | quote }}
   KWKHTMLTOPDF_SERVER_URL: {{ .Values.odoo.kwkhtmltopdf_server_url | default "http://kwkhtmltopdf.bs-kwkhtmltopdf01250:8080" }}
   PGCLIENTENCODING: UTF8

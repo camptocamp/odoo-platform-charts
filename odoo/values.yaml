@@ -121,6 +121,7 @@ odoo:
       url: url
   log_handler: :INFO,werkzeug:ERROR
   log_level: info
+  unaccent: "False"
   kwkhtmltopdf_server_url: http://kwkhtmltopdf.bs-kwkhtmltopdf01250:8080
   server_env_config: ""
   server_wide_modules: ""
