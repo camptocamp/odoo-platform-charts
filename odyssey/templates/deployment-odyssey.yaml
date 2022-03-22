@@ -18,6 +18,9 @@ spec:
         {{- if .Values.spec.annotations }}
         {{- tpl (toJson .Values.spec.annotations) . | fromJson | toYaml |  nindent 8 }}
         {{- end }}
+        {{- with .Values.additionalAnnotations }}
+          {{- toYaml . | nindent 8 }}
+        {{- end }}
       labels:
         {{- include "odyssey.selectorLabels" . | nindent 8 }}
         {{- with .Values.additionalLabels }}
