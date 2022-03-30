@@ -68,6 +68,10 @@ additionalLabels: {}
 additionalAnnotations: {}
 
 celebrimbor:
+  internal_cron:
+    dump_all_schedule: 0 1 * * *
+    vacuum_all_schedule: 0 3 1 * *
+    disable_all: False
   key_backup:
     enabled: False
     secrets: {}
