@@ -1,0 +1,5 @@
+apiVersion: v2
+name: posssl 
+description: A Helm chart to deploy ssl redirect for old POS
+type: application
+version: 0.1.0
