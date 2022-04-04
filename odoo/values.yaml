@@ -119,7 +119,7 @@ odoo:
     secret:
       name: odoo-redis
       url: url
-  log_handler: :INFO,werkzeug:ERROR
+  log_handler: :INFO,werkzeug:ERROR,azure:ERROR
   log_level: info
   unaccent: "False"
   kwkhtmltopdf_server_url: http://kwkhtmltopdf.bs-kwkhtmltopdf01250:8080
