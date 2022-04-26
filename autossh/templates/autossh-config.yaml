@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: autossh-config-{{- include "autossh.fullname" . }}
+data:
+  SERVER_ALIVE_COUNT_MAX: {{ .Values.autossh.server_alive_count_max}}
+  SSH_BIND_IP: {{ .Values.autossh.ssh_bind_id }}
+  SSH_TUNNEL_PORT: {{ .Values.autossh.ssh_tunnel_port }}
+  SSH_MODE: {{ .Values.autossh.ssh_mode }}
+  SSH_REMOTE_HOST: {{ .Values.autossh.ssh_remote_host }}
+  SSH_REMOTE_PORT: {{ .Values.autossh.ssh_remote_port }}
+  SSH_REMOTE_USER: {{ .Values.autossh.ssh_remote_user }}
+  SSH_TARGET_HOST: {{ .Values.autossh.ssh_remote_host }}
+  SSH_TARGET_PORT: {{ .Values.autossh.ssh_target_port }}
