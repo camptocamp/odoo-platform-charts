@@ -1,14 +1,14 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "kardex_proxy.fullname" . }}
+  name: {{ include "kardex-proxy.fullname" . }}
   labels:
-    {{- include "kardex_proxy.labels" . | nindent 4 }}
+    {{- include "kardex-proxy.labels" . | nindent 4 }}
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      {{- include "kardex_proxy.selectorLabels" . | nindent 6 }}
+      {{- include "kardex-proxy.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       {{- with .Values.podAnnotations }}
@@ -16,7 +16,7 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
-        {{- include "kardex_proxy.selectorLabels" . | nindent 8 }}
+        {{- include "kardex-proxy.selectorLabels" . | nindent 8 }}
     spec:
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:

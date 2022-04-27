@@ -1,7 +1,7 @@
 {{/*
 Expand the name of the chart.
 */}}
-{{- define "kardex_proxy.name" -}}
+{{- define "kardex-proxy.name" -}}
 {{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
@@ -10,7 +10,7 @@ Create a default fully qualified app name.
 We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
 If release name contains chart name it will be used as a full name.
 */}}
-{{- define "kardex_proxy.fullname" -}}
+{{- define "kardex-proxy.fullname" -}}
 {{- if .Values.fullnameOverride }}
 {{- .Values.fullnameOverride | trunc 63 | trimSuffix "-" }}
 {{- else }}
@@ -26,16 +26,16 @@ If release name contains chart name it will be used as a full name.
 {{/*
 Create chart name and version as used by the chart label.
 */}}
-{{- define "kardex_proxy.chart" -}}
+{{- define "kardex-proxy.chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
 {{/*
 Common labels
 */}}
-{{- define "kardex_proxy.labels" -}}
-helm.sh/chart: {{ include "kardex_proxy.chart" . }}
-{{ include "kardex_proxy.selectorLabels" . }}
+{{- define "kardex-proxy.labels" -}}
+helm.sh/chart: {{ include "kardex-proxy.chart" . }}
+{{ include "kardex-proxy.selectorLabels" . }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
@@ -45,17 +45,17 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{/*
 Selector labels
 */}}
-{{- define "kardex_proxy.selectorLabels" -}}
-app.kubernetes.io/name: {{ include "kardex_proxy.name" . }}
+{{- define "kardex-proxy.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "kardex-proxy.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
 {{/*
 Create the name of the service account to use
 */}}
-{{- define "kardex_proxy.serviceAccountName" -}}
+{{- define "kardex-proxy.serviceAccountName" -}}
 {{- if .Values.serviceAccount.create }}
-{{- default (include "kardex_proxy.fullname" .) .Values.serviceAccount.name }}
+{{- default (include "kardex-proxy.fullname" .) .Values.serviceAccount.name }}
 {{- else }}
 {{- default "default" .Values.serviceAccount.name }}
 {{- end }}

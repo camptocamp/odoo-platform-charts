@@ -1,9 +1,0 @@
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: kardex-config-{{- include "kardex_proxy.fullname" . }}
-data:
-  KARDEX_HOST: {{ .Values.kardex.host }}
-  KARDEX_port: {{ .Values.kardex.port | default "2001" }}
-  KARDEX_TLS: {{ .Values.kardex.tls | default "1" }}
-  ODOO_URL: {{ .Values.kardex.odoo_url | default "https://localhost:8069" }}
