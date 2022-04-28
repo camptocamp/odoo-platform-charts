@@ -31,17 +31,19 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
-            - name: http
-              containerPort: 80
+            - name: remoteservice
+              containerPort: {{ .Values.autossh.ssh_tunnel_port }}
               protocol: TCP
           livenessProbe:
-            httpGet:
-              path: /
-              port: http
+            tcpSocket:
+              port: {{ .Values.autossh.ssh_tunnel_port }}
+            initialDelaySeconds: 45
+            periodSeconds: 30
           readinessProbe:
-            httpGet:
-              path: /
-              port: http
+            tcpSocket:
+              port: {{ .Values.autossh.ssh_tunnel_port }}
+            initialDelaySeconds: 120
+            periodSeconds: 60
           envFrom:
             - configMapRef:
                 name: autossh-config-{{- include "autossh.fullname" . }}

@@ -7,9 +7,9 @@ metadata:
 spec:
   type: {{ .Values.service.type }}
   ports:
-    - port: {{ .Values.service.port }}
-      targetPort: http
+    - port: {{ .Values.autossh.ssh_tunnel_port }}
+      targetPort: remoteservice
       protocol: TCP
-      name: http
+      name: remoteservice
   selector:
     {{- include "autossh.selectorLabels" . | nindent 4 }}
