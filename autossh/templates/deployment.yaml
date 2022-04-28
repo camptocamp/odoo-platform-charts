@@ -42,6 +42,11 @@ spec:
             httpGet:
               path: /
               port: http
+          envFrom:
+            - configMapRef:
+                name: autossh-config-{{- include "autossh.fullname" . }}
+            - secretRef:
+                name: autossh-secret
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
