@@ -34,16 +34,16 @@ spec:
             - name: remoteservice
               containerPort: {{ .Values.autossh.ssh_tunnel_port }}
               protocol: TCP
-          livenessProbe:
-            tcpSocket:
-              port: {{ .Values.autossh.ssh_tunnel_port }}
-            initialDelaySeconds: 45
-            periodSeconds: 30
-          readinessProbe:
-            tcpSocket:
-              port: {{ .Values.autossh.ssh_tunnel_port }}
-            initialDelaySeconds: 120
-            periodSeconds: 60
+          #livenessProbe:
+          #  tcpSocket:
+          #    port: {{ .Values.autossh.ssh_tunnel_port }}
+          #  initialDelaySeconds: 45
+          #  periodSeconds: 30
+          #readinessProbe:
+          #  tcpSocket:
+          #    port: {{ .Values.autossh.ssh_tunnel_port }}
+          #  initialDelaySeconds: 120
+          #  periodSeconds: 60
           envFrom:
             - configMapRef:
                 name: autossh-config-{{- include "autossh.fullname" . }}
