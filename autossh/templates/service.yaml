@@ -10,6 +10,5 @@ spec:
     - port: {{ .Values.autossh.ssh_tunnel_port }}
       targetPort: remoteservice
       protocol: TCP
-      name: remoteservice
   selector:
     {{- include "autossh.selectorLabels" . | nindent 4 }}
