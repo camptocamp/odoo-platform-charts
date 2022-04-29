@@ -6,8 +6,7 @@ metadata:
 spec:
   type: {{ .Values.service.type }}
   ports:
-    - port: {{ .Values.service.port }}
-      targetPort: http
+    - port: {{ .Values.kardex.port }}
+      targetPort: kardex
       protocol: TCP
-      name: http
   selector: {{- include "kardex-proxy.selectorLabels" . | nindent 4 }}
