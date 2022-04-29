@@ -40,6 +40,11 @@ spec:
               port: {{ .Values.kardex.port }}
             initialDelaySeconds: 120
             periodSeconds: 60
+          envFrom:
+            - configMapRef:
+                name: kardex-config-{{- include "kardex-proxy.fullname" . }}
+            - secretRef:
+                name: kardex-secret
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
