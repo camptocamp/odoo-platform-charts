@@ -30,16 +30,16 @@ spec:
             - name: kardex
               containerPort: {{ .Values.kardex.port }}
               protocol: TCP
-          livenessProbe:
-            tcpSocket:
-              port: {{ .Values.kardex.port }}
-            initialDelaySeconds: 45
-            periodSeconds: 30
-          readinessProbe:
-            tcpSocket:
-              port: {{ .Values.kardex.port }}
-            initialDelaySeconds: 120
-            periodSeconds: 60
+          #livenessProbe:
+          #  tcpSocket:
+          #    port: {{ .Values.kardex.port }}
+          #  initialDelaySeconds: 45
+          #  periodSeconds: 30
+          #readinessProbe:
+          #  tcpSocket:
+          #    port: {{ .Values.kardex.port }}
+          #  initialDelaySeconds: 120
+          #  periodSeconds: 60
           envFrom:
             - configMapRef:
                 name: kardex-config-{{- include "kardex-proxy.fullname" . }}
