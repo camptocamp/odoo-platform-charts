@@ -25,9 +25,8 @@ securityContext:
   # runAsUser: 1000
 
 service:
-  type: ClusterIP
-  port: 80
   name: kardex-proxy
+  port: 2001
 
 resources:
   {}
@@ -50,6 +49,6 @@ affinity: {}
 kardex:
   servicename: kardex-proxy
   host: "80.169.241.25"
-  port: "2001"
+  port: "9600"
   tls: "1"
   odoo_url: "http://localhost:8069"

@@ -5,5 +5,6 @@ metadata:
 data:
   KARDEX_HOST: {{ .Values.kardex.host | quote }}
   KARDEX_PORT: {{ .Values.kardex.port | default "2001" | quote }}
+  PORT: {{ .Values.kardex.port | default "2001" | quote }}
   KARDEX_TLS: {{ .Values.kardex.tls | default "1" | quote }}
   ODOO_URL: {{ .Values.kardex.odoo_url | default "https://localhost:8069" | quote }}
