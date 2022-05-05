@@ -3,7 +3,17 @@ entries:
   autossh:
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2022-05-05T08:59:37.292843594+02:00"
+    created: "2022-05-05T12:11:12.813787975+02:00"
+    description: A Helm chart for Kubernetes
+    digest: 3965d75f171f25fc6e2e5b18a7f521776eeb534a4b485860732453efd7a1e948
+    name: autossh
+    type: application
+    urls:
+    - autossh-0.0.7.tgz
+    version: 0.0.7
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2022-05-05T12:11:12.813472696+02:00"
     description: A Helm chart for Kubernetes
     digest: daf5a166edc78745c33e5a5435478b2d0977b605c57402d5d1bb156c0b257edb
     name: autossh
@@ -13,7 +23,7 @@ entries:
     version: 0.0.6
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2022-05-05T08:59:37.292596797+02:00"
+    created: "2022-05-05T12:11:12.813154756+02:00"
     description: A Helm chart for Kubernetes
     digest: c587d996d018ef8dc07cc7716f397a88b10e5fdf8ed5ea53b9b61d9f99ad4224
     name: autossh
@@ -23,7 +33,7 @@ entries:
     version: 0.0.5
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2022-05-05T08:59:37.29235249+02:00"
+    created: "2022-05-05T12:11:12.812838036+02:00"
     description: A Helm chart for Kubernetes
     digest: caba0defd2f0f2e4df6d3e53876bfab565b49d9fb57467211d23a5c714908455
     name: autossh
@@ -33,7 +43,7 @@ entries:
     version: 0.0.4
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2022-05-05T08:59:37.292089661+02:00"
+    created: "2022-05-05T12:11:12.812507877+02:00"
     description: A Helm chart for Kubernetes
     digest: d611d4aa411a40fb81a60276721a81d1fe3d90e4f4368a5ebd49d4babbb5d378
     name: autossh
@@ -43,7 +53,7 @@ entries:
     version: 0.0.3
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2022-05-05T08:59:37.291824454+02:00"
+    created: "2022-05-05T12:11:12.812197131+02:00"
     description: A Helm chart for Kubernetes
     digest: 4903bcc84eb1d83682c5ac6695b6ebe7e24d7bc4b5314a00beb4c44b2a763ae5
     name: autossh
@@ -53,7 +63,7 @@ entries:
     version: 0.0.2
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2022-05-05T08:59:37.291542332+02:00"
+    created: "2022-05-05T12:11:12.81189354+02:00"
     description: A Helm chart for Kubernetes
     digest: 279c06fc91576c0e9cb09e491d2c3b5cde49234aa243c5c48765a88343919901
     name: autossh
@@ -63,7 +73,7 @@ entries:
     version: 0.0.1
   celebrimbor:
   - apiVersion: v2
-    created: "2022-05-05T08:59:37.29533909+02:00"
+    created: "2022-05-05T12:11:12.816895083+02:00"
     description: A Helm chart to deploy Celebrimbor on CampToCamp own platform
     digest: 043d417de417c22cf120c686b195d6aea952c21238ccb924db5fea3293d11c88
     name: celebrimbor
@@ -72,7 +82,7 @@ entries:
     - celebrimbor-0.4.2.tgz
     version: 0.4.2
   - apiVersion: v2
-    created: "2022-05-05T08:59:37.29467957+02:00"
+    created: "2022-05-05T12:11:12.816055388+02:00"
     description: A Helm chart to deploy Celebrimbor on CampToCamp own platform
     digest: 3d8621cf9ada7785ad601049e595541eab08a7ba35b2dfd9a63fda3d7e5dc21b
     name: celebrimbor
@@ -81,7 +91,7 @@ entries:
     - celebrimbor-0.3.1.tgz
     version: 0.3.1
   - apiVersion: v2
-    created: "2022-05-05T08:59:37.294276329+02:00"
+    created: "2022-05-05T12:11:12.815539496+02:00"
     description: A Helm chart to deploy Celebrimbor on CampToCamp own platform
     digest: 3d4c35d6b9cb3f209a5c64cc80a2d7d5a2a4a2a551cb8aab2a5a095a87e1f65e
     name: celebrimbor
@@ -90,7 +100,7 @@ entries:
     - celebrimbor-0.2.5.tgz
     version: 0.2.5
   - apiVersion: v2
-    created: "2022-05-05T08:59:37.293865028+02:00"
+    created: "2022-05-05T12:11:12.815076062+02:00"
     description: A Helm chart to deploy Celebrimbor on CampToCamp own platform
     digest: 904c0c73f1d8cf4b3dbdf19d86a8974a1aeeb5bfcf88d4550500ec96a008fb76
     name: celebrimbor
@@ -99,7 +109,7 @@ entries:
     - celebrimbor-0.2.4.tgz
     version: 0.2.4
   - apiVersion: v2
-    created: "2022-05-05T08:59:37.293496569+02:00"
+    created: "2022-05-05T12:11:12.814607443+02:00"
     description: A Helm chart to deploy Celebrimbor on CampToCamp own platform
     digest: dd6135979a467c4c411fdcbac382a822e6700ddd89a5c95193de9878192542a9
     name: celebrimbor
@@ -108,7 +118,7 @@ entries:
     - celebrimbor-0.1.5.tgz
     version: 0.1.5
   - apiVersion: v2
-    created: "2022-05-05T08:59:37.293150701+02:00"
+    created: "2022-05-05T12:11:12.814185045+02:00"
     description: A Helm chart to deploy Celebrimbor on CampToCamp own platform
     digest: 6b2afe14cf9676e39b19d9adc613ee13eabe828ccd1793aed7d076471cad6744
     name: celebrimbor
@@ -119,7 +129,7 @@ entries:
   kardex-proxy:
   - apiVersion: v2
     appVersion: 0.1.0
-    created: "2022-05-05T08:59:37.295831934+02:00"
+    created: "2022-05-05T12:11:12.817898289+02:00"
     description: A Helm chart for Kubernetes
     digest: 5e4f5bb7e8d152d699b251ea5b22b676c4b3b568b8309e53077086d1b2253245
     name: kardex-proxy
@@ -129,7 +139,7 @@ entries:
     version: 0.0.10
   - apiVersion: v2
     appVersion: 0.1.0
-    created: "2022-05-05T08:59:37.298372177+02:00"
+    created: "2022-05-05T12:11:12.820250264+02:00"
     description: A Helm chart for Kubernetes
     digest: 5805b0683aef54d951ee1712d7494a2a930ba39f4942ffd7250c163ba451d538
     name: kardex-proxy
@@ -139,7 +149,7 @@ entries:
     version: 0.0.9
   - apiVersion: v2
     appVersion: 0.1.0
-    created: "2022-05-05T08:59:37.298149239+02:00"
+    created: "2022-05-05T12:11:12.819957645+02:00"
     description: A Helm chart for Kubernetes
     digest: 41e578c095fe52eb21ddf9d3b282055d92e4e15b48eea36ac862a5d9bd2c4f3e
     name: kardex-proxy
@@ -149,7 +159,7 @@ entries:
     version: 0.0.8
   - apiVersion: v2
     appVersion: 0.1.0
-    created: "2022-05-05T08:59:37.297913004+02:00"
+    created: "2022-05-05T12:11:12.819670154+02:00"
     description: A Helm chart for Kubernetes
     digest: 4c9d529ab6886ca7f785c8c7b8cc44bafa6fabec79715977e388ff52b27f9fd3
     name: kardex-proxy
@@ -159,7 +169,7 @@ entries:
     version: 0.0.7
   - apiVersion: v2
     appVersion: 0.1.0
-    created: "2022-05-05T08:59:37.297680053+02:00"
+    created: "2022-05-05T12:11:12.819385767+02:00"
     description: A Helm chart for Kubernetes
     digest: b0d18c4e0c720e4db912c9658ce9bcc88b57a6bba559009bebbe91b956482f87
     name: kardex-proxy
@@ -169,7 +179,7 @@ entries:
     version: 0.0.6
   - apiVersion: v2
     appVersion: 0.1.0
-    created: "2022-05-05T08:59:37.297439387+02:00"
+    created: "2022-05-05T12:11:12.819096735+02:00"
     description: A Helm chart for Kubernetes
     digest: 0c254aee03d017cf2451406970cfe907b08e8811bce730a8c3e2231c4ce39f22
     name: kardex-proxy
@@ -179,7 +189,7 @@ entries:
     version: 0.0.5
   - apiVersion: v2
     appVersion: 0.1.0
-    created: "2022-05-05T08:59:37.297201147+02:00"
+    created: "2022-05-05T12:11:12.818798268+02:00"
     description: A Helm chart for Kubernetes
     digest: 82184645e8caab4f9ab52a74bb5b6969994089c8c46d75a1331a2b8dc7274c4e
     name: kardex-proxy
@@ -189,7 +199,7 @@ entries:
     version: 0.0.4
   - apiVersion: v2
     appVersion: 0.1.0
-    created: "2022-05-05T08:59:37.29694005+02:00"
+    created: "2022-05-05T12:11:12.818493495+02:00"
     description: A Helm chart for Kubernetes
     digest: bfaa8436bab6f50decc49b8dc060ba12d198aba320ad036202bff1c2934497be
     name: kardex-proxy
@@ -199,7 +209,7 @@ entries:
     version: 0.0.3
   - apiVersion: v2
     appVersion: 0.1.0
-    created: "2022-05-05T08:59:37.296251984+02:00"
+    created: "2022-05-05T12:11:12.818205627+02:00"
     description: A Helm chart for Kubernetes
     digest: 4a1155556c309a92a16932fba9730ba043483fb1a68775aa82730514c639c3a7
     name: kardex-proxy
@@ -209,7 +219,7 @@ entries:
     version: 0.0.2
   - apiVersion: v2
     appVersion: 0.1.0
-    created: "2022-05-05T08:59:37.295592988+02:00"
+    created: "2022-05-05T12:11:12.817582747+02:00"
     description: A Helm chart for Kubernetes
     digest: d5fd485ab7c93ec08a67e04a15efaff8abe79f25c3480785ca75ae506284bef6
     name: kardex-proxy
@@ -220,7 +230,7 @@ entries:
   kardex-sim:
   - apiVersion: v2
     appVersion: 0.1.0
-    created: "2022-05-05T08:59:37.298577248+02:00"
+    created: "2022-05-05T12:11:12.82051713+02:00"
     description: A Helm chart for Kubernetes
     digest: 410989a234628350478215b58a269f66133ba2c0ec7cc22809c86daf2619c9f9
     name: kardex-sim
@@ -230,7 +240,7 @@ entries:
     version: 0.0.1
   kwkhtmltopdf:
   - apiVersion: v2
-    created: "2022-05-05T08:59:37.299314286+02:00"
+    created: "2022-05-05T12:11:12.821467291+02:00"
     description: A Helm chart to deploy  kwkhtmltopdf on Camptocamp own platform
     digest: de294cf9d6df366fde8be9f373ebcba45676034db13106db0bf8aa5a26d49549
     name: kwkhtmltopdf
@@ -239,7 +249,7 @@ entries:
     - kwkhtmltopdf-0.1.3.tgz
     version: 0.1.3
   - apiVersion: v2
-    created: "2022-05-05T08:59:37.299128739+02:00"
+    created: "2022-05-05T12:11:12.821233044+02:00"
     description: A Helm chart to deploy  kwkhtmltopdf on Camptocamp own platform
     digest: 396af0f1d3a712d557f16c7a08b6ca155d7d0399d5decc5f57e5ea65ab4f288c
     name: kwkhtmltopdf
@@ -248,7 +258,7 @@ entries:
     - kwkhtmltopdf-0.1.2.tgz
     version: 0.1.2
   - apiVersion: v2
-    created: "2022-05-05T08:59:37.298947441+02:00"
+    created: "2022-05-05T12:11:12.820998502+02:00"
     description: A Helm chart to deploy  kwkhtmltopdf on Camptocamp own platform
     digest: 957524d0e729064f03f94e57a184352c81d63801975399843cdecf36b7e7290b
     name: kwkhtmltopdf
@@ -257,7 +267,7 @@ entries:
     - kwkhtmltopdf-0.1.1.tgz
     version: 0.1.1
   - apiVersion: v2
-    created: "2022-05-05T08:59:37.298756913+02:00"
+    created: "2022-05-05T12:11:12.820759931+02:00"
     description: A Helm chart to deploy  kwkhtmltopdf on Camptocamp own platform
     digest: 392d771d5f6a9e58e4b256184e7a330a70c09cbac9e10ccb0947fd9294662b0b
     name: kwkhtmltopdf
@@ -267,7 +277,7 @@ entries:
     version: 0.1.0
   odoo:
   - apiVersion: v2
-    created: "2022-05-05T08:59:37.30519388+02:00"
+    created: "2022-05-05T12:11:12.82914848+02:00"
     description: A Helm chart to deploy Odoo on CampToCamp own platform
     digest: 8e089e712ba9d66f37e7c78fd59cfd77f228a195428e494dab1d35de7bca2a14
     name: odoo
@@ -276,7 +286,7 @@ entries:
     - odoo-1.2.1.tgz
     version: 1.2.1
   - apiVersion: v2
-    created: "2022-05-05T08:59:37.304673441+02:00"
+    created: "2022-05-05T12:11:12.828485376+02:00"
     description: A Helm chart to deploy Odoo on CampToCamp own platform
     digest: e23fb26e9e76ebb299e8125be57534c667b59546d083bf6b2e928e8f6a5a6bd9
     name: odoo
@@ -285,7 +295,7 @@ entries:
     - odoo-1.2.0.tgz
     version: 1.2.0
   - apiVersion: v2
-    created: "2022-05-05T08:59:37.304164759+02:00"
+    created: "2022-05-05T12:11:12.827795994+02:00"
     description: A Helm chart to deploy Odoo on CampToCamp own platform
     digest: d5966f99c5f5636c16cc5307ee87c84e21ee5f73ef8d46eeb7954f5028d9d7a0
     name: odoo
@@ -294,7 +304,7 @@ entries:
     - odoo-1.1.1.tgz
     version: 1.1.1
   - apiVersion: v2
-    created: "2022-05-05T08:59:37.303658266+02:00"
+    created: "2022-05-05T12:11:12.827161435+02:00"
     description: A Helm chart to deploy Odoo on CampToCamp own platform
     digest: 3cd8d6c634d823f3e32801346a60b3fdf48602bd7bcf7ea70750975aeb6bf849
     name: odoo
@@ -303,7 +313,7 @@ entries:
     - odoo-1.1.0.tgz
     version: 1.1.0
   - apiVersion: v2
-    created: "2022-05-05T08:59:37.30257751+02:00"
+    created: "2022-05-05T12:11:12.826515657+02:00"
     description: A Helm chart to deploy Odoo on CampToCamp own platform
     digest: 80b1c17020e698a8f95e73d85aefad2e5e7bbdf93cc230426195fe7b9a83266f
     name: odoo
@@ -312,7 +322,7 @@ entries:
     - odoo-1.0.0.tgz
     version: 1.0.0
   - apiVersion: v2
-    created: "2022-05-05T08:59:37.30208134+02:00"
+    created: "2022-05-05T12:11:12.825338937+02:00"
     description: A Helm chart to deploy Odoo on CampToCamp own platform
     digest: e7a5639e9fc7806f136a3d49861ab370b995437cc4727c37e09ffbbf6fdec077
     name: odoo
@@ -321,7 +331,7 @@ entries:
     - odoo-0.8.0.tgz
     version: 0.8.0
   - apiVersion: v2
-    created: "2022-05-05T08:59:37.301600481+02:00"
+    created: "2022-05-05T12:11:12.824394515+02:00"
     description: A Helm chart to deploy Odoo on CampToCamp own platform
     digest: 70ef5a50c2df38f3843cbca30bf15cd46160ee6c6c6d4ea71af4995e70ed163d
     name: odoo
@@ -330,7 +340,7 @@ entries:
     - odoo-0.7.0.tgz
     version: 0.7.0
   - apiVersion: v2
-    created: "2022-05-05T08:59:37.301119406+02:00"
+    created: "2022-05-05T12:11:12.823767273+02:00"
     description: A Helm chart to deploy Odoo on CampToCamp own platform
     digest: 66f0740523f04c7b67b2349899009c2a6f05c0e3ed60c1022c0c17a7ec7e1fb8
     name: odoo
@@ -339,7 +349,7 @@ entries:
     - odoo-0.6.0.tgz
     version: 0.6.0
   - apiVersion: v2
-    created: "2022-05-05T08:59:37.300658485+02:00"
+    created: "2022-05-05T12:11:12.82316423+02:00"
     description: A Helm chart to deploy Odoo on CampToCamp own platform
     digest: 94faef80963835b51a5322450d5984c250a2917f28552518e4915e51a39bf6a8
     name: odoo
@@ -348,7 +358,7 @@ entries:
     - odoo-0.5.0.tgz
     version: 0.5.0
   - apiVersion: v2
-    created: "2022-05-05T08:59:37.300187703+02:00"
+    created: "2022-05-05T12:11:12.822558378+02:00"
     description: A Helm chart to deploy Odoo on CampToCamp own platform
     digest: abaa972808ba50f0c9fdbaade1350a7a282d8c34150f2dac8df6fbfe9dd4ec01
     name: odoo
@@ -357,7 +367,7 @@ entries:
     - odoo-0.4.0.tgz
     version: 0.4.0
   - apiVersion: v2
-    created: "2022-05-05T08:59:37.299732988+02:00"
+    created: "2022-05-05T12:11:12.821990937+02:00"
     description: A Helm chart to deploy Odoo on CampToCamp own platform
     digest: c27ba06bda55aa29451837ab2f4d256211d35febc7e2f4df526dcd3869b99ff7
     name: odoo
@@ -368,7 +378,7 @@ entries:
   odyssey:
   - apiVersion: v1
     appVersion: "1.0"
-    created: "2022-05-05T08:59:37.312028473+02:00"
+    created: "2022-05-05T12:11:12.837249964+02:00"
     description: Odyssey chart
     digest: df7eb1f976c75414c6f610abac8bac80d95a36e32dd8bdf40eb4817363260d21
     name: odyssey
@@ -377,7 +387,7 @@ entries:
     version: 0.1.21
   - apiVersion: v1
     appVersion: "1.0"
-    created: "2022-05-05T08:59:37.311625889+02:00"
+    created: "2022-05-05T12:11:12.836812049+02:00"
     description: Odyssey chart
     digest: 0976561aa46da4dd6157e3f9b43d54240d57364fc9fe6be3802a3da04253133f
     name: odyssey
@@ -386,7 +396,7 @@ entries:
     version: 0.1.20
   - apiVersion: v1
     appVersion: "1.0"
-    created: "2022-05-05T08:59:37.310170675+02:00"
+    created: "2022-05-05T12:11:12.83575362+02:00"
     description: Odyssey chart
     digest: 171b3f9a99e1e65845a03a20ee91795af29d82c212ad26fa08b795f4ed0bb1ca
     name: odyssey
@@ -395,7 +405,7 @@ entries:
     version: 0.1.19
   - apiVersion: v1
     appVersion: "1.0"
-    created: "2022-05-05T08:59:37.309772953+02:00"
+    created: "2022-05-05T12:11:12.834644555+02:00"
     description: Odyssey chart
     digest: 9992126a7b604e04b9721b58c4f98993e00ba289f74188f5390b36a6446667ae
     name: odyssey
@@ -404,7 +414,7 @@ entries:
     version: 0.1.18
   - apiVersion: v1
     appVersion: "1.0"
-    created: "2022-05-05T08:59:37.309381373+02:00"
+    created: "2022-05-05T12:11:12.834204411+02:00"
     description: Odyssey chart
     digest: 4b9667dfca23a349e061cc9f4eb10e7a5486ba5aea50345a4f9cce08dda7680c
     name: odyssey
@@ -413,7 +423,7 @@ entries:
     version: 0.1.17
   - apiVersion: v1
     appVersion: "1.0"
-    created: "2022-05-05T08:59:37.309000268+02:00"
+    created: "2022-05-05T12:11:12.8337351+02:00"
     description: Odyssey chart
     digest: 5b2bdaf247bafa9ae29bdad78caa0190a4b472d2b06f8d5be3d1da6b74eb5fbd
     name: odyssey
@@ -422,7 +432,7 @@ entries:
     version: 0.1.16
   - apiVersion: v1
     appVersion: "1.0"
-    created: "2022-05-05T08:59:37.308619715+02:00"
+    created: "2022-05-05T12:11:12.833263899+02:00"
     description: Odyssey chart
     digest: a7cc71b226143c433799e1dcc6e94b3784e1cecc85ac73ac7edb79407b1856ad
     name: odyssey
@@ -431,7 +441,7 @@ entries:
     version: 0.1.15
   - apiVersion: v1
     appVersion: "1.0"
-    created: "2022-05-05T08:59:37.308222834+02:00"
+    created: "2022-05-05T12:11:12.832758878+02:00"
     description: Odyssey chart
     digest: 5973f873623cc53ba1bfc05953a65beb47fbf753db1eeecdb09e7b93b2358b2e
     name: odyssey
@@ -440,7 +450,7 @@ entries:
     version: 0.1.14
   - apiVersion: v1
     appVersion: "1.0"
-    created: "2022-05-05T08:59:37.307810016+02:00"
+    created: "2022-05-05T12:11:12.832279672+02:00"
     description: Odyssey chart
     digest: 95e5d1a3869e119f4969e53d4cb749884d4d0aa2afa0e8662ffc0dd98de9ca27
     name: odyssey
@@ -449,7 +459,7 @@ entries:
     version: 0.1.13
   - apiVersion: v1
     appVersion: "1.0"
-    created: "2022-05-05T08:59:37.307415093+02:00"
+    created: "2022-05-05T12:11:12.831814594+02:00"
     description: Odyssey chart
     digest: c361b14ac90b499c8e523933700e112953b9af2d2656a2d94db18ffe995bb2f9
     name: odyssey
@@ -458,7 +468,7 @@ entries:
     version: 0.1.12
   - apiVersion: v1
     appVersion: "1.0"
-    created: "2022-05-05T08:59:37.307001481+02:00"
+    created: "2022-05-05T12:11:12.831346779+02:00"
     description: Odyssey chart
     digest: 17b221507fc9316351960144c585099963a30cccb09db0dda7faeddf6406c9c6
     name: odyssey
@@ -467,7 +477,7 @@ entries:
     version: 0.1.11
   - apiVersion: v1
     appVersion: "1.0"
-    created: "2022-05-05T08:59:37.306577795+02:00"
+    created: "2022-05-05T12:11:12.830839653+02:00"
     description: Odyssey chart
     digest: feebb117d1a9e4b465b5f8d010e6d37d7669b61a30ea6591ebfe91fbd8b0ebef
     name: odyssey
@@ -476,7 +486,7 @@ entries:
     version: 0.1.10
   - apiVersion: v1
     appVersion: "1.0"
-    created: "2022-05-05T08:59:37.315049906+02:00"
+    created: "2022-05-05T12:11:12.840739384+02:00"
     description: Odyssey chart
     digest: 19e0d8b701773259338ac0456bb2fd9b97e2efca9ec048253ae7bb23ce8e2228
     name: odyssey
@@ -485,7 +495,7 @@ entries:
     version: 0.1.9
   - apiVersion: v1
     appVersion: "1.0"
-    created: "2022-05-05T08:59:37.314649025+02:00"
+    created: "2022-05-05T12:11:12.840283276+02:00"
     description: Odyssey chart
     digest: bfd73183dd1a90487e8f9ec204388f3fc4c2fc94f2ee4603d07bf1d34c9a4b6a
     name: odyssey
@@ -494,7 +504,7 @@ entries:
     version: 0.1.8
   - apiVersion: v1
     appVersion: "1.0"
-    created: "2022-05-05T08:59:37.314253582+02:00"
+    created: "2022-05-05T12:11:12.839832529+02:00"
     description: Odyssey chart
     digest: 774ab6e2915aeb27a1bece389a87901974dad3a13a8c9d60c40f2a14b2c5277d
     name: odyssey
@@ -503,7 +513,7 @@ entries:
     version: 0.1.7
   - apiVersion: v1
     appVersion: "1.0"
-    created: "2022-05-05T08:59:37.313863304+02:00"
+    created: "2022-05-05T12:11:12.839382108+02:00"
     description: Odyssey chart
     digest: 6beba5c29b4634f4427ce7699b802df5b46a977ce23a008cf7c1193f38ff4ebd
     name: odyssey
@@ -512,7 +522,7 @@ entries:
     version: 0.1.6
   - apiVersion: v1
     appVersion: "1.0"
-    created: "2022-05-05T08:59:37.313426608+02:00"
+    created: "2022-05-05T12:11:12.838875521+02:00"
     description: Odyssey chart
     digest: 15041779a506b6c9d6a36786cf347d2aef38f047725f28f686149d34a3a594d2
     name: odyssey
@@ -521,7 +531,7 @@ entries:
     version: 0.1.5
   - apiVersion: v1
     appVersion: "1.0"
-    created: "2022-05-05T08:59:37.312959722+02:00"
+    created: "2022-05-05T12:11:12.838337037+02:00"
     description: Odyssey chart
     digest: 3a2707bb98c29b8b94f2456b18132667519357a34902058ae3814cc50753244c
     name: odyssey
@@ -530,7 +540,7 @@ entries:
     version: 0.1.4
   - apiVersion: v1
     appVersion: "1.0"
-    created: "2022-05-05T08:59:37.312495593+02:00"
+    created: "2022-05-05T12:11:12.837799177+02:00"
     description: Odyssey chart
     digest: fe68a93aa4b3015b661edd5251f1feb7cc06ae33618a8e4e0509ea0cb935bd50
     name: odyssey
@@ -539,7 +549,7 @@ entries:
     version: 0.1.3
   - apiVersion: v1
     appVersion: "1.0"
-    created: "2022-05-05T08:59:37.310639004+02:00"
+    created: "2022-05-05T12:11:12.83636588+02:00"
     description: Odyssey chart
     digest: bfe6c660958d3e5d7908dd9ce2306dea740dc6bd1111b498025d4c9e44d7453f
     name: odyssey
@@ -548,7 +558,7 @@ entries:
     version: 0.1.2
   - apiVersion: v1
     appVersion: "1.0"
-    created: "2022-05-05T08:59:37.306141949+02:00"
+    created: "2022-05-05T12:11:12.830330808+02:00"
     description: Odyssey chart
     digest: affec7202413a4f26dafd7d49f632c997ec7adcb46dda6559735596910b88952
     name: odyssey
@@ -557,7 +567,7 @@ entries:
     version: 0.1.1
   - apiVersion: v1
     appVersion: "1.0"
-    created: "2022-05-05T08:59:37.305664252+02:00"
+    created: "2022-05-05T12:11:12.829743574+02:00"
     description: Odyssey chart
     digest: abacd3fe6e3e20caf9e9b252044f9c3f8d7a6f70e8204fe92b652451147be9de
     name: odyssey
@@ -566,7 +576,7 @@ entries:
     version: 0.1.0
   posssl:
   - apiVersion: v2
-    created: "2022-05-05T08:59:37.315409275+02:00"
+    created: "2022-05-05T12:11:12.841123845+02:00"
     description: A Helm chart to deploy ssl redirect for old POS
     digest: 3e142a7b4e11057af77c718656b31cbfab78a50eff33f91d1aeaaa76814ec9ea
     name: posssl
@@ -575,7 +585,7 @@ entries:
     - posssl-0.1.2.tgz
     version: 0.1.2
   - apiVersion: v2
-    created: "2022-05-05T08:59:37.315303878+02:00"
+    created: "2022-05-05T12:11:12.841017372+02:00"
     description: A Helm chart to deploy ssl redirect for old POS
     digest: 8b68dc4dd6d9c8d0890afd8dd2596b52f5da4da64b551682cf574c3b00055ad9
     name: posssl
@@ -584,7 +594,7 @@ entries:
     - posssl-0.1.1.tgz
     version: 0.1.1
   - apiVersion: v2
-    created: "2022-05-05T08:59:37.315205045+02:00"
+    created: "2022-05-05T12:11:12.840906345+02:00"
     description: A Helm chart to deploy ssl redirect for old POS
     digest: 5081eac61f99fea9decbc28d6dfc141271fd14603e58bd6113809086a47fca86
     name: posssl
@@ -594,7 +604,7 @@ entries:
     version: 0.1.0
   py3o:
   - apiVersion: v2
-    created: "2022-05-05T08:59:37.316067941+02:00"
+    created: "2022-05-05T12:11:12.841958282+02:00"
     description: A Helm chart to deploy py3o on Camptocamp own platform
     digest: 9fdc20e91f5ec472066987c96b4a61f865a899a66c0d5cc5ac4aad2f5f21712a
     name: py3o
@@ -603,7 +613,7 @@ entries:
     - py3o-0.1.10.tgz
     version: 0.1.10
   - apiVersion: v2
-    created: "2022-05-05T08:59:37.31858099+02:00"
+    created: "2022-05-05T12:11:12.844836547+02:00"
     description: A Helm chart to deploy py3o on Camptocamp own platform
     digest: 493bc5e25c2bd974aa6df3d9195bdf9b22e3fca118d88ca69dc220849a8905a2
     name: py3o
@@ -612,7 +622,7 @@ entries:
     - py3o-0.1.9.tgz
     version: 0.1.9
   - apiVersion: v2
-    created: "2022-05-05T08:59:37.318310996+02:00"
+    created: "2022-05-05T12:11:12.844554222+02:00"
     description: A Helm chart to deploy py3o on Camptocamp own platform
     digest: a4216d6258e742bd0c39e66c8e083e0bc793cea451982f48b327a3b9907ea503
     name: py3o
@@ -621,7 +631,7 @@ entries:
     - py3o-0.1.8.tgz
     version: 0.1.8
   - apiVersion: v2
-    created: "2022-05-05T08:59:37.317455958+02:00"
+    created: "2022-05-05T12:11:12.844278309+02:00"
     description: A Helm chart to deploy py3o on Camptocamp own platform
     digest: 95864b7545b483571319b6fffd6fdb1daec7bc5914c9acbd700a97307499d858
     name: py3o
@@ -630,7 +640,7 @@ entries:
     - py3o-0.1.7.tgz
     version: 0.1.7
   - apiVersion: v2
-    created: "2022-05-05T08:59:37.317209722+02:00"
+    created: "2022-05-05T12:11:12.843980466+02:00"
     description: A Helm chart to deploy py3o on Camptocamp own platform
     digest: 5782e1810712af17301b1024b08cb196fcc31c009124961211e387286cd9c91c
     name: py3o
@@ -639,7 +649,7 @@ entries:
     - py3o-0.1.6.tgz
     version: 0.1.6
   - apiVersion: v2
-    created: "2022-05-05T08:59:37.316981175+02:00"
+    created: "2022-05-05T12:11:12.843318623+02:00"
     description: A Helm chart to deploy py3o on Camptocamp own platform
     digest: eb8c030a78a0d173051d1e31554ac1ebfd5b9290fc53f1dd4726cc2f49483957
     name: py3o
@@ -648,7 +658,7 @@ entries:
     - py3o-0.1.5.tgz
     version: 0.1.5
   - apiVersion: v2
-    created: "2022-05-05T08:59:37.316752629+02:00"
+    created: "2022-05-05T12:11:12.842796297+02:00"
     description: A Helm chart to deploy py3o on Camptocamp own platform
     digest: 46664bdfba0673d88f0c1cca2cf8dbeb8da7ffbb52cc787db07782ae41b9b661
     name: py3o
@@ -657,7 +667,7 @@ entries:
     - py3o-0.1.4.tgz
     version: 0.1.4
   - apiVersion: v2
-    created: "2022-05-05T08:59:37.316523185+02:00"
+    created: "2022-05-05T12:11:12.84251048+02:00"
     description: A Helm chart to deploy py3o on Camptocamp own platform
     digest: 2b299e4956b37a7e32aed3e6a5b225b4457a8523fbc8efb6a85e2329950f7b33
     name: py3o
@@ -666,7 +676,7 @@ entries:
     - py3o-0.1.3.tgz
     version: 0.1.3
   - apiVersion: v2
-    created: "2022-05-05T08:59:37.316297737+02:00"
+    created: "2022-05-05T12:11:12.842224944+02:00"
     description: A Helm chart to deploy py3o on Camptocamp own platform
     digest: d92a1e5a678d0d04339874292f43c601b398b43a3a117fd8d4af1e90a45af63b
     name: py3o
@@ -675,7 +685,7 @@ entries:
     - py3o-0.1.2.tgz
     version: 0.1.2
   - apiVersion: v2
-    created: "2022-05-05T08:59:37.315876176+02:00"
+    created: "2022-05-05T12:11:12.841743646+02:00"
     description: A Helm chart to deploy py3o on Camptocamp own platform
     digest: 103d9687e491b908c3f416708da80b02848deec190a55d520a7cd1ca4fff5ffc
     name: py3o
@@ -684,7 +694,7 @@ entries:
     - py3o-0.1.1.tgz
     version: 0.1.1
   - apiVersion: v2
-    created: "2022-05-05T08:59:37.315646155+02:00"
+    created: "2022-05-05T12:11:12.841397015+02:00"
     description: A Helm chart to deploy py3o on Camptocamp own platform
     digest: 65a099a3475d1dbf1f10a47e096d262fa1c7f91869bfd2353261587f77b898bf
     name: py3o
@@ -692,4 +702,4 @@ entries:
     urls:
     - py3o-0.1.0.tgz
     version: 0.1.0
-generated: "2022-05-05T08:59:37.291174728+02:00"
+generated: "2022-05-05T12:11:12.811450701+02:00"
