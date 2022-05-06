@@ -35,7 +35,7 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - name: remoteservice
-              containerPort: {{ .Values.scannersentinel.ssh_tunnel_port }}
+              containerPort: 22
               protocol: TCP
           #livenessProbe:
           #  tcpSocket:

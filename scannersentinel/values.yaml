@@ -30,7 +30,7 @@ securityContext: {}
 
 service:
   type: ClusterIP
-  port: 80
+  port: 2222
   name: "scannersentinel"
 
 
