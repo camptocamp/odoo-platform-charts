@@ -1,0 +1,68 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "scannersentinel.fullname" . }}
+  labels:
+    {{- include "scannersentinel.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "scannersentinel.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      annotations:
+      {{- with .Values.podAnnotations }}
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.additionalAnnotations }}
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "scannersentinel.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: remoteservice
+              containerPort: {{ .Values.scannersentinel.ssh_tunnel_port }}
+              protocol: TCP
+          #livenessProbe:
+          #  tcpSocket:
+          #    port: {{ .Values.scannersentinel.ssh_tunnel_port }}
+          #  initialDelaySeconds: 45
+          #  periodSeconds: 30
+          #readinessProbe:
+          #  tcpSocket:
+          #    port: {{ .Values.scannersentinel.ssh_tunnel_port }}
+          #  initialDelaySeconds: 120
+          #  periodSeconds: 60
+          envFrom:
+            - configMapRef:
+                name: scannersentinel-config-{{- include "scannersentinel.fullname" . }}
+            - secretRef:
+                name: scannersentinel-secret
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
