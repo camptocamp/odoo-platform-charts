@@ -14,7 +14,6 @@ metadata:
   {{- end }}
 
 spec:
-  clusterIP: None
   ports:
     - port: {{ $v.port }}
       name: {{ $k }}
