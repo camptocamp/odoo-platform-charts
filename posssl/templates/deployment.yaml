@@ -21,8 +21,8 @@ spec:
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-{{- range $k, $v := .Values.redirects}}
       containers:
+{{- range $k, $v := .Values.redirects}}
         - name: {{ $k }}
           image: "{{ $.Values.image.repository }}:{{ $.Values.image.tag | default $.Chart.AppVersion }}"
           imagePullPolicy: {{ $.Values.image.pullPolicy }}
