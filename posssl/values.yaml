@@ -1,0 +1,36 @@
+# Default values for posssl.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+ingress:
+  annotations: 
+#    kubernetes.io/ingress.class: nginx
+#    kubernetes.io/tls-acme: "true"
+
+service:
+  labels: {}
+
+image:
+  repository: "camptocamp/post-forward"
+  pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: "0.0.1"
+
+
+redirects:
+  conthey:
+    port: 80
+    external_port: 9552
+    external_ip: 127.0.0.1
+    hosts:
+      - chart-example.local
+    tls: []
+
+  conthey2:
+    port: 80
+    external_port: 9553
+    external_ip: 10.10.0.1
+    hosts:
+      - chart-example2.local
+    tls: []
+
+
