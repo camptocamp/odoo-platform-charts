@@ -9,6 +9,13 @@ ingress:
 service:
   labels: {}
 
+image:
+  repository: "camptocamp/post-forward"
+  pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: "0.0.1"
+
+
 redirects:
   conthey:
     port: 80
@@ -16,6 +23,14 @@ redirects:
     external_ip: 127.0.0.1
     hosts:
       - chart-example.local
+    tls: []
+
+  conthey2:
+    port: 80
+    external_port: 9553
+    external_ip: 10.10.0.1
+    hosts:
+      - chart-example2.local
     tls: []
 
 
