@@ -28,15 +28,15 @@ spec:
           imagePullPolicy: {{ $.Values.image.pullPolicy }}
           ports:
             - name: {{ $k }}
-              containerPort: {{ $v.port }}
+              containerPort: {{ $v.port | quote }}
               protocol: TCP
           env:
             - name: PORT
-              value: {{ $v.port }}
+              value: {{ $v.port | quote }}
             - name: REMOTE_PORT
-              value: {{ $v.external_port }}
+              value: {{ $v.external_port | quote }}
             - name: REMOTE_HOST
-              value: {{ $v.external_ip }}
+              value: {{ $v.external_ip | quote }}
           
           resources:
             {{- toYaml $.Values.resources | nindent 12 }}
