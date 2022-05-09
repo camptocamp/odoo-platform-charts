@@ -29,6 +29,6 @@ spec:
               service:
                 name: {{ $k | quote }}
                 port:
-                  number: {{ $v.port | quote }}
+                  number: {{ $v.port }}
     {{- end }}
 {{- end }}

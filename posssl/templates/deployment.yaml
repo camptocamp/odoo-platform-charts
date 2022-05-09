@@ -28,7 +28,7 @@ spec:
           imagePullPolicy: {{ $.Values.image.pullPolicy }}
           ports:
             - name: {{ $k }}
-              containerPort: {{ $v.port | quote }}
+              containerPort: {{ $v.port }}
               protocol: TCP
           env:
             - name: PORT
