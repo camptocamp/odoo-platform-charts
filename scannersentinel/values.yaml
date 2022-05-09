@@ -57,3 +57,14 @@ scannersentinel:
   scanner_db: odoodb
   scanner_host: odoo
   scanner_port: 8069
+
+ingress:
+  annotations: {}
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+  hosts:
+    - chart-example.local
+  tls: []
+  #  - secretName: chart-example-tls
+  #    hosts:
+  #      - chart-example.local
