@@ -17,4 +17,5 @@ spec:
   ports:
     - port: {{ $v.port }}
       name: {{ $k }}
+      targetPort: {{ $v.port }}
 {{- end }}
