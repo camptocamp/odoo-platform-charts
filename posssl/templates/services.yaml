@@ -1,0 +1,21 @@
+{{- range $k, $v := .Values.redirects}}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ $k }}
+  {{- with $.Values.service.labels }}
+  labels:
+    {{- toYaml . | nindent 4 }}
+   {{- end }}
+  {{- with $.Values.service.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+
+spec:
+  clusterIP: None
+  ports:
+    - port: {{ $v.port }}
+      name: {{ $k }}
+{{- end }}

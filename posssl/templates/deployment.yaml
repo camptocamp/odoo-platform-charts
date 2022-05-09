@@ -1,67 +1,55 @@
+---
+metadata:
+  name: {{ include "posssl.fullname" . }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "posssl.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "posssl.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
 {{- range $k, $v := .Values.redirects}}
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: {{ $k }}
-  {{- with $.Values.service.labels }}
-  labels:
-    {{- toYaml . | nindent 4 }}
-   {{- end }}
-  {{- with $.Values.service.annotations }}
-  annotations:
-    {{- toYaml . | nindent 4 }}
-  {{- end }}
-
-spec:
-  clusterIP: None
-  ports:
-    - port: {{ $v.port }}
-      name: {{ $k }}
-      targetPort: {{ $v.external_port }}
-
----
-apiVersion: v1
-kind: Endpoints
-metadata:
-  name: {{ $k }}
-subsets:
-  - addresses:
-      - ip: {{ $v.external_ip }}
-    ports:
-      - port: {{ $v.external_port }}
-
----
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: {{ $k }}
-  {{- with $.Values.ingress.annotations }}
-  annotations:
-    {{- toYaml . | nindent 4 }}
-  {{- end }}
-spec:
-  {{- if $v.tls }}
-  tls:
-    {{- range $v.tls }}
-    - hosts:
-        {{- range .hosts }}
-        - {{ . | quote }}
-        {{- end }}
-      secretName: {{ .secretName }}
-    {{- end }}
-  {{- end }}
-  rules:
-    {{- range $v.hosts }}
-    - host: {{ . | quote }}
-      http:
-        paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: {{ $k }}
-                port:
-                  number: {{ $v.port }}
-    {{- end }}
+      containers:
+        - name: {{ $k }}
+          image: "{{ $.Values.image.repository }}:{{ $.Values.image.tag | default $.Chart.AppVersion }}"
+          imagePullPolicy: {{ $.Values.image.pullPolicy }}
+          ports:
+            - name: {{ $k }}
+              containerPort: {{ $v.port }}
+              protocol: TCP
+          env:
+            - name: PORT
+              value: {{ $v.port }}
+            - name: REMOTE_PORT
+              value: {{ $v.external_port }}
+            - name: REMOTE_HOST
+              value: {{ $v.external_ip }}
+          
+          resources:
+            {{- toYaml $.Values.resources | nindent 12 }}
+      {{- with $.Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with $.Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with $.Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
 {{- end }}
+
+
