@@ -17,5 +17,8 @@ spec:
   ports:
     - port: {{ $v.port }}
       name: {{ $k }}
+      type: TCP
       targetPort: {{ $k }}
+  selector:
+    {{- include "posssl.selectorLabels" . | nindent 4 }}
 {{- end }}
