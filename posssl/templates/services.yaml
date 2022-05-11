@@ -18,7 +18,7 @@ spec:
   ports:
     - port: {{ $v.port }}
       name: {{ $k }}
-      type: TCP
+      protocol: TCP
       targetPort: {{ $k }}
   selector:
     {{- $selector }}
