@@ -5,7 +5,7 @@ kind: ConfigMap
 metadata:
   name: odooqueue-config{{- include "odoo-cs-suffix" . }}
 data:
-  SERVER_WIDE_MODULES: {{ printf "%s,queue_job" (.Values.odoo.server_wide_modules | default "web,attachment_azure,session_redis,logging_json") }}
+  SERVER_WIDE_MODULES: {{ printf "%s,%s" (.Values.odoo.server_wide_modules | default "web,attachment_azure,session_redis,logging_json") (.Values.odoo.connector_module | default "queue_job")  }}
   WORKERS: {{ .Values.odoo.queuejob.workers | default "2" | quote }}
   LIMIT_MEMORY_SOFT: {{ .Values.odoo.queuejob.limits.soft | default "787973120" | quote }}
   LIMIT_MEMORY_HARD: {{ .Values.odoo.queuejob.limits.hard | default "2147483648" | quote }}
