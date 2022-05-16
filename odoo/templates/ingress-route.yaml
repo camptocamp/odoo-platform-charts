@@ -5,9 +5,9 @@
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: odoo-cert
+  name: odoo-cert{{- include "odoo-cs-suffix" $ }}
 spec:
-  secretName: odoo-tls
+  secretName: odoo-tls{{- include "odoo-cs-suffix" $ }}
   dnsNames:
     {{- range .hosts }}
     - {{ . | quote }}
@@ -20,7 +20,7 @@ spec:
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
-  name: odoo-ingressroute-client
+  name: odoo-ingressroute-client{{- include "odoo-cs-suffix" $ }}
 spec:
   entryPoints:
     - websecure
@@ -29,8 +29,8 @@ spec:
     - match: {{ printf "(%s) && Path(`%s`)" $match . | quote }}
       kind: Rule
       middlewares:
-        - name: odoo-ratelimit
-        - name: redirect-https
+        - name: odoo-ratelimit{{- include "odoo-cs-suffix" $ }}
+        - name: redirect-https{{- include "odoo-cs-suffix" $ }}
         {{- if $.Values.ipFilter }}
         - name: ipwhitelist
         {{- end }}
@@ -41,7 +41,7 @@ spec:
     - match: {{ printf "(%s) && PathPrefix(`%s`)" $match .pathPrefix | quote }}
       kind: Rule
       middlewares:
-        - name: redirect-https
+        - name: redirect-https{{- include "odoo-cs-suffix" $ }}
         {{- if $.Values.ipFilter }}
         - name: ipwhitelist
         {{- end }}
@@ -50,5 +50,5 @@ spec:
           port: 80
       priority: 1
   tls:
-    secretName: odoo-tls
+    secretName: odoo-tls{{- include "odoo-cs-suffix" $ }}
 {{- end }}
