@@ -2,7 +2,7 @@
 apiVersion: traefik.containo.us/v1alpha1
 kind: Middleware
 metadata:
-  name: odoo-ratelimit
+  name: odoo-ratelimit{{- include "odoo-cs-suffix" . }}
 spec:
   rateLimit:
     average: {{ .Values.rateLimit.average }}
@@ -11,7 +11,7 @@ spec:
 apiVersion: traefik.containo.us/v1alpha1
 kind: Middleware
 metadata:
-  name: redirect-https
+  name: redirect-https{{- include "odoo-cs-suffix" . }}
 spec:
   redirectScheme:
     scheme: https
