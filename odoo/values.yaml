@@ -57,6 +57,9 @@ rateLimit: {}
 
 ipFilter: false
 
+waf:
+  enabled: false
+
 issuerRef: letsencrypt-prod
 
 ingressRouteClient: {}

@@ -34,6 +34,10 @@ spec:
         {{- if $.Values.ipFilter }}
         - name: ipwhitelist
         {{- end }}
+        {{- if $.Values.waf.enabled }}
+        - name: waf-authforwarder
+          namespace: waf
+        {{- end }}
       services:
         - name: {{ $svcName }}
           port: 80
@@ -44,6 +48,10 @@ spec:
         - name: redirect-https{{- include "odoo-cs-suffix" $ }}
         {{- if $.Values.ipFilter }}
         - name: ipwhitelist
+        {{- end }}
+        {{- if $.Values.waf.enabled }}
+        - name: waf-authforwarder
+          namespace: waf
         {{- end }}
       services:
         - name: {{ $svcName }}
