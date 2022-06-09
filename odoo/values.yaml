@@ -59,6 +59,8 @@ ipFilter: false
 
 waf:
   enabled: false
+  address: "http://waf.waf.svc.cluster.local"
+  trustForwardHeader: false
 
 issuerRef: letsencrypt-prod
 
