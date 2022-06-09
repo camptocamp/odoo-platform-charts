@@ -35,7 +35,7 @@ spec:
         - name: ipwhitelist
         {{- end }}
         {{- if $.Values.waf.enabled }}
-        - name: waf-authforward{{- include "odoo-cs-suffix" . }}
+        - name: waf-authforward{{- include "odoo-cs-suffix" $ }}
         {{- end }}
       services:
         - name: {{ $svcName }}
@@ -49,7 +49,7 @@ spec:
         - name: ipwhitelist
         {{- end }}
         {{- if $.Values.waf.enabled }}
-        - name: waf-authforward{{- include "odoo-cs-suffix" . }}
+        - name: waf-authforward{{- include "odoo-cs-suffix" $ }}
         {{- end }}
       services:
         - name: {{ $svcName }}
