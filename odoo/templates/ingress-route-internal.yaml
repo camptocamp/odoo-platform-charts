@@ -5,7 +5,7 @@
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
-  name: odoo-ingressroute-internal
+  name: odoo-ingressroute-internal{{- include "odoo-cs-suffix" $ }}
 spec:
   entryPoints:
     - websecure
@@ -14,10 +14,13 @@ spec:
     - match: {{ printf "(%s) && Path(`%s`)" $match . | quote }}
       kind: Rule
       middlewares:
-        - name: odoo-ratelimit
-        - name: redirect-https
+        - name: odoo-ratelimit{{- include "odoo-cs-suffix" $ }}
+        - name: redirect-https{{- include "odoo-cs-suffix" $ }}
         {{- if $.Values.ipFilter }}
         - name: ipwhitelist
+        {{- end }}
+        {{- if $.Values.waf.enabled }}
+        - name: waf-authforward{{- include "odoo-cs-suffix" . }}
         {{- end }}
       services:
         - name: {{ $svcName }}
@@ -26,9 +29,12 @@ spec:
     - match: {{ printf "(%s) && PathPrefix(`%s`)" $match .pathPrefix | quote }}
       kind: Rule
       middlewares:
-        - name: redirect-https
+        - name: redirect-https{{- include "odoo-cs-suffix" $ }}
         {{- if $.Values.ipFilter }}
         - name: ipwhitelist
+        {{- end }}
+        {{- if $.Values.waf.enabled }}
+        - name: waf-authforward{{- include "odoo-cs-suffix" . }}
         {{- end }}
       services:
         - name: {{ $svcName }}
