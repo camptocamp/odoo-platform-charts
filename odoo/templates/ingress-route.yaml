@@ -35,8 +35,7 @@ spec:
         - name: ipwhitelist
         {{- end }}
         {{- if $.Values.waf.enabled }}
-        - name: waf-authforwarder
-          namespace: waf
+        - name: waf-authforward{{- include "odoo-cs-suffix" $ }}
         {{- end }}
       services:
         - name: {{ $svcName }}
@@ -50,8 +49,7 @@ spec:
         - name: ipwhitelist
         {{- end }}
         {{- if $.Values.waf.enabled }}
-        - name: waf-authforwarder
-          namespace: waf
+        - name: waf-authforward{{- include "odoo-cs-suffix" $ }}
         {{- end }}
       services:
         - name: {{ $svcName }}
