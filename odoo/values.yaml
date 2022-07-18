@@ -8,8 +8,7 @@ image:
   pullPolicy: IfNotPresent
   backup_manager:
     repository: ghcr.io/camptocamp/odoo-preinit-manager
-    # TODO: change to stable
-    tag: latest
+    tag: 1.0.0
   odoo:
     repository: ghcr.io/camptocamp/customer_odoo
     tag: xx.0.1.0.0
