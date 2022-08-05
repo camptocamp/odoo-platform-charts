@@ -41,6 +41,22 @@ spec:
         - name: {{ $svcName }}
           port: 80
     {{- end }}
+    {{- range $.Values.rateLimit.pathPrefixes }}
+    - match: {{ printf "(%s) && PathPrefix(`%s`)" $match . | quote }}
+      kind: Rule
+      middlewares:
+        - name: odoo-ratelimit{{- include "odoo-cs-suffix" $ }}
+        - name: redirect-https{{- include "odoo-cs-suffix" $ }}
+        {{- if $.Values.ipFilter }}
+        - name: ipwhitelist
+        {{- end }}
+        {{- if $.Values.waf.enabled }}
+        - name: waf-authforward{{- include "odoo-cs-suffix" $ }}
+        {{- end }}
+      services:
+        - name: {{ $svcName }}
+          port: 80
+    {{- end }}
     - match: {{ printf "(%s) && PathPrefix(`%s`)" $match .pathPrefix | quote }}
       kind: Rule
       middlewares:
