@@ -11,3 +11,4 @@ data:
   DUMP_ALL_SCHEDULE:  {{ .Values.celebrimbor.internal_cron.dump_all_schedule }}
   VACUUM_ALL_SCHEDULE: {{ .Values.celebrimbor.internal_cron.vacuum_all_schedule }}
   DISABLE_CRON_JOBS: {{ .Values.celebrimbor.internal_cron.disable_all | default "False" | quote }}
+  LOG_DEBUG: {{ .Values.celebrimbor.log_debug | default "False" | quote }}
