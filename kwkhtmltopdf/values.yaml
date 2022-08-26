@@ -19,10 +19,11 @@ resources:
     requests:
       cpu: 125m
       memory: 128Mi
+      ephemeral-storage: "2Gi"
     limits:
       cpu: 500m
       memory: 8Gi
-
+      ephemeral-storage: "4Gi"
 nodeSelector: {}
 tolerations: []
 affinity: {}
@@ -30,3 +31,10 @@ affinity: {}
 additionalLabels: {}
   # aadpodidbinding: some-identity
 
+volumeMounts:
+  - name: kwkhtmltopdftmp
+    mountPath: /tmp
+
+volumes:
+  - name: kwkhtmltopdftmp
+    emptyDir: {}
