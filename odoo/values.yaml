@@ -115,8 +115,8 @@ odoo:
     httpGet:
       path: /web/login
       port: odoo
-      initialDelaySeconds: 120
-      periodSeconds: 15
+    initialDelaySeconds: 120
+    periodSeconds: 15
   startupProbe:
     httpGet:
       path: /web/login
