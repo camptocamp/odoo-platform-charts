@@ -111,18 +111,18 @@ odoo:
     secret:
       name: odoo-redis
       url: url
-  readinessProbe:
-    httpGet:
-      path: /
-      port: odoo
-    initialDelaySeconds: 120
-    periodSeconds: 15
-  startupProbe:
-    httpGet:
-      path: /
-      port: odoo
-    failureThreshold: 30
-    periodSeconds: 10
+#  readinessProbe:
+#    httpGet:
+#      path: /
+#      port: odoo
+#    initialDelaySeconds: 120
+#    periodSeconds: 15
+#  startupProbe:
+#    httpGet:
+#      path: /
+#      port: odoo
+#    failureThreshold: 30
+#    periodSeconds: 10
 
   log_handler: :INFO,werkzeug:ERROR,azure:ERROR
   log_level: info
