@@ -65,7 +65,7 @@ spec:
         - name: marabunta-migration
           image: "{{ .Values.image.odoo.repository }}:{{ .Values.image.odoo.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          command: ['sh', '-c', "docker-entrypoint.sh gosu odoo migrate"]
+          command: ['sh', '-c', "docker-entrypoint.sh migrate"]
           env:
             - name: LIMIT_MEMORY_SOFT
               value: "1300234240"
@@ -82,7 +82,7 @@ spec:
           image: "{{ .Values.image.odoo.repository }}:{{ .Values.image.odoo.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           {{- if .Values.odoo.oldversion }}
-          command: ['sh', '-c', "docker-entrypoint.sh gosu odoo odoo {{ printf "--load=%s" (.Values.odoo.server_wide_modules | default "web,attachment_azure,session_redis,logging_json") }}"]
+          command: ['sh', '-c', "docker-entrypoint.sh odoo {{ printf "--load=%s" (.Values.odoo.server_wide_modules | default "web,attachment_azure,session_redis,logging_json") }}"]
           {{- end }}
           env:
           {{- include "odoo.common-environment" . | nindent 12 }}
@@ -97,6 +97,14 @@ spec:
               name: odoo
             - containerPort: 8072
               name: longpolling
+          {{- with .Values.odoo.startupProbe }}
+          startupProbe:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.odoo.readinessProbe }}
+          readinessProbe:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
           volumeMounts:
             {{- toYaml .Values.volumeMounts | nindent 12 }}
           resources:
@@ -185,7 +193,7 @@ spec:
           image: "{{ .Values.image.odoo.repository }}:{{ .Values.image.odoo.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           {{- if .Values.odoo.oldversion }}
-          command: ['sh', '-c', "docker-entrypoint.sh gosu odoo odoo {{ printf "--load=%s,connector" (.Values.odoo.server_wide_modules | default "web,attachment_azure,session_redis,logging_json") }}"]
+          command: ['sh', '-c', "docker-entrypoint.sh odoo {{ printf "--load=%s,connector" (.Values.odoo.server_wide_modules | default "web,attachment_azure,session_redis,logging_json") }}"]
           {{- end }}
           env:
             {{- include "odoo.common-environment" . | nindent 12 }}
