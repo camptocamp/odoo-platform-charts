@@ -73,6 +73,8 @@ ingressRouteInternal: {}
   #   - "odoo-camptocamp-int.apps.odoo-ch-prod.camptocamp.com"
   # pathPrefix: '/'
 
+bsTeamPowerUserGroupId: ""
+
 roleBindings: {}
 # roleBindings:
 #   bs-superuser-pod-exec:
