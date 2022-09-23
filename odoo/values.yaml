@@ -111,19 +111,33 @@ odoo:
     secret:
       name: odoo-redis
       url: url
-#  readinessProbe:
-#    httpGet:
-#      path: /
-#      port: odoo
-#    initialDelaySeconds: 120
-#    periodSeconds: 15
-#  startupProbe:
-#    httpGet:
-#      path: /
-#      port: odoo
-#    failureThreshold: 30
-#    periodSeconds: 10
-
+  livenessProbe:
+    enabled: true
+    path: /
+    initialDelaySeconds: 600
+    periodSeconds: 30
+    timeoutSeconds: 5
+    failureThreshold: 6
+    successThreshold: 1
+  ## @param readinessProbe.enabled Enable readinessProbe
+  ##
+  readinessProbe:
+    enabled: true
+    path: /
+    initialDelaySeconds: 30
+    periodSeconds: 10
+    timeoutSeconds: 5
+    failureThreshold: 6
+    successThreshold: 1
+  ## @param startupProbe.enabled Enable startupProbe
+  startupProbe:
+    enabled: false
+    path: /
+    initialDelaySeconds: 300
+    periodSeconds: 10
+    timeoutSeconds: 5
+    failureThreshold: 6
+    successThreshold: 1
   log_handler: :INFO,werkzeug:ERROR,azure:ERROR
   log_level: info
   unaccent: "False"

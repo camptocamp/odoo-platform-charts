@@ -97,14 +97,25 @@ spec:
               name: odoo
             - containerPort: 8072
               name: longpolling
-          {{- with .Values.odoo.startupProbe }}
-          startupProbe:
-            {{- toYaml . | nindent 12 }}
+          {{- if .Values.odoo.livenessProbe.enabled }}
+          livenessProbe:
+            httpGet:
+              path: {{ .Values.odoo.livenessProbe.path }}
+              port: odoo
           {{- end }}
-          {{- with .Values.odoo.readinessProbe }}
-          readinessProbe:
-            {{- toYaml . | nindent 12 }}
+          {{- if .Values.odoo.readinessProbe.enabled }}
+          readinessProbe: 
+            httpGet:
+              path: {{ .Values.odoo.readinessProbe.path }}
+              port: odoo
           {{- end }}
+          {{- if .Values.odoo.startupProbe.enabled }}
+          startupProbe: 
+            httpGet:
+              path: {{ .Values.odoo.startupProbe.path }}
+              port: odoo
+          {{- end }}
+
           volumeMounts:
             {{- toYaml .Values.volumeMounts | nindent 12 }}
           resources:
