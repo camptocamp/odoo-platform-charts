@@ -274,6 +274,9 @@ spec:
                 optional: true
           volumeMounts:
             {{- toYaml .Values.volumeMounts | nindent 12 }}
+          ports:
+            - containerPort: 8080
+              name: odoohealthz
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
