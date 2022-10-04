@@ -304,7 +304,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: OdooHealthz
+  name: odoohealthz
   labels:
     {{- include "odoo.labels" . | nindent 4 }}
 spec:
