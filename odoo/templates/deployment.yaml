@@ -269,8 +269,6 @@ spec:
           envFrom:
             - configMapRef:
                 name: odoo-config{{- include "odoo-cs-suffix" . }}
-            - configMapRef:
-                name: odooqueue-config{{- include "odoo-cs-suffix" . }}
             - secretRef:
                 name: odoo-secret{{- include "odoo-cs-suffix" . }}
                 optional: true
