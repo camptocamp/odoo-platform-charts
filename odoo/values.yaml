@@ -12,6 +12,10 @@ image:
   odoo:
     repository: ghcr.io/camptocamp/customer_odoo
     tag: xx.0.1.0.0
+  odoohealthz:
+    repository: ghcr.io/camptocamp/odoo-k8s-healthz
+    tag: xx.xx.xx.xx
+
   nginx:
     repository: camptocamp/odoo-nginx
     tag: xx.0-1.6.0
@@ -111,33 +115,39 @@ odoo:
     secret:
       name: odoo-redis
       url: url
-  livenessProbe:
-    enabled: true
-    path: /
-    initialDelaySeconds: 600
-    periodSeconds: 30
-    timeoutSeconds: 5
-    failureThreshold: 6
-    successThreshold: 1
+  #livenessProbe:
+  #  httpGet:
+  #    host: ""
+  #    path: "/liveness"
+  #    port: odoohealth
+  #  initialDelaySeconds: 600
+  #  periodSeconds: 30
+  #  timeoutSeconds: 5
+  #  failureThreshold: 6
+  #  successThreshold: 1
   ## @param readinessProbe.enabled Enable readinessProbe
   ##
-  readinessProbe:
-    enabled: true
-    path: /
-    initialDelaySeconds: 30
-    periodSeconds: 10
-    timeoutSeconds: 5
-    failureThreshold: 6
-    successThreshold: 1
+  #readinessProbe:
+  #  httpGet:
+  #    host: ""
+  #    path: "/readiness"
+  #    port: odoohealth
+  #  initialDelaySeconds: 30
+  #  periodSeconds: 10
+  #  timeoutSeconds: 5
+  #  failureThreshold: 6
+  #  successThreshold: 1
   ## @param startupProbe.enabled Enable startupProbe
-  startupProbe:
-    enabled: false
-    path: /
-    initialDelaySeconds: 300
-    periodSeconds: 10
-    timeoutSeconds: 5
-    failureThreshold: 6
-    successThreshold: 1
+  #startupProbe:
+  #  httpGet:
+  #    host: ""
+  #    path: "/liveness"
+  #    port: odoohealth
+  #  initialDelaySeconds: 300
+  #  periodSeconds: 10
+  #  timeoutSeconds: 5
+  #  failureThreshold: 6
+  #  successThreshold: 1
   log_handler: :INFO,werkzeug:ERROR,azure:ERROR
   log_level: info
   unaccent: "False"
@@ -162,6 +172,8 @@ odoo:
   override_resources: {}
     # cpu: 5
     # memory: 8Gi
+  odoohealthz:
+    enabled: True
   queuejob:
     enabled: False
     workers: '2'
