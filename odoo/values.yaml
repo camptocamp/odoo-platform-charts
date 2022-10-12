@@ -172,8 +172,6 @@ odoo:
   override_resources: {}
     # cpu: 5
     # memory: 8Gi
-  odoohealthz:
-    enabled: True
   queuejob:
     enabled: False
     workers: '2'
