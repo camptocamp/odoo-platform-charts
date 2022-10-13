@@ -97,6 +97,19 @@ spec:
               name: odoo
             - containerPort: 8072
               name: longpolling
+          {{- with .Values.odoo.livenessProbe }}
+          livenessProbe:
+              {{- toYaml . | nindent 14 }}
+           {{- end }}
+           {{- with .Values.odoo.readinessProbe }}
+           readinessProbe:
+            {{- toYaml . | nindent 12 }}
+              {{- toYaml . | nindent 14 }}
+          {{- end }}
+          {{- with .Values.odoo.startupProbe }}
+          startupProbe:
+              {{- toYaml . | nindent 14 }}
+           {{- end }}
           volumeMounts:
             {{- toYaml .Values.volumeMounts | nindent 12 }}
           resources:
@@ -112,6 +125,22 @@ spec:
           ports:
             - containerPort: 80
               name: http
+        - name: odoohealthz
+          image: "{{ .Values.image.odoohealthz.repository }}:{{ .Values.image.odoohealthz.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            {{- include "odoo.common-environment" . | nindent 12 }}
+          envFrom:
+            - configMapRef:
+                name: odoo-config{{- include "odoo-cs-suffix" . }}
+            - secretRef:
+                name: odoo-secret{{- include "odoo-cs-suffix" . }}
+                optional: true
+          volumeMounts:
+            {{- toYaml .Values.volumeMounts | nindent 12 }}
+          ports:
+            - containerPort: 8080
+              name: odoohealthz
       volumes:
         - name: marabunta-tmp
           emptyDir: {}
