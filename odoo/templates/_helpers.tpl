@@ -125,7 +125,7 @@ requests:
 limits:
   cpu: {{ .Values.odoo.override_resources.cpu | default 0.7 }}
   memory: {{ .Values.odoo.override_resources.memory | default "3Gi" }}
-  {{- else if eq .Values.odoo.instance_type "smartcamp" -}}
+{{- else if eq .Values.odoo.instance_type "smartcamp" -}}
 requests:
   cpu: 0.1
   memory: 650Mi
