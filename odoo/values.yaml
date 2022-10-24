@@ -173,10 +173,42 @@ odoo:
     # cpu: 5
     # memory: 8Gi
   queuejob:
-    enabled: False
+    enabled: True
     workers: '2'
     limits:
       soft: "787973120"
       hard: "2147483648"
     max_cron: '0'
     channels: "root:2"
+    #livenessProbe:
+    #  httpGet:
+    #    host: ""
+    #    path: "/liveness"
+    #    port: odoohealth
+    #  initialDelaySeconds: 600
+    #  periodSeconds: 30
+    #  timeoutSeconds: 5
+    #  failureThreshold: 6
+    #  successThreshold: 1
+    # @param readinessProbe.enabled Enable readinessProbe
+    
+    #readinessProbe:
+    #  httpGet:
+    #    host: ""
+    #    path: "/readiness"
+    #    port: odoohealth
+    #  initialDelaySeconds: 30
+    #  periodSeconds: 10
+    #  timeoutSeconds: 5
+    # @param startupProbe.enabled Enable startupProbe
+    #startupProbe:
+    #  httpGet:
+    #    host: ""
+    #    path: "/liveness"
+    #    port: odoohealth
+    #  initialDelaySeconds: 300
+    #  periodSeconds: 10
+    #  timeoutSeconds: 5
+    #  failureThreshold: 6
+    #  successThreshold: 1
+

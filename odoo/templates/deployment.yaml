@@ -227,10 +227,39 @@ spec:
             - secretRef:
                 name: odoo-secret{{- include "odoo-cs-suffix" . }}
                 optional: true
+          {{- with .Values.odoo.queuejob.livenessProbe }}
+          livenessProbe:
+              {{- toYaml . | nindent 14 }}
+          {{- end }}
+          {{- with .Values.odoo.queuejob.readinessProbe }}
+          readinessProbe:
+              {{- toYaml . | nindent 14 }}
+          {{- end }}
+
+          {{- with .Values.odoo.queuejob.startupProbe }}
+          startupProbe:
+              {{- toYaml . | nindent 14 }}
+          {{- end }}
           volumeMounts:
             {{- toYaml .Values.volumeMounts | nindent 12 }}
           resources:
           {{- include "odoo.physical-resources" . | nindent 12 }}
+        - name: odoohealthz
+          image: "{{ .Values.image.odoohealthz.repository }}:{{ .Values.image.odoohealthz.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            {{- include "odoo.common-environment" . | nindent 12 }}
+          envFrom:
+            - configMapRef:
+                name: odoo-config{{- include "odoo-cs-suffix" . }}
+            - secretRef:
+                name: odoo-secret{{- include "odoo-cs-suffix" . }}
+                optional: true
+          volumeMounts:
+            {{- toYaml .Values.volumeMounts | nindent 12 }}
+          ports:
+            - containerPort: 8080
+              name: odoohealthz
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
