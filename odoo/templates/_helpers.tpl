@@ -125,6 +125,13 @@ requests:
 limits:
   cpu: {{ .Values.odoo.override_resources.cpu | default 0.7 }}
   memory: {{ .Values.odoo.override_resources.memory | default "3Gi" }}
+  {{- else if eq .Values.odoo.instance_type "smartcamp" -}}
+requests:
+  cpu: 0.1
+  memory: 650Mi
+limits:
+  cpu: {{ .Values.odoo.override_resources.cpu | default 0.35 }}
+  memory: {{ .Values.odoo.override_resources.memory | default "1Gi" }}
 {{- else -}}
 requests:
   cpu: 0.1
@@ -140,11 +147,16 @@ limits:
 Odoo specific resources configuration according to instance type
 */}}
 {{- define "odoo.internal-resources" -}}
-LIMIT_MEMORY_SOFT: {{ .Values.odoo.override_limits.memory_soft | default "650117120" | quote }}
 {{- if or (eq .Values.odoo.instance_type "xlarge") (eq .Values.odoo.instance_type "large") }}
+LIMIT_MEMORY_SOFT: {{ .Values.odoo.override_limits.memory_soft | default "650117120" | quote }}
 LIMIT_MEMORY_HARD: {{ .Values.odoo.override_limits.memory_hard | default "4194304000" | quote }}
 WORKERS: {{ .Values.odoo.override_limits.workers | default "14" | quote }}
+{{- else if eq .Values.odoo.instance_type "smartcamp" }}
+LIMIT_MEMORY_SOFT: {{ .Values.odoo.override_limits.memory_soft | default "325058560" | quote }}
+LIMIT_MEMORY_HARD: {{ .Values.odoo.override_limits.memory_hard | default "1048576000" | quote }}
+WORKERS: {{ .Values.odoo.override_limits.workers | default "4" | quote }}
 {{- else }}
+LIMIT_MEMORY_SOFT: {{ .Values.odoo.override_limits.memory_soft | default "650117120" | quote }}
 LIMIT_MEMORY_HARD: {{ .Values.odoo.override_limits.memory_hard | default "2097152000" | quote }}
 WORKERS: {{ .Values.odoo.override_limits.workers | default "7" | quote }}
 {{- end }}
