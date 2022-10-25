@@ -15,6 +15,9 @@ image:
   nginx:
     repository: camptocamp/odoo-nginx
     tag: xx.0-1.6.0
+  odoohealthz:
+    repository: ghcr.io/camptocamp/odoo-k8s-healthz
+    tag: app-1.1.0
 
 imagePullSecrets:
   - name: github-packages
@@ -99,6 +102,36 @@ odoo:
     secret:
       name: odoo-storage
       container: container_name
+  #livenessProbe:
+  #  httpGet:
+  #    path: "/liveness"
+  #    port: odoohealth
+  #  initialDelaySeconds: 600
+  #  periodSeconds: 30
+  #  timeoutSeconds: 5
+  #  failureThreshold: 6
+  #  successThreshold: 1
+  ## @param readinessProbe.enabled Enable readinessProbe
+  ##
+  #readinessProbe:
+  #  httpGet:
+  #    path: "/readiness"
+  #    port: odoohealth
+  #  initialDelaySeconds: 30
+  #  periodSeconds: 10
+  #  timeoutSeconds: 5
+  #  failureThreshold: 6
+  #  successThreshold: 1
+  ## @param startupProbe.enabled Enable startupProbe
+  #startupProbe:
+  #  httpGet:
+  #    path: "/liveness"
+  #    port: odoohealth
+  #  initialDelaySeconds: 300
+  #  periodSeconds: 10
+  #  timeoutSeconds: 5
+  #  failureThreshold: 6
+  #  successThreshold: 1  
   db:
     secret:
       name: odoo-database
@@ -145,3 +178,33 @@ odoo:
       hard: "2147483648"
     max_cron: '0'
     channels: "root:2"
+    #livenessProbe:
+    #  httpGet:
+    #    path: "/liveness"
+    #    port: odoohealth
+    #  initialDelaySeconds: 600
+    #  periodSeconds: 30
+    #  timeoutSeconds: 5
+    #  failureThreshold: 6
+    #  successThreshold: 1
+    # @param readinessProbe.enabled Enable readinessProbe
+    #
+    #readinessProbe:
+    #  httpGet:
+    #    path: "/readiness"
+    #    port: odoohealth
+    #  initialDelaySeconds: 30
+    #  periodSeconds: 10
+    #  timeoutSeconds: 5
+    #  failureThreshold: 6
+    #  successThreshold: 1
+    # @param startupProbe.enabled Enable startupProbe
+    #startupProbe:
+    #  httpGet:
+    #    path: "/liveness"
+    #    port: odoohealth
+    #  initialDelaySeconds: 300
+    #  periodSeconds: 10
+    #  timeoutSeconds: 5
+    #  failureThreshold: 6
+    #  successThreshold: 1
