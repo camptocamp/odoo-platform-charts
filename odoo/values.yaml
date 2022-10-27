@@ -101,6 +101,8 @@ odoo:
     secret:
       name: odoo-storage
       container: container_name
+  metrics:
+    scrapeInterval: 15s
   db:
     secret:
       name: odoo-database
