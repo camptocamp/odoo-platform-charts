@@ -1,8 +1,10 @@
 apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
-  name: odoohealthmonitor
+  name: {{ template "odoo.name" . }}
   labels:
+    app: {{ template "odoo.name" . }}
+    release: "{{ .Release.Name }}"
     {{- include "odoo.labels" . | nindent 4 }}
 spec:
   namespaceSelector:
@@ -12,5 +14,6 @@ spec:
     matchLabels:
       {{- include "odoo.selectorLabels" . | nindent 6 }}
   endpoints:
-  - port: odoohealthz
+  - port: metrics
+    path: "/metrics"
     interval: {{ .Values.odoo.metrics.scrapeInterval }}
