@@ -1,0 +1,20 @@
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: {{ template "odoo.name" . }}
+  labels:
+    app: {{ template "odoo.name" . }}
+    release: "{{ .Release.Name }}"
+    {{- include "odoo.labels" . | nindent 4 }}
+spec:
+  namespaceSelector:
+    matchNames:
+      - {{ .Release.Namespace }}  
+  selector:
+    matchLabels:
+      {{- include "odoo.selectorLabels" . | nindent 6 }}
+  endpoints:
+  - port: metrics
+    path: "/metrics"
+    interval: {{ .Values.odoo.metrics.scrapeInterval }}
