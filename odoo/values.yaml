@@ -60,7 +60,9 @@ rateLimit: {}
 
 ipFilter: false
 
-wwwRobotsPreventIndexing:
+# the following prevents www robots to index the site behind the ingress
+# config based on this doc: https://developers.google.com/search/docs/crawling-indexing/robots-meta-tag#xrobotstag
+wwwRobotsNoIndexing:
   enabled: true
 
 waf:
