@@ -35,7 +35,7 @@ spec:
         - name: ipwhitelist
         {{- end }}
         {{- if $.Values.wwwRobotsNoIndexing }}
-        - name: www-robots-no-index{{- include "odoo-cs-suffix" . }}
+        - name: www-robots-no-index{{- include "odoo-cs-suffix" $ }}
         {{- end }}
         {{- if $.Values.waf.enabled }}
         - name: waf-authforward{{- include "odoo-cs-suffix" $ }}
@@ -54,7 +54,7 @@ spec:
         - name: ipwhitelist
         {{- end }}
         {{- if $.Values.wwwRobotsNoIndexing }}
-        - name: www-robots-no-index{{- include "odoo-cs-suffix" . }}
+        - name: www-robots-no-index{{- include "odoo-cs-suffix" $ }}
         {{- end }}
         {{- if $.Values.waf.enabled }}
         - name: waf-authforward{{- include "odoo-cs-suffix" $ }}
@@ -71,7 +71,7 @@ spec:
         - name: ipwhitelist
         {{- end }}
         {{- if $.Values.wwwRobotsNoIndexing }}
-        - name: www-robots-no-index{{- include "odoo-cs-suffix" . }}
+        - name: www-robots-no-index{{- include "odoo-cs-suffix" $ }}
         {{- end }}
         {{- if $.Values.waf.enabled }}
         - name: waf-authforward{{- include "odoo-cs-suffix" $ }}
