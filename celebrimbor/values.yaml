@@ -6,18 +6,19 @@ replicaCount: 1
 
 image:
   pullPolicy: IfNotPresent
+  version: latest
   celebrimbor:
     repository: ghcr.io/camptocamp/celebrimbor
-    tag: app-latest
+    component: app
   nginx:
     repository: ghcr.io/camptocamp/celebrimbor
-    tag: nginx-latest
+    component: nginx
   curl_proxy:
     repository: ghcr.io/camptocamp/celebrimbor
-    tag: curl_proxy-latest
+    component: curl_proxy
   key_backup:
     repository: ghcr.io/camptocamp/celebrimbor
-    tag: key_backup-latest
+    component: key_backup
 
 imagePullSecrets:
   - name: github-packages

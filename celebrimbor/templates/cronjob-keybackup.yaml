@@ -23,7 +23,7 @@ spec:
           restartPolicy: Never
           containers:
           - name: key-backup
-            image: "{{ .Values.image.key_backup.repository }}:{{ .Values.image.key_backup.tag }}"
+            image: "{{ .Values.image.key_backup.repository }}:{{ .Values.image.key_backup.component }}-{{ .Values.image.version }}"
             imagePullPolicy: Always
             env:
               - name: GPG_KEYVAULT_NAME

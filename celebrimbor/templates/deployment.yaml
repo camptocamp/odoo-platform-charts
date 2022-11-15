@@ -30,7 +30,7 @@ spec:
       {{- end }}
       containers:
         - name: celebrimbor
-          image: "{{ .Values.image.celebrimbor.repository }}:{{ .Values.image.celebrimbor.tag }}"
+          image: "{{ .Values.image.celebrimbor.repository }}:{{ .Values.image.celebrimbor.component }}-{{ .Values.image.version }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
             - name: AZURE_ACCOUNT_URL
@@ -91,7 +91,7 @@ spec:
           resources:
             {{- toYaml .Values.resources.celebrimbor | nindent 12 }}
         - name: nginx
-          image: "{{ .Values.image.nginx.repository }}:{{ .Values.image.nginx.tag }}"
+          image: "{{ .Values.image.nginx.repository }}:{{ .Values.image.nginx.component }}-{{ .Values.image.version }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           envFrom:
             - configMapRef:
@@ -102,7 +102,7 @@ spec:
             - containerPort: 80
               name: http
         - name: curl-proxy
-          image: "{{ .Values.image.curl_proxy.repository }}:{{ .Values.image.curl_proxy.tag }}"
+          image: "{{ .Values.image.curl_proxy.repository }}:{{ .Values.image.curl_proxy.component }}-{{ .Values.image.version }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
             - name: CELEB_SVC
