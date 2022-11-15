@@ -19,7 +19,7 @@ spec:
         {{- if $.Values.ipFilter }}
         - name: ipwhitelist
         {{- end }}
-        {{- if $.Values.wwwRobotsNoIndexing }}
+        {{- if $.Values.wwwRobotsNoIndexing.enabled }}
         - name: www-robots-no-index{{- include "odoo-cs-suffix" $ }}
         {{- end }}
         {{- if $.Values.waf.enabled }}
@@ -36,7 +36,7 @@ spec:
         {{- if $.Values.ipFilter }}
         - name: ipwhitelist
         {{- end }}
-        {{- if $.Values.wwwRobotsNoIndexing }}
+        {{- if $.Values.wwwRobotsNoIndexing.enabled }}
         - name: www-robots-no-index{{- include "odoo-cs-suffix" $ }}
         {{- end }}
         {{- if $.Values.waf.enabled }}
