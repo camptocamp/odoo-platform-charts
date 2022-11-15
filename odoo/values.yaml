@@ -60,6 +60,11 @@ rateLimit: {}
 
 ipFilter: false
 
+# the following prevents crawlers/robots to index the web site
+# see: https://developers.google.com/search/docs/crawling-indexing/robots-meta-tag#xrobotstag
+wwwRobotsNoIndexing:
+  enabled: true
+
 waf:
   enabled: false
   address: "http://waf.waf.svc.cluster.local"
