@@ -19,6 +19,9 @@ spec:
         {{- if $.Values.ipFilter }}
         - name: ipwhitelist
         {{- end }}
+        {{- if $.Values.wwwRobotsNoIndexing }}
+        - name: www-robots-no-index{{- include "odoo-cs-suffix" . }}
+        {{- end }}
         {{- if $.Values.waf.enabled }}
         - name: waf-authforward{{- include "odoo-cs-suffix" $ }}
         {{- end }}
@@ -32,6 +35,9 @@ spec:
         - name: redirect-https{{- include "odoo-cs-suffix" $ }}
         {{- if $.Values.ipFilter }}
         - name: ipwhitelist
+        {{- end }}
+        {{- if $.Values.wwwRobotsNoIndexing }}
+        - name: www-robots-no-index{{- include "odoo-cs-suffix" . }}
         {{- end }}
         {{- if $.Values.waf.enabled }}
         - name: waf-authforward{{- include "odoo-cs-suffix" $ }}

@@ -27,4 +27,15 @@ spec:
     address: {{ .Values.waf.address }}
     trustForwardHeader: {{ .Values.waf.trustForwardHeader }}
 {{- end }}
+---
+{{- if $.Values.wwwRobotsNoIndexing.enabled }}
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: www-robots-no-index{{- include "odoo-cs-suffix" . }}
+spec:
+  headers:
+    customResponseHeaders:
+      X-Robots-Tag: "noindex,nofollow,noarchive,nosnippet,noimageindex"
+{{- end }}
 
