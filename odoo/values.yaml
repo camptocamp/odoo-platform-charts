@@ -60,6 +60,9 @@ rateLimit: {}
 
 ipFilter: false
 
+wwwRobotsPreventIndexing:
+  enabled: true
+
 waf:
   enabled: false
   address: "http://waf.waf.svc.cluster.local"
