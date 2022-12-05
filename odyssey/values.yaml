@@ -7,20 +7,39 @@ imagePullSecrets:
   - name: github-packages
 
 service:
+  enabled: true
   type: ClusterIP
-  port: 80
+  annotations: {}
+  name: null
+
+certificate:
+  enabled: true
+  secretName: odyssey-tls
+  issuerRef:
+    group: cert-manager.io
+    kind: ClusterIssuer
+    name: letsencrypt-staging
+  dnsNames:
+    - pg.example.com
+
+# extra volumes for deployment
+volumes: []
+# extra volumes mounts for deployment
+volumeMounts: []
 
 image:
   repository: ghcr.io/camptocamp/odyssey
   tag: latest
   pullPolicy: Always
 
+additionalAnnotations: {}
+additionalLabels: {}
 spec:
-  labels: {}
-  annotations:
-    {}
+  annotations: {}
 
-nodeSelector: {} 
+nodeSelector: {}
+
+resources: {}
 
 # Custom odyssey.conf
 settings:
@@ -240,7 +259,7 @@ settings:
     # Odyssey will fail in case it could not bind on any resolved address.
     #
 
-    #listen: 
+    #listen:
     #Bind address.
     #host: "*"
     #Listen port.
@@ -289,7 +308,7 @@ settings:
   #
   # Defines server used as a data storage or admin console operations.
   #
-  #storages: 
+  #storages:
   #  postgresql:
       #Storage type.
       #"remote" - PostgreSQL server
@@ -307,9 +326,9 @@ settings:
   #    tls_key_file: ""
   #    tls_cert_file: ""
   #    tls_protocols: ""
-      #	Global limit of server connections concurrently being routed.
-      #	We are opening no more than server_max_routing server connections concurrently.
-      #	Unset or zero 'server_max_routing' will set it's value equal to number of workers
+      # Global limit of server connections concurrently being routed.
+      # We are opening no more than server_max_routing server connections concurrently.
+      # Unset or zero 'server_max_routing' will set it's value equal to number of workers
   #    server_max_routing: 4
 
   #databases_default_value:
@@ -327,10 +346,10 @@ settings:
     #storage_db "database"
     #storage_user "test"
     #storage_password "test"
-    #Remote server auth  
+    #Remote server auth
 #    password_passthrough: "yes"
     #By default odyssey authenticate users itself, but if side auth application is used,
-    #like LDAP server, PAM module, or custom auth module, sometimes, 
+    #like LDAP server, PAM module, or custom auth module, sometimes,
     #instead of configuring storage_password, it is more convenient to reuse
     #client-provided password to perform backend auth. If you set this option to "yes"
     #Odyssey will store client token and use when new server connection is Opened. Anyway, if

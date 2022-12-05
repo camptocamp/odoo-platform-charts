@@ -13,17 +13,15 @@ spec:
     metadata:
       labels:
         {{- include "odyssey.labels" . | nindent 8 }}
+        {{- with .Values.additionalLabels }}
+          {{- toYaml . | nindent 8 }}
+        {{- end }}
       annotations:
         checksum/ini: {{ include "odyssey.conf.1.0.0" . | sha256sum }}
         {{- if .Values.spec.annotations }}
         {{- tpl (toJson .Values.spec.annotations) . | fromJson | toYaml |  nindent 8 }}
         {{- end }}
         {{- with .Values.additionalAnnotations }}
-          {{- toYaml . | nindent 8 }}
-        {{- end }}
-      labels:
-        {{- include "odyssey.selectorLabels" . | nindent 8 }}
-        {{- with .Values.additionalLabels }}
           {{- toYaml . | nindent 8 }}
         {{- end }}
     spec:
@@ -35,16 +33,14 @@ spec:
         - name: config
           configMap:
             name: {{ template "odyssey.fullname" . }}-config
-      {{- toYaml .Values.volumes | nindent 8 }}    
-      {{- with .Values.imagePullSecrets }}
-      imagePullSecrets:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
+        {{- with .Values.volumes }}
+          {{- toYaml .Values.volumes | nindent 8 }}
+        {{- end }}
       containers:
         - name: odyssey
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          args: ["/etc/odyssey/odyssey.conf"]   
+          args: ["/etc/odyssey/odyssey.conf"]
           ports:
             - name: odyssey
               containerPort: {{ .Values.internalPort }}
@@ -59,11 +55,15 @@ spec:
             - name: config
               subPath: odyssey.conf
               mountPath: /etc/odyssey/odyssey.conf
-           # extra volumes mounts
-           {{- toYaml .Values.volumeMounts | nindent 12 }}    
+            {{- with .Values.volumeMounts }}
+            # extra volumes mounts
+              {{- toYaml . | nindent 12 }}
+            {{- end }}
+          {{- with .Values.resources }}
           resources:
-            {{- toYaml .Values.resources | nindent 12 }}
-      nodeSelector:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
       {{- with .Values.nodeSelector }}
+      nodeSelector:
         {{- toYaml . | nindent 8 }}
       {{- end }}
