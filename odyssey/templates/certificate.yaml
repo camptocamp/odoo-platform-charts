@@ -6,7 +6,6 @@ metadata:
   name: odyssey
   labels:
     {{- include "odyssey.labels" . | nindent 4 }}
-  namespace:  odyssey
 spec:
   secretName: {{ .Values.certificate.secretName }}
   issuerRef:
