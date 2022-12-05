@@ -6,4 +6,4 @@ metadata:
     {{- include "odyssey.labels" . | nindent 4 }}
 data:
   odyssey.conf: |-
-{{ include "odyssey.conf.1.0.0" . | indent 4 }}
+    {{- include "odyssey.conf.1.0.0" . | nindent 4 }}

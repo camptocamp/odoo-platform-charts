@@ -5,17 +5,19 @@ metadata:
   name: {{ default (include "odyssey.fullname" .) .Values.service.name }}
   labels:
     {{- include "odyssey.labels" . | nindent 4 }}
+  {{- with .Values.service.annotations }}
   annotations:
-    {{- range $key, $value := .Values.service.annotations }}
+    {{- range $key, $value := . }}
       {{ $key }}: {{ $value | quote }}
     {{- end }}
+  {{- end }}
 spec:
   type: {{ .Values.service.type }}
   selector:
-    {{- include "odyssey.selectorLabels" . | nindent 6 }}
+    {{- include "odyssey.selectorLabels" . | nindent 4 }}
   ports:
     - port: {{ .Values.servicePort }}
-      targetPort: {{ .Values.internalPort }}
+      targetPort: odyssey
       protocol: TCP
-      name: postgres
+      name: odyssey
 {{- end }}
