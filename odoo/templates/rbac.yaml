@@ -11,7 +11,7 @@ metadata:
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
-  name: bs-team-power-user
+  name: bs-team-power-user{{- include "odoo-cs-suffix" . }}
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
