@@ -17,7 +17,7 @@ image:
     tag: xx.0-1.6.0
   odoohealthz:
     repository: ghcr.io/camptocamp/odoo-k8s-healthz
-    tag: app-1.1.0
+    tag: app-1.2.0
 
 
 imagePullSecrets:
@@ -110,36 +110,22 @@ odoo:
       container: container_name
   metrics:
     scrapeInterval: 15s
-  #livenessProbe:
-  #  httpGet:
-  #    path: "/liveness"
-  #    port: odoohealth
-  #  initialDelaySeconds: 600
-  #  periodSeconds: 30
-  #  timeoutSeconds: 5
-  #  failureThreshold: 6
-  #  successThreshold: 1
-  ## @param readinessProbe.enabled Enable readinessProbe
-  ##
-  #readinessProbe:
-  #  httpGet:
-  #    path: "/readiness"
-  #    port: odoohealth
-  #  initialDelaySeconds: 30
-  #  periodSeconds: 10
-  #  timeoutSeconds: 5
-  #  failureThreshold: 6
-  #  successThreshold: 1
-  ## @param startupProbe.enabled Enable startupProbe
-  #startupProbe:
-  #  httpGet:
-  #    path: "/liveness"
-  #    port: odoohealth
-  #  initialDelaySeconds: 300
-  #  periodSeconds: 10
-  #  timeoutSeconds: 5
-  #  failureThreshold: 6
-  #  successThreshold: 1  
+
+  livenessProbe:
+    httpGet:
+      path: /liveness
+      port: 8080
+    initialDelaySeconds: 80
+    periodSeconds: 60
+    timeoutSeconds: 10
+
+  readinessProbe:
+    httpGet:
+      path: /readiness
+      port: 8080
+    initialDelaySeconds: 80
+    periodSeconds: 60
+    timeoutSeconds: 10
   db:
     secret:
       name: odoo-database
@@ -186,33 +172,17 @@ odoo:
       hard: "2147483648"
     max_cron: '0'
     channels: "root:2"
-    #livenessProbe:
-    #  httpGet:
-    #    path: "/liveness"
-    #    port: odoohealth
-    #  initialDelaySeconds: 600
-    #  periodSeconds: 30
-    #  timeoutSeconds: 5
-    #  failureThreshold: 6
-    #  successThreshold: 1
-    # @param readinessProbe.enabled Enable readinessProbe
-    #
-    #readinessProbe:
-    #  httpGet:
-    #    path: "/readiness"
-    #    port: odoohealth
-    #  initialDelaySeconds: 30
-    #  periodSeconds: 10
-    #  timeoutSeconds: 5
-    #  failureThreshold: 6
-    #  successThreshold: 1
-    # @param startupProbe.enabled Enable startupProbe
-    #startupProbe:
-    #  httpGet:
-    #    path: "/liveness"
-    #    port: odoohealth
-    #  initialDelaySeconds: 300
-    #  periodSeconds: 10
-    #  timeoutSeconds: 5
-    #  failureThreshold: 6
-    #  successThreshold: 1
+    livenessProbe:
+      httpGet:
+        path: /liveness
+        port: 8080
+      initialDelaySeconds: 80
+      periodSeconds: 60
+      timeoutSeconds: 10
+    readinessProbe:
+      httpGet:
+        path: /readiness
+        port: 8080
+      initialDelaySeconds: 80
+      periodSeconds: 60
+      timeoutSeconds: 10
