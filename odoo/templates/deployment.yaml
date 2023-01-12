@@ -250,9 +250,8 @@ spec:
           envFrom:
             - configMapRef:
                 name: odoo-config{{- include "odoo-cs-suffix" . }}
-            - secretRef:
-                name: odoo-secret{{- include "odoo-cs-suffix" . }}
-                optional: true
+            - configMapRef:
+                name: odoohealthz-config{{- include "odoo-cs-suffix" . }}
           volumeMounts:
             {{- toYaml .Values.volumeMounts | nindent 12 }}
           ports:
