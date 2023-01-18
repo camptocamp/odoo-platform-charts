@@ -17,7 +17,7 @@ image:
     tag: xx.0-1.6.0
   odoohealthz:
     repository: ghcr.io/camptocamp/odoo-k8s-healthz
-    tag: app-1.2.0
+    tag: app-1.3.1
 
 
 imagePullSecrets:
@@ -95,6 +95,15 @@ roleBindings: {}
 #       kind: ClusterRole
 #       name: pod-exec
 #       apiGroup: rbac.authorization.k8s.io
+
+odoohealthz: {}
+  #odoo_url: "http://localhost:8069"
+  #odoo_timeout: 30
+  #check_stuck_job: "False"
+  #max_job_duration: "3600"
+  #check_long_transaction: "False"
+  #max_transaction_duration: "3600"
+  #log_level:  "ERROR"
 
 odoo:
   customerName: customer
@@ -174,15 +183,9 @@ odoo:
     channels: "root:2"
     livenessProbe:
       httpGet:
-        path: /liveness
+        path: /queue_liveness
         port: 8080
       initialDelaySeconds: 80
       periodSeconds: 60
       timeoutSeconds: 10
-    readinessProbe:
-      httpGet:
-        path: /readiness
-        port: 8080
-      initialDelaySeconds: 80
-      periodSeconds: 60
-      timeoutSeconds: 10
+    readinessProbe: {}
