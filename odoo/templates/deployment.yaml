@@ -134,6 +134,8 @@ spec:
                 name: odoo-config{{- include "odoo-cs-suffix" . }}
             - configMapRef:
                 name: odoohealthz-config{{- include "odoo-cs-suffix" . }}
+          resources:
+            {{- toYaml .Values.resources.odoohealthz | nindent 12 }}
           volumeMounts:
             {{- toYaml .Values.volumeMounts | nindent 12 }}
           ports:
@@ -251,6 +253,8 @@ spec:
                 name: odoo-config{{- include "odoo-cs-suffix" . }}
             - configMapRef:
                 name: odoohealthz-config{{- include "odoo-cs-suffix" . }}
+          resources:
+            {{- toYaml .Values.resources.odoohealthz | nindent 12 }}
           volumeMounts:
             {{- toYaml .Values.volumeMounts | nindent 12 }}
           ports:
