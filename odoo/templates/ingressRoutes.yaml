@@ -1,0 +1,153 @@
+# TODO make errorService pod restart when new html config (secondary)
+# TODO make errorService global like WAF (secondary)
+{{- range .Values.ingressRoutes.routes }}
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: odoo-ingress{{- include "odoo-cs-suffix" $ }}
+spec:
+  entryPoints:
+  {{- range .entryPoints }}
+    - {{ . }}
+  {{- end }}
+  {{- $hosts := printf "(Host(`%s`))" ( join "`) || Host(`" .hostList ) }}
+  routes:
+  {{- range .paths }}
+    {{- $list := list }}
+    {{- range .list }}
+        {{- $list = .path | append $list }}
+    {{- end }}
+    {{- $scope := . }}
+    {{- range .list }}
+      {{- if eq .type "specific" }}
+    - match: {{ printf "%s && Path(`%s`)" $hosts .path }}
+      priority: {{ .priority | default 65535 }}
+      {{- else if eq .type "prefix" }}
+    - match: {{ printf "%s && PathPrefix(`%s`)" $hosts .path }}
+      priority: {{ .priority | default 0 }}
+      {{- else }}
+    - match: {{ printf "%s && PathRegexp(`%s`)" $hosts .path }}
+      priority: {{ .priority | default 65535 }}
+      {{- end }}
+      kind: Rule
+      services:
+      {{- if $scope.returnError404 }}
+        - name: error-page{{- include "odoo-cs-suffix" $ }}
+          port: 80
+      {{- else }}
+        - name: {{ include "odoo.fullname" $ }}
+          port: 80        
+      {{- end }}
+      {{- with $scope.middlewares }}
+      middlewares:
+        {{- with .IPWhiteList }}
+          {{- if not .useDefault }}
+            {{- with .override }}
+        - name: mw-ip-{{ sha1sum (printf "IPWhiteList-%s-%s" $hosts $list) }}
+            {{- end }}
+          {{- else }}
+            {{- with $.Values.ingressRoutes.defaultMiddlewares.IPWhiteList}}
+        - name: mw-ip-default{{- include "odoo-cs-suffix" $ }}
+            {{- end }}
+          {{- end }}
+        {{- end }}
+        {{- with .waf }}
+          {{- if not .useDefault }}
+            {{- with .override }}
+        - name: mw-wf-{{ sha1sum (printf "waf-%s-%s" $hosts $list) }}
+            {{- end }}
+          {{- else }}
+            {{- with $.Values.ingressRoutes.defaultMiddlewares.waf}}
+        - name: mw-wf-default{{- include "odoo-cs-suffix" $ }}
+            {{- end }}
+          {{- end }}
+        {{- end }}
+        {{- with .robotNoIndex }}
+          {{- if not .useDefault }}
+            {{- if .override }}
+        - name: mw-rn-{{ sha1sum (printf "robotNoIndex-%s-%s" $hosts $list) }}
+            {{- end }}
+          {{- else }}
+            {{- if $.Values.ingressRoutes.defaultMiddlewares.robotNoIndex}}
+        - name: mw-rn-default{{- include "odoo-cs-suffix" $ }}
+            {{- end }}
+          {{- end }}
+        {{- end }}
+        {{- with .rateLimits }}
+          {{- if not .useDefault }}
+            {{- with .override }}
+        - name: mw-rl-{{ sha1sum (printf "rateLimits-%s-%s" $hosts $list) }}
+            {{- end }}
+          {{- else }}
+            {{- with $.Values.ingressRoutes.defaultMiddlewares.rateLimits}}
+        - name: mw-rl-default{{- include "odoo-cs-suffix" $ }}
+            {{- end }}
+          {{- end }}
+        {{- end }}
+        {{- with .redirectScheme }}
+          {{- if not .useDefault }}
+            {{- with .override }}
+        - name: mw-rs-{{ sha1sum (printf "redirectScheme-%s-%s" $hosts $list) }}
+            {{- end }}
+          {{- else }}
+            {{- with $.Values.ingressRoutes.defaultMiddlewares.redirectScheme}}
+        - name: mw-rs-default{{- include "odoo-cs-suffix" $ }}
+            {{- end }}
+          {{- end }}
+        {{- end }}
+        {{- with .redirectRegex }}
+          {{- if not .useDefault }}
+            {{- range .override }}
+        - name: mw-rr-{{ sha1sum (printf "redirectRegex-%s-%s-%s-%s" $hosts $list .regex .replacement) }}
+            {{- end }}
+          {{- else }}
+            {{- range $.Values.ingressRoutes.defaultMiddlewares.redirectRegex}}
+        - name: mw-rr-default{{- include "odoo-cs-suffix" $ }}-{{ sha1sum (printf "redirectRegex-%s-%s" .regex .replacement) }}
+            {{- end }}
+          {{- end }}
+        {{- end }}
+        {{- with .externalMiddlewares }}
+          {{- if not .useDefault }}
+            {{- range .override }}
+        - name: {{ .name }}
+              {{- with .namespace }}
+          namespace: {{ . }}
+              {{- end }}
+            {{- end }}
+          {{- else }}
+            {{- range $.Values.ingressRoutes.defaultMiddlewares.externalMiddlewares}}
+        - name: {{ .name }}
+              {{- with .namespace }}
+          namespace: {{ . }}
+              {{- end }}
+            {{- end }}
+          {{- end }}
+        {{- end }}
+      {{- end }}
+    {{- end }}
+  {{- end }}
+  {{- if .certificate.useDefault }}
+  tls:
+    store: 
+      name: default
+  {{- else }}
+  tls:
+    secretName: sct-{{ sha1sum (printf "secret-%s" $hosts) }}
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: crt-{{ sha1sum (printf "certificate-%s" $hosts) }}
+spec:
+  secretName: sct-{{ sha1sum (printf "secret-%s" $hosts) }}
+  dnsNames:
+    {{- range .hostList }}
+    - {{ . | quote }}
+    {{- end }}
+  issuerRef:
+    group: cert-manager.io
+    kind: ClusterIssuer
+    name: {{ .certificate.issuerRef }}
+  {{- end }}
+{{- end }}

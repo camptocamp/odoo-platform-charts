@@ -1,0 +1,85 @@
+{{- with .Values.ingressRoutes.defaultMiddlewares}}
+  {{- with .IPWhiteList }}
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: mw-ip-default{{- include "odoo-cs-suffix" $ }}
+spec:
+  ipWhiteList:
+    sourceRange:
+    {{- range . }}
+      - {{ . | quote }}
+    {{- end }}
+  {{- end }}
+  {{- with .waf }}
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: mw-wf-default{{- include "odoo-cs-suffix" $ }}
+spec:
+  forwardAuth:
+    address: {{ .address }}
+    {{- with .trustForwardHeader }}
+    trustForwardHeader: {{ . }}
+    {{- end }}
+  {{- end }}
+  {{- if .robotNoIndex }}
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: mw-rn-default{{- include "odoo-cs-suffix" $ }}
+spec:
+  headers:
+    customResponseHeaders:
+      X-Robots-Tag: "noindex,nofollow,noarchive,nosnippet,noimageindex"
+  {{- end }}
+  {{- with .rateLimits }}        
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: mw-rl-default{{- include "odoo-cs-suffix" $ }}
+spec:
+  rateLimit:
+    average: {{ .average }}
+    {{- with .burst }}
+    burst: {{ . }}
+    {{- end }}
+    {{- with .period }}
+    period: {{ . }}
+    {{- end }}
+  {{- end }}
+  {{- with .redirectScheme }}
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: mw-rs-default{{- include "odoo-cs-suffix" $ }}
+spec:
+  redirectScheme:
+    scheme: {{ .scheme }}
+    {{- with .permanent }}
+    permanent: {{ . }}
+    {{- end }}
+    {{- with .port }}
+    port: {{ . | quote }}
+    {{- end }}
+  {{- end }}
+  {{- range .redirectRegex }}
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: mw-rr-default{{- include "odoo-cs-suffix" $ }}-{{ sha1sum (printf "redirectRegex-%s-%s" .regex .replacement) }}
+spec:
+  redirectRegex:
+    regex: {{ .regex }}
+    replacement: {{ .replacement }}
+    {{- with .permanent }}
+    permanent: {{ . }}
+    {{- end }}
+  {{- end }}
+{{- end }}

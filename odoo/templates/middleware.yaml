@@ -1,0 +1,119 @@
+{{- range .Values.ingressRoutes.routes }}
+---
+  {{- $hosts := printf "(Host(`%s`))" ( join "`) || Host(`" .hostList ) }}
+  {{- range .paths }}
+    {{- $list := list }}
+    {{- range .list }}
+        {{- $list = .path | append $list }}
+    {{- end }}
+    {{- with .middlewares }}
+      {{- with .IPWhiteList }}
+        {{- if not .useDefault }}
+          {{- with .override }}
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: mw-ip-{{ sha1sum (printf "IPWhiteList-%s-%s" $hosts $list) }}
+spec:
+  ipWhiteList:
+    sourceRange:
+            {{- range . }}
+      - {{ . | quote }}
+            {{- end }}
+          {{- end }}
+        {{- end }}
+      {{- end }}
+      {{- with .waf }}
+        {{- if not .useDefault }}
+          {{- with .override }}
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: mw-wf-{{ sha1sum (printf "waf-%s-%s" $hosts $list) }}
+spec:
+  forwardAuth:
+    address: {{ .address }}
+            {{- with .trustForwardHeader }}
+    trustForwardHeader: {{ . }}
+            {{- end }}
+          {{- end }}
+        {{- end }}
+      {{- end }}
+      {{- with .robotNoIndex }}
+        {{- if not .useDefault }}
+          {{- if .override }}
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: mw-rn-{{ sha1sum (printf "robotNoIndex-%s-%s" $hosts $list) }}
+spec:
+  headers:
+    customResponseHeaders:
+      X-Robots-Tag: "noindex,nofollow,noarchive,nosnippet,noimageindex"
+          {{- end }}
+        {{- end }}
+      {{- end }}
+      {{- with .rateLimits }}
+        {{- if not .useDefault }}
+          {{- with .override }}
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: mw-rl-{{ sha1sum (printf "rateLimits-%s-%s" $hosts $list) }}
+spec:
+  rateLimit:
+    average: {{ .average }}
+        {{- with .burst }}
+    burst: {{ . }}
+        {{- end }}
+        {{- with .period }}
+    period: {{ . }}
+        {{- end }}
+          {{- end }}
+        {{- end }}
+      {{- end }}
+      {{- with .redirectScheme }}
+        {{- if not .useDefault }}
+          {{- with .override }}
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: mw-rs-{{ sha1sum (printf "redirectScheme-%s-%s" $hosts $list) }}
+spec:
+  redirectScheme:
+    scheme: {{ .scheme }}
+        {{- with .permanent }}
+    permanent: {{ . }}
+        {{- end }}
+        {{- with .port }}
+    port: {{ . | quote }}
+        {{- end }}
+          {{- end }}
+        {{- end }}
+      {{- end }}
+      {{- with .redirectRegex }}
+        {{- if not .useDefault }}
+          {{- range .override }}
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: mw-rr-{{ sha1sum (printf "redirectRegex-%s-%s-%s-%s" $hosts $list .regex .replacement) }}
+spec:
+  redirectRegex:
+    regex: {{ .regex }}
+    replacement: {{ .replacement }}
+            {{- with .permanent }}
+    permanent: {{ . }}
+            {{- end }}
+          {{- end }}
+        {{- end }}
+      {{- end }}
+    {{- end }}
+  {{- end }}
+{{- end }}
