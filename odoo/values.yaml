@@ -34,6 +34,13 @@ resources:
       memory: 64Mi
     limits:
       memory: 256Mi
+  odoohealthz:
+    requests:
+      cpu: 10m
+      memory: 64Mi
+    limits:
+      memory: 256Mi
+  
 
 nodeSelector: {}
 tolerations: []
