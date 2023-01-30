@@ -58,36 +58,79 @@ additionalLabels: {}
 
 additionalAnnotations: {}
 
-rateLimit: {}
-  # average: 3
-  # burst: 5
-  # paths:
-  #   - "/web/login"
-  #   - "/longpolling/poll"
-
-ipFilter: false
-
-# the following prevents crawlers/robots to index the web site
-# see: https://developers.google.com/search/docs/crawling-indexing/robots-meta-tag#xrobotstag
-wwwRobotsNoIndexing:
-  enabled: true
-
-waf:
-  enabled: false
-  address: "http://waf.waf.svc.cluster.local"
-  trustForwardHeader: false
-
-issuerRef: letsencrypt-prod
-
-ingressRouteClient: {}
-  # hosts:
-  #   - "integration.c2c.odoo.camptocamp.ch"
-  # pathPrefix: '/'
-
-ingressRouteInternal: {}
-  # hosts:
-  #   - "odoo-camptocamp-int.apps.odoo-ch-prod.camptocamp.com"
-  # pathPrefix: '/'
+ingressRoutes: {}
+# ingressRoutes:
+#   defaultMiddlewares:
+#     IPWhiteList:
+#       - "10.10.0.0/16"
+#     waf:
+#       address: "waf.com"
+#       trustForwardHeader: true
+#     robotNoIndex: true
+#     rateLimits:
+#       average: 200
+#       burst: 5
+#       period: "1m"
+#     redirectScheme:
+#       scheme: "https"
+#       permanent: true
+#       port: "443"
+#     redirectRegex:
+#       - regex: "regex1"
+#         replacement: "replacement1"
+#         permanent: true
+#     externalMiddlewares:
+#       - name: "middleware"
+#         namespace: "namespace"
+#   routes:
+#     - hostList:
+#         - "init7.odoo.camptocamp.ch"
+#       entryPoints:
+#         - "websecure"
+#       certificate:
+#         useDefault: false
+#         issuerRef: "letsencrypt-prod"
+#       paths:
+#         - list:
+#             - path: '(.*)/database/manager'
+#               type: regex
+#             - path: "/xmlrpc/2/db"
+#               type: specific
+#             - path: "/xmlrpc/db"
+#               type: specific
+#             - path: "/jsonrpc/db"
+#               type: specific
+#           returnError404: true
+#           middlewares:
+#             IPWhiteList:
+#               useDefault: true
+#             waf:
+#               useDefault: true
+#             robotNoIndex:
+#               useDefault: true
+#             redirectScheme:
+#               useDefault: true
+#         - list:
+#             - path: "/xmlrpc/common"
+#               type: specific
+#             - path: "xmlrpc/2/common"
+#               type: specific
+#             - path: "jsonrpc/common"
+#               type: specific
+#           returnError404: false
+#           middlewares:
+#             IPWhiteList:
+#               useDefault: true
+#             waf:
+#               useDefault: true
+#             robotNoIndex:
+#               useDefault: true
+#             rateLimits:
+#               useDefault: false
+#               override:
+#                 average: 5
+#             redirectScheme:
+#               useDefault: true
 
 bsTeamPowerUserGroupId: ""
 

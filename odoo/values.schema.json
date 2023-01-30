@@ -1,0 +1,385 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "properties": {
+    "ingressRoutes": {
+      "type": "object",
+      "properties": {
+        "defaultMiddlewares": {
+          "type": "object",
+          "properties": {
+            "IPWhiteList": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "uniqueItems": true,
+              "minItems": 1
+            },
+            "waf": {
+              "type": "object",
+              "properties": {
+                "address": {
+                  "type": "string"
+                },
+                "trustForwardHeader": {
+                  "type": "boolean"
+                }
+              },
+              "required": [
+                "address"
+              ]
+            },
+            "robotNoIndexing": {
+              "type": "boolean"
+            },
+            "rateLimits": {
+              "type": "object",
+              "properties": {
+                "average": {
+                  "type": "number"
+                },
+                "burst": {
+                  "type": "number"
+                },
+                "period": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "average"
+              ]
+            },
+            "redirectScheme": {
+              "type": "object",
+              "properties": {
+                "scheme": {
+                  "type": "string"
+                },
+                "permanent": {
+                  "type": "boolean"
+                },
+                "port": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "scheme"
+              ]
+            },
+            "redirectRegex": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "regex": {
+                    "type": "string"
+                  },
+                  "replacement": {
+                    "type": "string"
+                  },
+                  "permanent": {
+                    "type": "boolean"
+                  }
+                },
+                "required": [
+                  "regex",
+                  "replacement"
+                ]
+              },
+              "uniqueItems": true,
+              "minItems": 1
+            },
+            "externalMiddlewares": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "namespace": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "name"
+                ]
+              },
+              "uniqueItems": true
+            }
+          }
+        },
+        "routes": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "hostList": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "minItems": 1,
+                "uniqueItems": true
+              },
+              "entryPoints": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "minItems": 1,
+                "uniqueItems": true
+              },
+              "certificate": {
+                "type": "object",
+                "properties": {
+                  "useDefault": {
+                    "type":"boolean"
+                  },
+                  "clusterIssuer": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "useDefault"
+                ]
+              },
+              "paths": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "list": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "path": {
+                            "type": "string"
+                          },
+                          "type": {
+                            "enum": ["specific", "prefix", "regex"]
+                          },
+                          "priority": {
+                            "type": "number"
+                          }
+                        },
+                        "required": [
+                          "path",
+                          "type"
+                        ]
+                      },
+                      "minItems": 1,
+                      "uniqueItems": true
+                    },
+                    "returnError404": {
+                      "type": "boolean"
+                    },
+                    "middlewares": {
+                      "type": "object",
+                      "properties": {
+                        "IPWhiteList": {
+                          "type": "object",
+                          "properties": {
+                            "useDefault": {
+                              "type": "boolean"
+                            },
+                            "override" : {
+                              "type": "array",
+                              "items": {
+                                "type": "string"
+                              },
+                              "uniqueItems": true,
+                              "minItems": 1
+                            }
+                          },
+                          "required": [
+                            "useDefault"
+                          ]
+                        },
+                        "waf": {
+                          "type": "object",
+                          "properties": {
+                            "useDefault": {
+                              "type": "boolean"
+                            },
+                            "override" : {
+                              "type": "object",
+                              "properties": {
+                                "address": {
+                                  "type": "string"
+                                },
+                                "trustForwardHeader": {
+                                  "type": "boolean"
+                                }
+                              },
+                              "required": [
+                                "address"
+                              ]
+                            }
+                          },
+                          "required": [
+                            "useDefault"
+                          ]
+                        },
+                        "robotNoIndexing": {
+                          "type": "object",
+                          "properties": {
+                            "useDefault": {
+                              "type": "boolean"
+                            },
+                            "override" : {
+                              "type": "boolean"
+                            }
+                          },
+                          "required": [
+                            "useDefault"
+                          ]
+                        },
+                        "rateLimits": {
+                          "type": "object",
+                          "properties": {
+                            "useDefault": {
+                              "type": "boolean"
+                            },
+                            "override" : {
+                              "type": "object",
+                              "properties": {
+                                "average": {
+                                  "type": "number"
+                                },
+                                "burst": {
+                                  "type": "number"
+                                },
+                                "period": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "average"
+                              ]
+                            }
+                          },
+                          "required": [
+                            "useDefault"
+                          ]
+                        },
+                        "redirectScheme": {
+                          "type": "object",
+                          "properties": {
+                            "useDefault": {
+                              "type": "boolean"
+                            },
+                            "override" : {
+                              "type": "object",
+                              "properties": {
+                                "scheme": {
+                                  "type": "string"
+                                },
+                                "permanent": {
+                                  "type": "boolean"
+                                },
+                                "port": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "scheme"
+                              ]
+                            }
+                          },
+                          "required": [
+                            "useDefault"
+                          ]
+                        },
+                        "redirectRegex": {
+                          "type": "object",
+                          "properties": {
+                            "useDefault": {
+                              "type": "boolean"
+                            },
+                            "override" : {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "regex": {
+                                    "type": "string"
+                                  },
+                                  "replacement": {
+                                    "type": "string"
+                                  },
+                                  "permanent": {
+                                    "type": "boolean"
+                                  }
+                                },
+                                "required": [
+                                  "regex",
+                                  "replacement"
+                                ]
+                              },
+                              "uniqueItems": true
+                            }
+                          },
+                          "required": [
+                            "useDefault"
+                          ]
+                        },
+                        "externalMiddlewares": {
+                          "type": "object",
+                          "properties": {
+                            "useDefault": {
+                              "type": "boolean"
+                            },
+                            "override" : {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "name": {
+                                    "type": "string"
+                                  },
+                                  "namespace": {
+                                    "type": "string"
+                                  }
+                                },
+                                "required": [
+                                  "name"
+                                ]
+                              },
+                              "uniqueItems": true
+                            }
+                          },
+                          "required": [
+                            "useDefault"
+                          ]
+                        }
+                      }
+                    }
+                  },
+                  "required": [
+                    "list"
+                  ]
+                },
+                "minItems": 1
+              }
+            },
+            "required": [
+              "hostList",
+              "entryPoints",
+              "certificate",
+              "paths"
+            ]
+          }
+        }
+      },
+      "required": [
+        "defaultMiddlewares",
+        "routes"
+      ]
+    }
+  },
+  "required": [
+    "ingressRoutes"
+  ]
+}
