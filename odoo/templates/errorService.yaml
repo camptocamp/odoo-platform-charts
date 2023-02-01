@@ -30,7 +30,7 @@ spec:
           name: error-page{{- include "odoo-cs-suffix" $ }}
       - name: nginx-config
         configMap:
-          name: nginx-config{{- include "odoo-cs-suffix" $ }}
+          name: nginx-config-error{{- include "odoo-cs-suffix" $ }}
 ---
 apiVersion: v1
 kind: Service
@@ -59,7 +59,7 @@ data:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: nginx-config{{- include "odoo-cs-suffix" $ }}
+  name: nginx-config-error{{- include "odoo-cs-suffix" $ }}
 data:
   nginx.conf: |
     user  nginx;
