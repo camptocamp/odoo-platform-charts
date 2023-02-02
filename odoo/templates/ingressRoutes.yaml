@@ -1,11 +1,13 @@
 # TODO make errorService pod restart when new html config (secondary)
 # TODO make errorService global like WAF (secondary)
+{{ $ingress_id := 1 | int }}
 {{- range .Values.ingressRoutes.routes }}
 ---
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
-  name: odoo-ingress{{- include "odoo-cs-suffix" $ }}
+  name: odoo-ingress-{{ $ingress_id }}{{- include "odoo-cs-suffix" $ }}
+  {{ $ingress_id = add1 $ingress_id }}
 spec:
   entryPoints:
   {{- range .entryPoints }}
