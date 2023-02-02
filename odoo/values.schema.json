@@ -27,9 +27,10 @@
               },
               "required": [
                 "address"
-              ]
+              ],
+              "additionalProperties": false
             },
-            "robotNoIndexing": {
+            "robotNoIndex": {
               "type": "boolean"
             },
             "rateLimits": {
@@ -47,7 +48,8 @@
               },
               "required": [
                 "average"
-              ]
+              ],
+              "additionalProperties": false
             },
             "redirectScheme": {
               "type": "object",
@@ -64,7 +66,8 @@
               },
               "required": [
                 "scheme"
-              ]
+              ],
+              "additionalProperties": false
             },
             "redirectRegex": {
               "type": "array",
@@ -84,7 +87,8 @@
                 "required": [
                   "regex",
                   "replacement"
-                ]
+                ],
+                "additionalProperties": false
               },
               "uniqueItems": true,
               "minItems": 1
@@ -103,11 +107,13 @@
                 },
                 "required": [
                   "name"
-                ]
+                ],
+                "additionalProperties": false
               },
               "uniqueItems": true
             }
-          }
+          },
+          "additionalProperties": false
         },
         "routes": {
           "type": "array",
@@ -136,13 +142,14 @@
                   "useDefault": {
                     "type":"boolean"
                   },
-                  "clusterIssuer": {
+                  "issuerRef": {
                     "type": "string"
                   }
                 },
                 "required": [
                   "useDefault"
-                ]
+                ],
+                "additionalProperties": false
               },
               "paths": {
                 "type": "array",
@@ -167,7 +174,8 @@
                         "required": [
                           "path",
                           "type"
-                        ]
+                        ],
+                        "additionalProperties": false
                       },
                       "minItems": 1,
                       "uniqueItems": true
@@ -195,7 +203,8 @@
                           },
                           "required": [
                             "useDefault"
-                          ]
+                          ],
+                          "additionalProperties": false
                         },
                         "waf": {
                           "type": "object",
@@ -215,14 +224,16 @@
                               },
                               "required": [
                                 "address"
-                              ]
+                              ],
+                              "additionalProperties": false
                             }
                           },
                           "required": [
                             "useDefault"
-                          ]
+                          ],
+                          "additionalProperties": false
                         },
-                        "robotNoIndexing": {
+                        "robotNoIndex": {
                           "type": "object",
                           "properties": {
                             "useDefault": {
@@ -234,7 +245,8 @@
                           },
                           "required": [
                             "useDefault"
-                          ]
+                          ],
+                          "additionalProperties": false
                         },
                         "rateLimits": {
                           "type": "object",
@@ -257,12 +269,14 @@
                               },
                               "required": [
                                 "average"
-                              ]
+                              ],
+                              "additionalProperties": false
                             }
                           },
                           "required": [
                             "useDefault"
-                          ]
+                          ],
+                          "additionalProperties": false
                         },
                         "redirectScheme": {
                           "type": "object",
@@ -285,12 +299,14 @@
                               },
                               "required": [
                                 "scheme"
-                              ]
+                              ],
+                              "additionalProperties": false
                             }
                           },
                           "required": [
                             "useDefault"
-                          ]
+                          ],
+                          "additionalProperties": false
                         },
                         "redirectRegex": {
                           "type": "object",
@@ -316,14 +332,16 @@
                                 "required": [
                                   "regex",
                                   "replacement"
-                                ]
+                                ],
+                                "additionalProperties": false
                               },
                               "uniqueItems": true
                             }
                           },
                           "required": [
                             "useDefault"
-                          ]
+                          ],
+                          "additionalProperties": false
                         },
                         "externalMiddlewares": {
                           "type": "object",
@@ -345,21 +363,24 @@
                                 },
                                 "required": [
                                   "name"
-                                ]
+                                ],
+                                "additionalProperties": false
                               },
                               "uniqueItems": true
                             }
                           },
                           "required": [
                             "useDefault"
-                          ]
+                          ],
+                          "additionalProperties": false
                         }
                       }
                     }
                   },
                   "required": [
                     "list"
-                  ]
+                  ],
+                  "additionalProperties": false
                 },
                 "minItems": 1
               }
@@ -369,7 +390,8 @@
               "entryPoints",
               "certificate",
               "paths"
-            ]
+            ],
+            "additionalProperties": false
           }
         }
       },
