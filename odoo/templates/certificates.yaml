@@ -1,0 +1,22 @@
+{{- range .Values.ingressRoutes.routes }}
+  {{- range .hostList }}
+    {{- $hosts := printf "(Host(`%s`))" ( join "`) || Host(`" .list ) }}
+    {{- if not .certificate.useDefault }}
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: crt-{{ sha1sum (printf "certificate-%s" $hosts) }}
+spec:
+  secretName: sct-{{ sha1sum (printf "secret-%s" $hosts) }}
+  dnsNames:
+      {{- range .list }}
+    - {{ . | quote }}
+      {{- end }}
+  issuerRef:
+    group: cert-manager.io
+    kind: ClusterIssuer
+    name: {{ .certificate.issuerRef }}
+    {{- end }}
+  {{- end }}
+{{- end }}
