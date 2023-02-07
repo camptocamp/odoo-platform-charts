@@ -1,0 +1,415 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "properties": {
+    "ingressRoutes": {
+      "type": "object",
+      "properties": {
+        "defaultMiddlewares": {
+          "type": "object",
+          "properties": {
+            "IPWhiteList": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "uniqueItems": true,
+              "minItems": 1
+            },
+            "waf": {
+              "type": "object",
+              "properties": {
+                "address": {
+                  "type": "string"
+                },
+                "trustForwardHeader": {
+                  "type": "boolean"
+                }
+              },
+              "required": [
+                "address"
+              ],
+              "additionalProperties": false
+            },
+            "robotNoIndex": {
+              "type": "boolean"
+            },
+            "rateLimits": {
+              "type": "object",
+              "properties": {
+                "average": {
+                  "type": "number"
+                },
+                "burst": {
+                  "type": "number"
+                },
+                "period": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "average"
+              ],
+              "additionalProperties": false
+            },
+            "redirectScheme": {
+              "type": "object",
+              "properties": {
+                "scheme": {
+                  "type": "string"
+                },
+                "permanent": {
+                  "type": "boolean"
+                },
+                "port": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "scheme"
+              ],
+              "additionalProperties": false
+            },
+            "redirectRegex": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "regex": {
+                    "type": "string"
+                  },
+                  "replacement": {
+                    "type": "string"
+                  },
+                  "permanent": {
+                    "type": "boolean"
+                  }
+                },
+                "required": [
+                  "regex",
+                  "replacement"
+                ],
+                "additionalProperties": false
+              },
+              "uniqueItems": true,
+              "minItems": 1
+            },
+            "externalMiddlewares": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "namespace": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "name"
+                ],
+                "additionalProperties": false
+              },
+              "uniqueItems": true
+            }
+          },
+          "additionalProperties": false
+        },
+        "routes": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "hostList": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "list": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      },
+                      "minItems": 1,
+                      "uniqueItems": true
+                    },
+                    "certificate": {
+                      "type": "object",
+                      "properties": {
+                        "useDefault": {
+                          "type": "boolean"
+                        },
+                        "issuerRef": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "useDefault"
+                      ],
+                      "additionalProperties": false
+                    }
+                  },
+                  "required": [
+                    "list",
+                    "certificate"
+                  ],
+                  "additionalProperties": false
+                },
+                "minItems": 1,
+                "uniqueItems": true
+              },
+              "entryPoints": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "minItems": 1,
+                "uniqueItems": true
+              },
+              "paths": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "list": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "path": {
+                            "type": "string"
+                          },
+                          "type": {
+                            "enum": ["specific", "prefix", "regex"]
+                          },
+                          "priority": {
+                            "type": "number"
+                          }
+                        },
+                        "required": [
+                          "path",
+                          "type"
+                        ],
+                        "additionalProperties": false
+                      },
+                      "minItems": 1,
+                      "uniqueItems": true
+                    },
+                    "returnError404": {
+                      "type": "boolean"
+                    },
+                    "middlewares": {
+                      "type": "object",
+                      "properties": {
+                        "IPWhiteList": {
+                          "type": "object",
+                          "properties": {
+                            "useDefault": {
+                              "type": "boolean"
+                            },
+                            "override" : {
+                              "type": "array",
+                              "items": {
+                                "type": "string"
+                              },
+                              "uniqueItems": true,
+                              "minItems": 1
+                            }
+                          },
+                          "required": [
+                            "useDefault"
+                          ],
+                          "additionalProperties": false
+                        },
+                        "waf": {
+                          "type": "object",
+                          "properties": {
+                            "useDefault": {
+                              "type": "boolean"
+                            },
+                            "override" : {
+                              "type": "object",
+                              "properties": {
+                                "address": {
+                                  "type": "string"
+                                },
+                                "trustForwardHeader": {
+                                  "type": "boolean"
+                                }
+                              },
+                              "required": [
+                                "address"
+                              ],
+                              "additionalProperties": false
+                            }
+                          },
+                          "required": [
+                            "useDefault"
+                          ],
+                          "additionalProperties": false
+                        },
+                        "robotNoIndex": {
+                          "type": "object",
+                          "properties": {
+                            "useDefault": {
+                              "type": "boolean"
+                            },
+                            "override" : {
+                              "type": "boolean"
+                            }
+                          },
+                          "required": [
+                            "useDefault"
+                          ],
+                          "additionalProperties": false
+                        },
+                        "rateLimits": {
+                          "type": "object",
+                          "properties": {
+                            "useDefault": {
+                              "type": "boolean"
+                            },
+                            "override" : {
+                              "type": "object",
+                              "properties": {
+                                "average": {
+                                  "type": "number"
+                                },
+                                "burst": {
+                                  "type": "number"
+                                },
+                                "period": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "average"
+                              ],
+                              "additionalProperties": false
+                            }
+                          },
+                          "required": [
+                            "useDefault"
+                          ],
+                          "additionalProperties": false
+                        },
+                        "redirectScheme": {
+                          "type": "object",
+                          "properties": {
+                            "useDefault": {
+                              "type": "boolean"
+                            },
+                            "override" : {
+                              "type": "object",
+                              "properties": {
+                                "scheme": {
+                                  "type": "string"
+                                },
+                                "permanent": {
+                                  "type": "boolean"
+                                },
+                                "port": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "scheme"
+                              ],
+                              "additionalProperties": false
+                            }
+                          },
+                          "required": [
+                            "useDefault"
+                          ],
+                          "additionalProperties": false
+                        },
+                        "redirectRegex": {
+                          "type": "object",
+                          "properties": {
+                            "useDefault": {
+                              "type": "boolean"
+                            },
+                            "override" : {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "regex": {
+                                    "type": "string"
+                                  },
+                                  "replacement": {
+                                    "type": "string"
+                                  },
+                                  "permanent": {
+                                    "type": "boolean"
+                                  }
+                                },
+                                "required": [
+                                  "regex",
+                                  "replacement"
+                                ],
+                                "additionalProperties": false
+                              },
+                              "uniqueItems": true
+                            }
+                          },
+                          "required": [
+                            "useDefault"
+                          ],
+                          "additionalProperties": false
+                        },
+                        "externalMiddlewares": {
+                          "type": "object",
+                          "properties": {
+                            "useDefault": {
+                              "type": "boolean"
+                            },
+                            "override" : {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "name": {
+                                    "type": "string"
+                                  },
+                                  "namespace": {
+                                    "type": "string"
+                                  }
+                                },
+                                "required": [
+                                  "name"
+                                ],
+                                "additionalProperties": false
+                              },
+                              "uniqueItems": true
+                            }
+                          },
+                          "required": [
+                            "useDefault"
+                          ],
+                          "additionalProperties": false
+                        }
+                      }
+                    }
+                  },
+                  "required": [
+                    "list"
+                  ],
+                  "additionalProperties": false
+                },
+                "minItems": 1
+              }
+            },
+            "required": [
+              "hostList",
+              "entryPoints",
+              "paths"
+            ],
+            "additionalProperties": false
+          }
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}
