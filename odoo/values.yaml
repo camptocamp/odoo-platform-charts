@@ -44,7 +44,7 @@ resources:
 
 nodeSelector: {}
 tolerations: []
-
+rollingupdatechart: False
 spreadOdooPodsOverNodes:
   enabled: true
   maxSkew: 1
@@ -228,7 +228,7 @@ odoo:
     # cpu: 5
     # memory: 8Gi
   queuejob:
-    enabled: False 
+    enabled: True
     workers: '2'
     limits:
       soft: "787973120"

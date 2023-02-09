@@ -8,7 +8,7 @@ metadata:
 spec:
   replicas: {{ .Values.replicaCount }}
   strategy:
-    {{- if hasSuffix "-roll" .Values.image.odoo.tag }}
+    {{- if or (hasSuffix "-roll" .Values.image.odoo.tag) .Values.rollingupdatechart }}
     type: RollingUpdate
     {{- else }}
     type: Recreate
@@ -182,7 +182,7 @@ metadata:
 spec:
   replicas: 1
   strategy:
-    {{- if hasSuffix "-roll" .Values.image.odoo.tag }}
+    {{- if or (hasSuffix "-roll" .Values.image.odoo.tag) .Values.rollingupdatechart }}
     type: RollingUpdate
     {{- else }}
     type: Recreate
