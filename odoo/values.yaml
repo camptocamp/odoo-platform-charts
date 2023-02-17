@@ -58,12 +58,12 @@ additionalLabels: {}
 
 additionalAnnotations: {}
 
-errorpage:
-  servicename: global-nginx-404
-  servicenamespace: bs-global-nginx-404
-
 ingressRoutes: {}
 # ingressRoutes:
+#   errorService:
+#     name: "service"
+#     namespace: "namespace"
+#     port: 80
 #   defaultMiddlewares:
 #     IPWhiteList:
 #       - "10.10.0.0.0/16"

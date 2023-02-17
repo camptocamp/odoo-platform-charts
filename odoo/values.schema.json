@@ -4,6 +4,22 @@
     "ingressRoutes": {
       "type": "object",
       "properties": {
+        "errorService": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "namespace": {
+              "type": "string"
+            },
+            "port": {
+              "type": "number"
+            }
+          },
+          "required": ["name", "port"],
+          "additionalProperties": false
+        },
         "defaultMiddlewares": {
           "type": "object",
           "properties": {
