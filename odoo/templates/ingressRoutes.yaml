@@ -36,7 +36,8 @@ spec:
       kind: Rule
       services:
           {{- if $scope.returnError404 }}
-        - name: error-page{{- include "odoo-cs-suffix" $ }}
+        - name: {{ $.Values.errorpage.servicename | default "False" | quote }}
+          namespace: {{ $.Values.errorpage.servicenamespace | default "False" | quote }}
           port: 80
           {{- else }}
         - name: {{ include "odoo.fullname" $ }}
