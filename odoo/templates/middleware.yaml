@@ -105,6 +105,22 @@ spec:
 apiVersion: traefik.containo.us/v1alpha1
 kind: Middleware
 metadata:
+  name: mw-rs-{{ sha1sum (printf "errorhandler-%s-%s" $hosts $list) }}
+spec:
+  errors:
+    status:
+      - "400-599"
+    query: /{status}.html
+    service:
+      name: {{ $.Values.ingressRoutes.errorService.name }}
+      {{- with $.Values.ingressRoutes.errorService.namespace }}
+      namespace: {{ . }}
+      {{- end }}
+      port: {{ $.Values.ingressRoutes.errorService.port }}
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
   name: mw-rr-{{ sha1sum (printf "redirectRegex-%s-%s-%s-%s" $hosts $list .regex .replacement) }}
 spec:
   redirectRegex:
