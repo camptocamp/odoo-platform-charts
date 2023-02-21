@@ -17,7 +17,7 @@ image:
     tag: xx.0-1.6.0
   odoohealthz:
     repository: ghcr.io/camptocamp/odoo-k8s-healthz
-    tag: app-1.3.1
+    tag: app-1.3.3
 
 
 imagePullSecrets:
@@ -44,7 +44,7 @@ resources:
 
 nodeSelector: {}
 tolerations: []
-
+rollingupdatechart: False
 spreadOdooPodsOverNodes:
   enabled: true
   maxSkew: 1
@@ -60,6 +60,10 @@ additionalAnnotations: {}
 
 ingressRoutes: {}
 # ingressRoutes:
+#   errorService:
+#     name: "service"
+#     namespace: "namespace"
+#     port: 80
 #   defaultMiddlewares:
 #     IPWhiteList:
 #       - "10.10.0.0.0/16"
@@ -228,7 +232,7 @@ odoo:
     # cpu: 5
     # memory: 8Gi
   queuejob:
-    enabled: False
+    enabled: false 
     workers: '2'
     limits:
       soft: "787973120"
