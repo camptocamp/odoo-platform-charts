@@ -26,6 +26,23 @@ spec:
               {{- end }}
             {{- end }}
           {{- end }}
+
+          {{- with .returnError404 }}
+            {{- if .enable }}
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: mw-404-{{ sha1sum (printf "404-%s-%s" $hosts $list) }}
+spec:
+  redirectRegex:
+    regex: {{ printf "(.*)%s" $list }}
+    replacement: {{ printf "http://%s.%s" $.Values.ingressRoutes.errorService.name $.Values.ingressRoutes.errorService.namespace }}
+
+            {{- end }}
+          {{- end }}
+
+
           {{- with .waf }}
             {{- if not .useDefault }}
               {{- with .override }}

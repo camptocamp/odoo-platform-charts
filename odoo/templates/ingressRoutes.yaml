@@ -35,18 +35,15 @@ spec:
           {{- end }}
       kind: Rule
       services:
-          {{- if $scope.returnError404 }}
-        - name: {{ $.Values.ingressRoutes.errorService.name }}
-            {{- with $.Values.ingressRoutes.errorService.namespace }}
-          namespace: {{ . }}
-            {{- end }}
-          port: {{ $.Values.ingressRoutes.errorService.port }}
-          {{- else }}
         - name: {{ include "odoo.fullname" $ }}
           port: 80        
-          {{- end }}
           {{- with $scope.middlewares }}
       middlewares:
+            {{- with .returnError404 }}
+              {{- if .enable }}
+        - name: mw-404-{{ sha1sum (printf "404-%s-%s" $hosts $list) }}
+              {{- end }}
+            {{- end }}
             {{- with .IPWhiteList }}
               {{- if not .useDefault }}
                 {{- with .override }}

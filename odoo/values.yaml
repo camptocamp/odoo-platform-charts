@@ -58,87 +58,92 @@ additionalLabels: {}
 
 additionalAnnotations: {}
 
-ingressRoutes: {}
-# ingressRoutes:
-#   errorService:
-#     name: "service"
-#     namespace: "namespace"
-#     port: 80
-#   defaultMiddlewares:
-#     IPWhiteList:
-#       - "10.10.0.0.0/16"
-#     waf:
-#       address: "waf.com"
-#       trustForwardHeader: true
-#     robotNoIndex: true
-#     rateLimits:
-#       average: 200
-#       burst: 5
-#       period: "1m"
-#     redirectScheme:
-#       scheme: "https"
-#       permanent: true
-#       port: "443"
-#     redirectRegex:
-#       - regex: "regex1"
-#         replacement: "replacement1"
-#         permanent: true
-#     externalMiddlewares:
-#       - name: "middleware"
-#         namespace: "namespace"
-#   routes:
-#     - hostList:
-#         - list:
-#             - "address.example.com"
-#           certificate:
-#             useDefault: false
-#             issuerRef: "letsencrypt-prod"
-#         - list:
-#             - "address.apps.cluster.example.com"
-#           certificate:
-#             useDefault: true
-#       entryPoints:
-#         - "websecure"
-#       paths:
-#         - list:
-#             - path: "/"
-#               type: prefix
-#           returnError404: false
-#           middlewares:
-#             IPWhiteList:
-#               useDefault: true
-#             waf:
-#               useDefault: true
-#             rateLimits:
-#               useDefault: true
-#             robotNoIndex:
-#               useDefault: true
-#         - list:
-#             - path: "(.*)/some/path"
-#               type: regex
-#             - path: "/path1"
-#               type: specific
-#             - path: "/path2/subpath"
-#               type: specific
-#             - path: "/path3"
-#               type: specific
-#           returnError404: true
-#           middlewares:
-#             IPWhiteList:
-#               useDefault: false
-#               override:
-#                 - "192.168.1.5"
-#             waf:
-#               useDefault: true
-#             robotNoIndex:
-#               useDefault: true
-#             rateLimits:
-#               useDefault: true
-#             externalMiddlewares:
-#               useDefault: false
-#               override:
-#                 - name: "middleware01"
-#                   namespace: "namespace01"
+ingressRoutes:
+   errorService:
+     name: "service"
+     namespace: "namespace"
+     port: 80
+   defaultMiddlewares:
+     IPWhiteList:
+       - "10.10.0.0.0/16"
+     waf:
+       address: "waf.com"
+       trustForwardHeader: true
+     robotNoIndex: true
+     rateLimits:
+       average: 200
+       burst: 5
+       period: "1m"
+     redirectScheme:
+       scheme: "https"
+       permanent: true
+       port: "443"
+     redirectRegex:
+       - regex: "regex1"
+         replacement: "replacement1"
+         permanent: true
+     externalMiddlewares:
+       - name: "middleware"
+         namespace: "namespace"
+   routes:
+     - hostList:
+         - list:
+             - "address.example.com"
+           certificate:
+             useDefault: false
+             issuerRef: "letsencrypt-prod"
+         - list:
+             - "address.apps.cluster.example.com"
+           certificate:
+             useDefault: true
+       entryPoints:
+         - "websecure"
+       paths:
+         - list:
+             - path: "/"
+               type: prefix
+           middlewares:
+             returnError404: 
+              enable: True
+             IPWhiteList:
+               useDefault: true
+             waf:
+               useDefault: true
+             rateLimits:
+               useDefault: true
+             robotNoIndex:
+               useDefault: true
+         - list:
+             - path: "(.*)/some/path"
+               type: regex
+             - path: "/path1"
+               type: specific
+             - path: "/path2/subpath"
+               type: specific
+             - path: "/path3"
+               type: specific
+           middlewares:
+             returnError404: 
+              enable: True
+             IPWhiteList:
+               useDefault: false
+               override:
+                 - "192.168.1.5"
+             waf:
+               useDefault: true
+             robotNoIndex:
+               useDefault: true
+             rateLimits:
+               useDefault: false
+               override:
+                average: 200
+                burst: 5
+                period: "1m"
+             externalMiddlewares:
+               useDefault: false
+               override:
+                 - name: "middleware01"
+                   namespace: "namespace01"
 
 bsTeamPowerUserGroupId: ""
 
