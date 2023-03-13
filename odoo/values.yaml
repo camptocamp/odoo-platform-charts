@@ -6,7 +6,7 @@ replicaCount: 1
 
 image:
   pullPolicy: IfNotPresent
-  backup_manager:
+  preinit_manager:
     repository: ghcr.io/camptocamp/odoo-preinit-manager
     tag: 1.0.0
   odoo:
@@ -111,6 +111,16 @@ odoohealthz: {}
   #check_long_transaction: "False"
   #max_transaction_duration: "3600"
   #log_level:  "ERROR"
+
+preinit_manager: {}
+  # celebrimbor_cert:
+  #   name: "celebrimbor-dev-fr"
+  #   vault_name: "celebrimbor-platform-dev"
+  # azure:
+  #   tenant_id: ""
+  #   client_id: ""
+  # celebrimbor_svc: ""
+  # onering_svc: ""
 
 odoo:
   customerName: customer

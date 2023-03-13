@@ -1,0 +1,20 @@
+{{- if and .Values.odoo.marabunta.enabled (or (eq .Values.odoo.env "prod") .Values.odoo.marabunta.force_backup) }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: preinit-manager-config{{- include "odoo-cs-suffix" . }}
+data:
+  # Azure AUTH
+  VAULT_NAME: {{ .Values.preinit_manager.celebrimbor_cert.vault_name }}
+  CERT_NAME: {{ .Values.preinit_manager.celebrimbor_cert.name }}
+  TENANT_ID: {{ .Values.preinit_manager.azure.tenant_id }}
+  CLIENT_ID: {{ .Values.preinit_manager.azure.client_id }}
+  # Odoo
+  CUSTOMER_NAME: {{ .Values.odoo.customerName }}
+  ODOO_ENV: {{ .Values.odoo.env }}
+  LAB_NAME: {{ .Values.odoo.lab_name | default "" }}
+  MIGRATION_FILE_PATH: "/tmp/migration.yml"
+  # Technical
+  CELEBRIMBOR_SVC: {{ .Values.preinit_manager.celebrimbor_svc | default "http://celebrimbor.bs-celebrimbor.svc.cluster.local" }}
+  ONERING_SVC: {{ .Values.preinit_manager.onering_svc | default "http://odoo-onering-int-odoo-odoo.bs-odoo-onering-int.svc.cluster.local" }}
+{{- end }}

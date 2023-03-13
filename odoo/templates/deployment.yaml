@@ -44,24 +44,17 @@ spec:
           volumeMounts:
             - name: marabunta-tmp
               mountPath: "/tmp"
-        - name: backup-manager
-          image: "{{ .Values.image.backup_manager.repository }}:{{ .Values.image.backup_manager.tag }}"
+        - name: preinit-manager
+          image: "{{ .Values.image.preinit_manager.repository }}:{{ .Values.image.preinit_manager.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           volumeMounts:
             - name: marabunta-tmp
               mountPath: "/tmp"
           env:
-            - name: MIGRATION_FILE_PATH
-              value: "/tmp/migration.yml"
-            - name: CUSTOMER_NAME
-              value: {{ .Values.odoo.customerName }}
-            - name: ODOO_ENV
-              value: {{ .Values.odoo.env }}
-            - name: LAB_NAME
-              value: {{ .Values.odoo.lab_name | default "" }}
-            - name: CELEBRIMBOR_SVC
-              value: "http://celebrimbor.bs-celebrimbor.svc.cluster.local:8080"
             {{- include "odoo.common-environment" . | nindent 12 }}
+          envFrom:
+            - configMapRef:
+                name: preinit-manager-config{{- include "odoo-cs-suffix" . }}
         {{- end }}
         - name: marabunta-migration
           image: "{{ .Values.image.odoo.repository }}:{{ .Values.image.odoo.tag }}"
