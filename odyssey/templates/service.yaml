@@ -21,3 +21,18 @@ spec:
       protocol: TCP
       name: odyssey
 {{- end }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "odyssey.fullname" . }}-metrics
+  labels:
+    {{- include "odyssey.labels" . | nindent 4 }}
+
+spec:
+  ports:
+    - name: metrics
+      port: 8080
+      targetPort: odysseymetrics
+  selector:
+    {{- include "odyssey.selectorLabels" . | nindent 4 }}
