@@ -22,6 +22,10 @@ certificate:
   dnsNames:
     - pg.example.com
 
+metrics:
+  scrapeInterval: 15s
+
+
 # extra volumes for deployment
 volumes: []
 # extra volumes mounts for deployment
