@@ -44,6 +44,8 @@ spec:
           ports:
             - name: odyssey
               containerPort: {{ .Values.internalPort }}
+            - name: odysseymetrics
+              containerPort: 8080
           readinessProbe:
             tcpSocket:
               port: {{ .Values.internalPort }}
