@@ -5,11 +5,11 @@
 ## Global configuration
 {{- range $k, $v := .Values.settings.globals}}
   {{ if regexMatch "^[0-9]+$" ( $v | toString ) }}
-   {{ $k }} {{ $v }}
+{{ $k }} {{ $v }}
   {{ else if regexMatch "^(?:yes|no)" ( $v | toString ) }}
-   {{ $k }} {{ $v }}
+{{ $k }} {{ $v }}
   {{ else }}
-   {{ $k }} "{{ $v }}"
+{{ $k }} "{{ $v }}"
   {{- end }}
 {{- end }}
 ## Listen configuration
