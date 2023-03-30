@@ -8,7 +8,7 @@ image:
 
 services:
   carbone:
-    targetPort: 4000
+    port: 80
 
 resources:
   carbone:
