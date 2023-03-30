@@ -6,7 +6,7 @@ metadata:
     {{- include "carbone.labels" . | nindent 4 }}
 spec:
   ports:
-    - port: {{ .Values.services.carbone.targetPort }}
+    - port: {{ .Values.services.carbone.port }}
       targetPort: carbone
   selector:
     {{- include "carbone.selectorLabels" . | nindent 4 }}
