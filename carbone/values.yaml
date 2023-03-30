@@ -1,0 +1,32 @@
+replicaCount: 1
+
+image:
+  pullPolicy: IfNotPresent
+  carbone:
+    repository: "carbone/carbone-ee"
+    tag: "4.9.0"
+
+services:
+  carbone:
+    targetPort: 4000
+
+resources:
+  carbone:
+    requests:
+      cpu: 125m
+      memory: 128Mi
+    limits:
+      cpu: 500m
+      memory: 8Gi
+
+env:
+  - name: CARBONE_EE_FACTORIES
+    value: "3"
+  - name: CARBONE_EE_LICENSE
+    value: "XXXXXXXXXXXXXXXXXXXXXX"
+
+nodeSelector: {}
+tolerations: []
+affinity: {}
+
+additionalLabels: {}
