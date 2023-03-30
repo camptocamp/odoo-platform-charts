@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "carbone.name" . }}
+  labels:
+    {{- include "carbone.labels" . | nindent 4 }}
+spec:
+  ports:
+    - port: {{ .Values.services.carbone.targetPort }}
+      targetPort: carbone
+  selector:
+    {{- include "carbone.selectorLabels" . | nindent 4 }}

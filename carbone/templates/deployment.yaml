@@ -1,0 +1,56 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "carbone.name" . }}
+  labels:
+    {{- include "carbone.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "carbone.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "carbone.selectorLabels" . | nindent 8 }}
+        {{- with .Values.additionalLabels }}
+          {{- toYaml . | nindent 8 }}
+        {{- end }}
+      annotations:
+        {{- with .Values.additionalAnnotations }}
+          {{- toYaml . | nindent 8 }}
+        {{- end }}
+    spec:
+      containers:
+        - name: carbone
+          image: "{{ .Values.image.carbone.repository }}:{{ .Values.image.carbone.tag }}"
+          ports:
+            - containerPort: 4000
+              name: carbone
+          readinessProbe:
+            tcpSocket:
+              port: 4000
+          livenessProbe:
+            tcpSocket:
+              port: 4000
+          volumeMounts:
+            {{- toYaml .Values.volumeMounts | nindent 12 }}
+          resources:
+            {{- toYaml .Values.resources.carbone | nindent 12 }}
+          env:
+            {{- toYaml .Values.env | nindent 12 }}
+      volumes:
+        {{- toYaml .Values.volumes | nindent 8 }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

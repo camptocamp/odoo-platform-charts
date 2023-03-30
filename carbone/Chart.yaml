@@ -1,0 +1,5 @@
+apiVersion: v2
+name: carbone
+description: A Helm chart to deploy Carbone report engine
+type: application
+version: 0.1.0
