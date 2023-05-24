@@ -41,6 +41,9 @@ resources:
     limits:
       memory: 256Mi
   
+workloadAzureIdentity:
+  enabled: False
+  serviceAccountName: "odoo"
 
 nodeSelector: {}
 tolerations: []
