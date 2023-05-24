@@ -41,6 +41,10 @@ resources:
     limits:
       memory: 256Mi
   
+workloadAzureIdentity:
+  enabled: True
+
+serviceAccountName: "default"
 
 nodeSelector: {}
 tolerations: []

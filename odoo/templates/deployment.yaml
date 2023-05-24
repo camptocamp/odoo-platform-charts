@@ -6,6 +6,7 @@ metadata:
   labels:
     {{- include "odoo.labels" . | nindent 4 }}
 spec:
+  serviceAccountName: {{ .Values.serviceAccountName }}
   replicas: {{ .Values.replicaCount }}
   strategy:
     {{- if or (hasSuffix "-roll" .Values.image.odoo.tag) .Values.rollingupdatechart }}
@@ -30,9 +31,13 @@ spec:
         app: {{ template "odoo.name" . }}
         release: "{{ .Release.Name }}"
         {{- include "odoo.selectorLabels" . | nindent 8 }}
+        {{- if .Values.workloadAzureIdentity.enabled }}
+        azure.workload.identity/use: true
+        {{- end }}
         {{- with .Values.additionalLabels }}
           {{- toYaml . | nindent 8 }}
         {{- end }}
+
     spec:
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
@@ -180,6 +185,7 @@ metadata:
   labels:
     {{- include "odoo.labels" . | nindent 4 }}
 spec:
+  serviceAccountName: {{ .Values.serviceAccountName }}
   replicas: 1
   strategy:
     {{- if or (hasSuffix "-roll" .Values.image.odoo.tag) .Values.rollingupdatechart }}
@@ -205,6 +211,9 @@ spec:
         {{- end }}
       labels:
         {{- include "odoo.selectorLabels" . | nindent 8 }}
+        {{- if .Values.workloadAzureIdentity.enabled }}
+        azure.workload.identity/use: true
+        {{- end }}
         {{- with .Values.additionalLabels }}
           {{- toYaml . | nindent 8 }}
         {{- end }}
