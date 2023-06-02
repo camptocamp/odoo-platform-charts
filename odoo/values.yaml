@@ -41,6 +41,7 @@ resources:
     limits:
       memory: 256Mi
   
+serviceAccountName: "default"
 
 nodeSelector: {}
 tolerations: []
