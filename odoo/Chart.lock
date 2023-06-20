@@ -1,0 +1,6 @@
+dependencies:
+- name: mailpit
+  repository: file://../mailpit
+  version: 0.2.6
+digest: sha256:5b31a6633729306ece4c66eeda314539582b886f39869f20af6f369c189b6777
+generated: "2023-06-20T11:22:55.018512533+02:00"

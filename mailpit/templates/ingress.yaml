@@ -1,0 +1,54 @@
+{{ if .Values.ingressRoutes.defaultMiddlewares.IPWhiteList }}
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: "ip-{{ include "common.names.namespace" . }}-mailpit"
+  namespace: {{ include "common.names.namespace" . | quote }}
+spec:
+  {{ with .Values.ingressRoutes.defaultMiddlewares.IPWhiteList }}
+  ipWhiteList:
+    sourceRange:
+    {{- range . }}
+      - {{ . | quote }}
+    {{ end }}
+  {{ end }}
+{{end}}
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name:  "{{ include "common.names.namespace" . }}-mailpit"
+  namespace: {{ include "common.names.namespace" . | quote }}
+spec:
+  dnsNames:
+    - {{ .Values.ingressRoutes.host }}
+  issuerRef:
+    group: cert-manager.io
+    kind: ClusterIssuer
+    name: letsencrypt-prod
+  secretName: "{{ include "common.names.namespace" . }}-mailpit"
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name:  "{{ include "common.names.namespace" . }}-mailpit"
+  namespace: {{ include "common.names.namespace" . | quote }}
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - kind: Rule
+      match: Host(`{{ .Values.ingressRoutes.host }}`)
+      {{ if .Values.ingressRoutes.defaultMiddlewares.IPWhiteList }}
+      middlewares:
+        - name: "ip-{{ include "common.names.namespace" . }}-mailpit"
+          namespace: {{ include "common.names.namespace" . | quote }}
+      {{ end }}
+      services:
+        - name: mailpit-http
+          namespace: {{ include "common.names.namespace" . | quote }}
+          port: 80
+
+  tls:
+    secretName: "{{ include "common.names.namespace" . }}-mailpit"
