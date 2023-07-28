@@ -5,10 +5,12 @@ metadata:
   name: preinit-manager-config{{- include "odoo-cs-suffix" . }}
 data:
   # Azure AUTH
-  VAULT_NAME: {{ .Values.preinit_manager.celebrimbor_cert.vault_name | default "" }}
-  CERT_NAME: {{ .Values.preinit_manager.celebrimbor_cert.name | default "" }}
-  TENANT_ID: {{ .Values.preinit_manager.azure.tenant_id | default "" }}
-  CLIENT_ID: {{ .Values.preinit_manager.azure.client_id | default "" }}
+  {{- $celebrimbor_cert := .Values.preinit_manager.celebrimbor_cert | default dict }}
+  VAULT_NAME: {{ $celebrimbor_cert.vault_name | default "" }}
+  CERT_NAME: {{ $celebrimbor_cert.name | default "" }}
+  {{- $azure := .Values.preinit_manager.azure | default dict }}
+  TENANT_ID: {{ $azure.tenant_id | default "" }}
+  CLIENT_ID: {{ $azure.client_id | default "" }}
   # Odoo
   CUSTOMER_NAME: {{ .Values.odoo.customerName }}
   ODOO_ENV: {{ .Values.odoo.env }}
@@ -16,5 +18,9 @@ data:
   MIGRATION_FILE_PATH: "/tmp/migration.yml"
   # Technical
   CELEBRIMBOR_SVC: {{ .Values.preinit_manager.celebrimbor_svc | default "http://celebrimbor.bs-celebrimbor.svc.cluster.local" }}
-  ONERING_SVC: {{ .Values.preinit_manager.onering_svc | default "http://odoo-onering-int-odoo-odoo.bs-odoo-onering-int.svc.cluster.local" }}
+  {{- if or .Values.preinit_manager.onering_svc (hasKey .Values.preinit_manager "onering_svc") }}
+  ONERING_SVC: {{ .Values.preinit_manager.onering_svc }}
+  {{- else }}
+  ONERING_SVC: http://odoo-onering-int-odoo-odoo.bs-odoo-onering-int.svc.cluster.local
+  {{- end }}
 {{- end }}
