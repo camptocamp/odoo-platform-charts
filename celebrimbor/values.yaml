@@ -70,6 +70,7 @@ additionalAnnotations: {}
 
 celebrimbor:
   log_debug: False
+  tmpdir: /tmp
   internal_cron:
     dump_all_schedule: "0 1 * * *"
     vacuum_all_schedule: "0 3 1 * *"
