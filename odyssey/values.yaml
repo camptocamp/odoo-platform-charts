@@ -25,6 +25,16 @@ certificate:
 metrics:
   scrapeInterval: 15s
 
+livenessProbe:
+    exec:
+      command:
+      - /bin/sh
+      - -c
+      - "openssl x509 -enddate -noout < $CERTFILE > /tmp/TLSCURRENTENDDATE && if cmp -s /tmp/TLSCURRENTENDDATE /tmp/TLSENDDATE; then exit 0 ; else exit 1; fi"
+    initialDelaySeconds: 15
+    periodSeconds: 60
+    failureThreshold: 1
+
 
 # extra volumes for deployment
 volumes: []
@@ -32,9 +42,9 @@ volumes: []
 volumeMounts: []
 
 image:
-  repository: ghcr.io/camptocamp/odyssey
-  tag: latest
-  pullPolicy: Always
+  repository: ghcr.io/camptocamp/docker-odyssey
+  tag: 1.5.0
+  pullPolicy: IfNotPresent
 
 additionalAnnotations: {}
 additionalLabels: {}
