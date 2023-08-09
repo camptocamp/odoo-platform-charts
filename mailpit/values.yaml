@@ -1,0 +1,215 @@
+## @section Global parameters
+## Global Docker image parameters
+## Please, note that this will override the image parameters, including dependencies, configured to use the global value
+## Current available global Docker image parameters: imageRegistry, imagePullSecrets and storageClass
+##
+
+## @param global.imageRegistry Global Docker image registry
+## @param global.imagePullSecrets Global Docker registry secret names as an array
+## @param global.storageClass Global StorageClass for Persistent Volume(s)
+##
+global:
+  imageRegistry: ""
+  ## E.g.
+  ## imagePullSecrets:
+  ##   - myRegistryKeySecretName
+  ##
+  imagePullSecrets: []
+  storageClass: ""
+
+
+## @section Common
+##
+
+## Bitnami image
+## ref: https://hub.docker.com/r/bitnami/image/tags/
+## @param image.registry image registry
+## @param image.repository image repository
+## @param image.tag image tag (immutable tags are recommended)
+## @param image.digest image digest in the way sha256:aa.... Please note this parameter, if set, will override the tag image tag (immutable tags are recommended)
+## @param image.pullPolicy image pull policy
+## @param image.pullSecrets image pull secrets
+## @param image.debug Enable image debug mode
+##
+image:
+  registry: docker.io
+  repository: axllent/mailpit
+  tag: v1.6.18
+  digest: ""
+  ## Specify a imagePullPolicy
+  ## Defaults to 'Always' if image tag is 'latest', else set to 'IfNotPresent'
+  ## ref: http://kubernetes.io/docs/user-guide/images/#pre-pulling-images
+  ##
+  pullPolicy: IfNotPresent
+  ## Optionally specify an array of imagePullSecrets.
+  ## Secrets must be manually created in the namespace.
+  ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
+  ## e.g:
+  ## pullSecrets:
+  ##   - myRegistryKeySecretName
+  ##
+  pullSecrets: []
+  ## Enable debug mode
+  ##
+  debug: false
+
+## @param updateStrategy.type statefulset strategy type
+## ref: https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/#update-strategies
+##
+updateStrategy:
+  ## StrategyType
+  ## Can be set to RollingUpdate or OnDelete
+  ##
+  type: RollingUpdate
+
+## @param replicaCount Number of replicas to deploy
+##
+replicaCount: 0
+
+## @param Ingressroute parameter to limit ip and define hostname eg:
+##
+# ingressRoutes:
+#   defaultMiddlewares:
+#     IPWhiteList:
+#       - 128.179.66.4/32
+#       - 5.1.102.64/28
+#       - 185.127.205.0/25
+#       - 5.1.102.69/32
+#       - 80.245.26.24/29
+#       - 10.42.0.0/16
+#       - 77.90.198.86/32
+#       - 94.153.132.178/32
+#   host: "mailpit.mailpit.odoo.camptocamp.fr"
+
+## resource requests and limits
+## ref: http://kubernetes.io/docs/user-guide/compute-resources/
+## @param resources.limits.cpu The resources limits for the containers
+## @param resources.limits.memory The resources limits for the containers
+## @param resources.requests.cpu The requested resources for the containers
+## @param resources.requests.memory The requested resources for the containers
+##
+resources:
+  limits:
+    cpu: 100m
+    memory: 64Mi
+  requests:
+    cpu: 5m
+    memory: 4Mi
+
+## @param args Override default container args (useful when using custom images)
+##
+args: []
+
+## @param extraEnvVars Array with extra environment variables to add to nodes
+## e.g:
+## extraEnvVars:
+##   - name: FOO
+##     value: "bar"
+##
+extraEnvVars: []
+
+# https://github.com/axllent/mailpit/wiki/Basic-authentication
+# https://github.com/axllent/mailpit/wiki/HTTPS
+mailpit:
+  ui:
+    ## @param mailpit.ui.authFile.enabled Adding basic authentication to web UI
+    ## @param mailpit.ui.authFile.htpasswd htpasswd content
+    authFile:
+      enabled: false
+      htpasswd: ""
+    ## @param mailpit.ui.tls.enabled Enable tls for web UI
+    ## @param mailpit.ui.tls.secretName tls secret for web UI
+    tls:
+      enabled: false
+      secretName: ""
+  extraEnvVars:
+    - name: "MP_MAX_MESSAGES"
+      value: '55'
+  smtp:
+    ## @param mailpit.smtp.authFile.enabled Adding SMTP authentication
+    ## @param mailpit.smtp.authFile.htpasswd htpasswd content
+    authFile:
+      enabled: false
+      htpasswd: ""
+    ## @param mailpit.smtp.tls.enabled Enable tls for SMTP
+    ## @param mailpit.smtp.tls.secretName tls secret for SMTP
+    tls:
+      enabled: false
+      secretName: ""
+  relay:
+    ## @param mailpit.relay.enabled enable SMTP Relay configuration
+    ## @param mailpit.relay.config Mailpit SMTP relay configuration
+    ## @param mailpit.relay.relayAll Relay all messages to relay
+    enabled: false
+    config: {}
+    relayAll: false
+    maxMessages: 50
+
+## @section Traffic Exposure Parameters
+##
+
+## service parameters
+##
+service:
+  http:
+    ## @param service.http.type service type
+    ## @param service.http.nodePort nodeport bind for HTTP service
+    ##
+    type: ClusterIP
+    nodePort:
+  smtp:
+    ## @param service.smtp.type service type
+    ## @param service.smtp.nodePort nodeport bind for STMP service
+    ##
+    type: ClusterIP
+    nodePort:
+
+
+
+
+
+## @section Persistence Parameters
+##
+
+## Enable persistence using Persistent Volume Claims
+## ref: https://kubernetes.io/docs/user-guide/persistent-volumes/
+##
+persistence:
+  ## @param persistence.enabled Enable persistence using Persistent Volume Claims
+  ##
+  enabled: false
+  ## @param persistence.storageClass Storage class of backing PVC
+  ## If defined, storageClassName: <storageClass>
+  ## If set to "-", storageClassName: "", which disables dynamic provisioning
+  ## If undefined (the default) or set to null, no storageClassName spec is
+  ##   set, choosing the default provisioner.  (gp2 on AWS, standard on
+  ##   GKE, AWS & OpenStack)
+  ##
+  storageClass: ""
+  ## @param persistence.annotations Persistent Volume Claim annotations
+  ##
+  annotations: {}
+  ## @param persistence.labels Persistent Volume Claim labels
+  ##
+  labels: {}
+  ## @param persistence.accessModes Persistent Volume Access Modes
+  ##
+  accessModes:
+    - ReadWriteOnce
+  ## @param persistence.size Size of data volume
+  ##
+  size: 0.5Gi
+  ## @param persistence.existingClaim The name of an existing PVC to use for persistence
+  ##
+  existingClaim: ""
+  ## @param persistence.selector Selector to match an existing Persistent Volume for WordPress data PVC
+  ## If set, the PVC can't have a PV dynamically provisioned for it
+  ## E.g.
+  ## selector:
+  ##   matchLabels:
+  ##     app: my-app
+  ##
+  selector: {}
+  ## @param persistence.dataSource Custom PVC data source
+  ##
+  dataSource: {}
