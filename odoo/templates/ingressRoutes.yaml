@@ -39,6 +39,7 @@ spec:
           port: 80        
           {{- with $scope.middlewares }}
       middlewares:
+        - name: mw-hs-security
             {{- with .IPWhiteList }}
               {{- if not .useDefault }}
                 {{- with .override }}
