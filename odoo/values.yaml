@@ -191,17 +191,25 @@ odoo:
     httpGet:
       path: /liveness
       port: 8080
-    initialDelaySeconds: 80
     periodSeconds: 60
-    timeoutSeconds: 10
+    timeoutSeconds: 30
 
   readinessProbe:
     httpGet:
       path: /readiness
       port: 8080
-    initialDelaySeconds: 80
     periodSeconds: 60
-    timeoutSeconds: 10
+    timeoutSeconds: 30
+
+  startupProbe:
+    httpGet:
+      path: /liveness
+      port: 8080
+    failureThreshold: 30
+    periodSeconds: 10
+    timeoutSeconds: 30
+
+
   db:
     secret:
       name: odoo-database
@@ -252,7 +260,15 @@ odoo:
       httpGet:
         path: /queue_liveness
         port: 8080
-      initialDelaySeconds: 80
       periodSeconds: 60
-      timeoutSeconds: 10
+      timeoutSeconds: 30
+
+    startupProbe:
+      httpGet:
+        path: /queue_liveness
+        port: 8080
+      failureThreshold: 30
+      periodSeconds: 10
+      timeoutSeconds: 30
+
     readinessProbe: {}
