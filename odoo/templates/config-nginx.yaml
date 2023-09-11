@@ -4,4 +4,10 @@ kind: ConfigMap
 metadata:
   name: nginx-config{{- include "odoo-cs-suffix" . }}
 data:
-  NGX_ODOO_HOST: localhost
+  NGX_ODOO_HOST: {{ .Values.nginx.odooHost | default "localhost" | quote }}
+  {{- if .Values.nginx.cacheSize }}
+  NGX_CACHE_SIZE: {{ .Values.nginx.cacheSize | default "10m" | quote }}
+  {{- end }}
+  {{- if .Values.nginx.pdfContent }}
+  NGX_ODOO_PDFCONTENT: {{ .Values.nginx.pdfContent | default "False" | quote }}
+  {{- end }}
