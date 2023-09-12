@@ -172,6 +172,9 @@ preinit_manager: {}
   # celebrimbor_svc: ""
   # onering_svc: ""
 
+nginx:
+  odooHost: localhost
+
 odoo:
   customerName: customer
   instance_type: standard
