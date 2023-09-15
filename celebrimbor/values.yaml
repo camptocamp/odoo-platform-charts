@@ -64,9 +64,8 @@ tolerations: []
 affinity: {}
 
 additionalLabels: {}
-  # aadpodidbinding: some-identity
-
 additionalAnnotations: {}
+# serviceAccount: celebrimbor
 
 celebrimbor:
   log_debug: False

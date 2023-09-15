@@ -24,6 +24,9 @@ spec:
           {{- toYaml . | nindent 8 }}
         {{- end }}
     spec:
+      {{- with .Values.serviceAccount }}
+      serviceAccountName: {{ . }}
+      {{- end }}
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
@@ -101,37 +104,6 @@ spec:
           ports:
             - containerPort: 80
               name: http
-        - name: curl-proxy
-          image: "{{ .Values.image.curl_proxy.repository }}:{{ .Values.image.curl_proxy.component }}-{{ .Values.image.version }}"
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
-          env:
-            - name: CELEB_SVC
-              value: "localhost"
-            - name: CELEB_PORT
-              value: "80"
-            - name: CLIENT_ID
-              valueFrom:
-                secretKeyRef:
-                  name: {{ .Values.celebrimbor.azure_app.secret_name }}
-                  key: {{ .Values.celebrimbor.azure_app.client_id_key }}
-            - name: CLIENT_SECRET
-              valueFrom:
-                secretKeyRef:
-                  name: {{ .Values.celebrimbor.azure_app.secret_name }}
-                  key: {{ .Values.celebrimbor.azure_app.client_secret_key }}
-            - name: TENANT_ID
-              valueFrom:
-                secretKeyRef:
-                  name: {{ .Values.celebrimbor.azure_app.secret_name }}
-                  key: {{ .Values.celebrimbor.azure_app.tenant_id_key }}
-          envFrom:
-            - secretRef:
-                name: celebrimbor-secret
-          resources:
-            {{- toYaml .Values.resources.curl_proxy | nindent 12 }}
-          ports:
-            - containerPort: 8080
-              name: curl-http
       volumes:
         {{- toYaml .Values.volumes | nindent 8 }}
       {{- with .Values.nodeSelector }}
@@ -158,9 +130,6 @@ spec:
     - port: 80
       targetPort: http
       name: http
-    - port: 8080
-      targetPort: curl-http
-      name: curl-http
   selector:
     {{- include "celebrimbor.selectorLabels" . | nindent 4 }}
 ...
