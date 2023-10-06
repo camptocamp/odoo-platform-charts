@@ -46,6 +46,7 @@ storage "{{ $k }}"
 
 {{- range $key, $value := .Values.settings.databases_list }}
 database "{{ $value.database }}" {
+user "{{ $value.database }}" {
 {{- range $key_db, $value_db := $value }}
   {{ if regexMatch "^[0-9]+$" ( $value_db | toString ) }}
    {{ $key_db }} {{ $value_db }}
@@ -66,6 +67,6 @@ database "{{ $value.database }}" {
 
 {{- end }}
 }
-
+}
 {{- end }}
 {{ end }}
