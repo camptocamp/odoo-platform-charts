@@ -46,20 +46,14 @@ storage "{{ $k }}"
 
 {{- range $key, $value := .Values.settings.databases_list }}
 database "{{ $value.database }}" {
-  user "{{ $value.username }}" {
-  storage "{{ $value.storage }}"
-  password "{{ $value.password }}"
-  storage_user "{{ $value.username }}"
-  storage_password "{{ $value.password }}"
-{{- range $keyopt, $vopt := $value.options}}
-  {{ if regexMatch "^[0-9]+$" ( $vopt | toString ) }}
-   {{ $keyopt }} {{ $vopt }}
-  {{ else if regexMatch "^(?:yes|no)" ( $vopt | toString ) }}
-   {{ $keyopt }} {{ $vopt }}
+{{- range $key_db, $value_db := $value }}
+  {{ if regexMatch "^[0-9]+$" ( $value_db | toString ) }}
+   {{ $key_db }} {{ $value_db }}
+  {{ else if regexMatch "^(?:yes|no)" ( $value_db | toString ) }}
+   {{ $key_db }} {{ $value_db }}
   {{ else }}
-   {{ $keyopt }} "{{ $vopt }}"
+   {{ $key_db }} "{{ $value_db }}"
   {{- end }}
-
 {{- end }}
   {{- range $k, $v := $.Values.settings.databases_default_value }}
   {{ if regexMatch "^[0-9]+$" ( $v | toString ) }}
@@ -72,6 +66,6 @@ database "{{ $value.database }}" {
 
 {{- end }}
 }
-}
+
 {{- end }}
 {{ end }}

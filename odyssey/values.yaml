@@ -35,6 +35,13 @@ livenessProbe:
     periodSeconds: 60
     failureThreshold: 1
 
+readinessProbe:
+    tcpSocket:
+      port: 5432
+    initialDelaySeconds: 15
+    periodSeconds: 60
+    failureThreshold: 3
+
 
 # extra volumes for deployment
 volumes: []

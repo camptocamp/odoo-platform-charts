@@ -49,9 +49,10 @@ spec:
               containerPort: {{ .Values.internalPort }}
             - name: odysseymetrics
               containerPort: 8080
+          {{- if .Values.readinessProbe}}
           readinessProbe:
-            tcpSocket:
-              port: {{ .Values.internalPort }}
+           {{- toYaml .Values.readinessProbe | nindent 12 }}
+          {{- end }}
           {{- if .Values.livenessProbe}}
           livenessProbe:
            {{- toYaml .Values.livenessProbe | nindent 12 }}
