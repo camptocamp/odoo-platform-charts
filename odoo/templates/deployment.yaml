@@ -72,12 +72,37 @@ spec:
                 name: odoo-secret{{- include "odoo-cs-suffix" $ }}
                 optional: true
         {{- end }}
-        - name: c2c-migration
+        - name: pre-c2c-migration
           image: "{{ $.Values.image.odoo_migration.repository }}:{{ $.Values.image.odoo_migration.tag }}"
           imagePullPolicy: {{ $.Values.image.pullPolicy }}
           env:
             - name: ODOO_MIGRATION_STEP
-              value: "c2c"
+              value: "pre-c2c"
+          envFrom:
+            - configMapRef:
+                name: odoo-migration{{- include "odoo-cs-suffix" $ }}
+            - configMapRef:
+                name: odoo-config{{- include "odoo-cs-suffix" $ }}
+            - secretRef:
+                name: odoo-secret{{- include "odoo-cs-suffix" $ }}
+                optional: true
+        - name: c2c-migration
+          image: "{{ .Values.image.odoo.repository }}:{{ .Values.image.odoo.tag }}"
+          imagePullPolicy: {{ $.Values.image.pullPolicy }}
+          env:
+          {{- include "odoo.common-environment" . | nindent 12 }}
+          envFrom:
+            - configMapRef:
+                name: odoo-config{{- include "odoo-cs-suffix" . }}
+            - secretRef:
+                name: odoo-secret{{- include "odoo-cs-suffix" . }}
+                optional: true
+        - name: post-c2c-migration
+          image: "{{ $.Values.image.odoo_migration.repository }}:{{ $.Values.image.odoo_migration.tag }}"
+          imagePullPolicy: {{ $.Values.image.pullPolicy }}
+          env:
+            - name: ODOO_MIGRATION_STEP
+              value: "post-c2c"
           envFrom:
             - configMapRef:
                 name: odoo-migration{{- include "odoo-cs-suffix" $ }}
@@ -227,7 +252,7 @@ spec:
     {{- else }}
     type: Recreate
     {{- end }}
-    
+
   revisionHistoryLimit: 3
   selector:
     matchLabels:
