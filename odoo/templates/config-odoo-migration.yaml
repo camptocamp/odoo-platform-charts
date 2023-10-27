@@ -1,0 +1,11 @@
+{{- with .Values.odoo.versionMigration }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: odoo-migration{{- include "odoo-cs-suffix" $ }}
+data:
+  ODOO_UPGRADE_CONTRACT: {{ .contract }}
+  ODOO_SQL_CONTENT: {{ .sqlScript }}
+  ODOO_UPGRADE_TARGET: {{ .odooTargetVersion }}
+  DUMP_NAME: {{ .dumpName }}
+{{- end }}
