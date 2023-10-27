@@ -9,6 +9,9 @@ image:
   preinit_manager:
     repository: ghcr.io/camptocamp/odoo-preinit-manager
     tag: 1.1.0
+  odoo_migration:
+    repository: ghcr.io/camptocamp/odoo-preinit-manager
+    tag: version-migrator-latest
   odoo:
     repository: ghcr.io/camptocamp/customer_odoo
     tag: xx.0.1.0.0
@@ -212,6 +215,13 @@ odoo:
     periodSeconds: 10
     timeoutSeconds: 30
 
+  versionMigration:
+    contract: ""
+    sqlScript: ""
+    odooTargetVersion: ""
+    dumpName: ""
+    # Values: full|c2c
+    migrationType: "full"
 
   db:
     secret:

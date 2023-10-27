@@ -33,7 +33,6 @@ spec:
         {{- with .Values.additionalLabels }}
           {{- toYaml . | nindent 8 }}
         {{- end }}
-
     spec:
       serviceAccountName: {{ .Values.serviceAccountName }}
       {{- with .Values.imagePullSecrets }}
@@ -42,6 +41,52 @@ spec:
       {{- end }}
       {{- if .Values.odoo.marabunta.enabled }}
       initContainers:
+        {{- with .Values.odoo.versionMigration }}
+        - name: pre-migration
+          image: "{{ $.Values.image.odoo_migration.repository }}:{{ $.Values.image.odoo_migration.tag }}"
+          imagePullPolicy: {{ $.Values.image.pullPolicy }}
+          env:
+            - name: ODOO_MIGRATION_STEP
+              value: "pre"
+          envFrom:
+            - configMapRef:
+                name: odoo-migration{{- include "odoo-cs-suffix" $ }}
+            - configMapRef:
+                name: odoo-config{{- include "odoo-cs-suffix" $ }}
+            - secretRef:
+                name: odoo-secret{{- include "odoo-cs-suffix" $ }}
+                optional: true
+        {{- if eq .migrationType "full" }}
+        - name: odoo-migration
+          image: "{{ $.Values.image.odoo_migration.repository }}:{{ $.Values.image.odoo_migration.tag }}"
+          imagePullPolicy: {{ $.Values.image.pullPolicy }}
+          env:
+            - name: ODOO_MIGRATION_STEP
+              value: "odoo"
+          envFrom:
+            - configMapRef:
+                name: odoo-migration{{- include "odoo-cs-suffix" $ }}
+            - configMapRef:
+                name: odoo-config{{- include "odoo-cs-suffix" $ }}
+            - secretRef:
+                name: odoo-secret{{- include "odoo-cs-suffix" $ }}
+                optional: true
+        {{- end }}
+        - name: c2c-migration
+          image: "{{ $.Values.image.odoo_migration.repository }}:{{ $.Values.image.odoo_migration.tag }}"
+          imagePullPolicy: {{ $.Values.image.pullPolicy }}
+          env:
+            - name: ODOO_MIGRATION_STEP
+              value: "c2c"
+          envFrom:
+            - configMapRef:
+                name: odoo-migration{{- include "odoo-cs-suffix" $ }}
+            - configMapRef:
+                name: odoo-config{{- include "odoo-cs-suffix" $ }}
+            - secretRef:
+                name: odoo-secret{{- include "odoo-cs-suffix" $ }}
+                optional: true
+        {{- end }}
         {{- if or (eq .Values.odoo.env "prod") .Values.odoo.marabunta.force_backup }}
         - name: marabunta-setup
           image: "{{ .Values.image.odoo.repository }}:{{ .Values.image.odoo.tag }}"
