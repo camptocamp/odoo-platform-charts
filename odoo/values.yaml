@@ -8,7 +8,7 @@ image:
   pullPolicy: IfNotPresent
   preinit_manager:
     repository: ghcr.io/camptocamp/odoo-preinit-manager
-    tag: 1.1.0
+    tag: 1.2.0
   odoo:
     repository: ghcr.io/camptocamp/customer_odoo
     tag: xx.0.1.0.0
