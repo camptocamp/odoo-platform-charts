@@ -7,7 +7,7 @@ data:
   # Azure AUTH
   {{- $celebrimbor_cert := .Values.preinit_manager.celebrimbor_cert | default dict }}
   VAULT_NAME: {{ $celebrimbor_cert.vault_name | default "" }}
-  CERT_NAME: {{ $celebrimbor_cert.name | default "" }}
+  CERT_NAME: {{ $celebrimbor_cert.name | default "celebrimbor" }}
   {{- $azure := .Values.preinit_manager.azure | default dict }}
   TENANT_ID: {{ $azure.tenant_id | default "" }}
   CLIENT_ID: {{ $azure.client_id | default "" }}
