@@ -125,7 +125,7 @@ spec:
 apiVersion: traefik.containo.us/v1alpha1
 kind: Middleware
 metadata:
-  name: mw-hs-security
+  name: mw-hs-security{{- include "odoo-cs-suffix" . }}
 spec:
   headers:
     stsSeconds: 31536000
