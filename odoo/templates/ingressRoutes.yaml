@@ -39,7 +39,7 @@ spec:
           port: 80        
           {{- with $scope.middlewares }}
       middlewares:
-        - name: mw-hs-security{{- include "odoo-cs-suffix" . }}
+        - name: mw-hs-security{{- include "odoo-cs-suffix" $ }}
             {{- with .IPWhiteList }}
               {{- if not .useDefault }}
                 {{- with .override }}
