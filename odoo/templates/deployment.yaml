@@ -21,6 +21,7 @@ spec:
     metadata:
       annotations:
         config-hash-odoo: {{ include (print $.Template.BasePath "/config-odoo.yaml") $ | sha256sum | trunc 63 }}
+        config-hash-nginx: {{ include (print $.Template.BasePath "/config-nginx.yaml") $ | sha256sum | trunc 63 }}
         config-hash-secret: {{ include (print $.Template.BasePath "/config-odoo-secret.yaml") $ | sha256sum | trunc 63 }}
         config-hash-healthz: {{ include (print $.Template.BasePath "/config-odoo-healthz.yaml") $ | sha256sum | trunc 63 }}
         {{- with .Values.additionalAnnotations }}
