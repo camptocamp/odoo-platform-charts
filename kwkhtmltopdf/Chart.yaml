@@ -2,4 +2,4 @@ apiVersion: v2
 name: kwkhtmltopdf 
 description: A Helm chart to deploy  kwkhtmltopdf on Camptocamp own platform
 type: application
-version: 0.1.0
+version: 0.1.5

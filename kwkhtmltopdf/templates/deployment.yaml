@@ -35,6 +35,9 @@ spec:
           livenessProbe:
             tcpSocket:
               port: 8080
+          envFrom:
+            - configMapRef:
+                name: kwkhtmltopdf-config
           volumeMounts:
             {{- toYaml .Values.volumeMounts | nindent 12 }}
           resources:
