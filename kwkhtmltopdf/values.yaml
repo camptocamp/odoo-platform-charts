@@ -30,7 +30,7 @@ affinity: {}
 
 additionalLabels: {}
   # aadpodidbinding: some-identity
-
+#no_storage_cleaning: true
 volumeMounts:
   - name: kwkhtmltopdftmp
     mountPath: /tmp

@@ -21,6 +21,7 @@ spec:
         {{- with .Values.additionalAnnotations }}
           {{- toYaml . | nindent 8 }}
         {{- end }}
+        config-hash-kwkhtmltopdf: {{ include (print $.Template.BasePath "/config-kwkhtmltopdf.yaml") $ | sha256sum | trunc 63 }}
 
     spec:
       containers:
@@ -35,6 +36,9 @@ spec:
           livenessProbe:
             tcpSocket:
               port: 8080
+          envFrom:
+            - configMapRef:
+                name: kwkhtmltopdf-config
           volumeMounts:
             {{- toYaml .Values.volumeMounts | nindent 12 }}
           resources:
