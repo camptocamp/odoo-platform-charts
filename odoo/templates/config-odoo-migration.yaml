@@ -6,6 +6,6 @@ metadata:
 data:
   ODOO_UPGRADE_CONTRACT: {{ .contract }}
   ODOO_SQL_CONTENT: {{ .sqlScript }}
-  ODOO_UPGRADE_TARGET: {{ .odooTargetVersion }}
+  ODOO_UPGRADE_TARGET: {{ .odooTargetVersion | quote }}
   DUMP_NAME: {{ .dumpName }}
 {{- end }}
