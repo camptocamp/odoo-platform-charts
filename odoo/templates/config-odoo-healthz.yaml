@@ -11,4 +11,5 @@ data:
   CHECK_LONG_TRANSACTION_ENABLED: {{ .Values.odoohealthz.check_long_transaction | default "False" | quote }}
   GET_MAX_TRANSACTION_DURATION: {{ .Values.odoohealthz.max_transaction_duration | default "3600" | quote }}
   LOGLEVEL: {{ .Values.odoohealthz.log_level | default "ERROR" | quote }}
+  CHECK_EXPIRED_DB: {{ .Values.odoohealthz.check_expired_db | default "False" | quote }}
 
