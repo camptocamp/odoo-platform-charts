@@ -68,6 +68,9 @@ replicaCount: 0
 
 ## @param Ingressroute parameter to limit ip and define hostname eg:
 ##
+ingressRoutes:
+  defaultMiddlewares: {}
+  host: "sbla"
 # ingressRoutes:
 #   defaultMiddlewares:
 #     IPWhiteList:

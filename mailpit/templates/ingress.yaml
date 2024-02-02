@@ -3,7 +3,7 @@
 apiVersion: traefik.containo.us/v1alpha1
 kind: Middleware
 metadata:
-  name: "ip-{{ include "common.names.namespace" . }}-mailpit"
+  name: "ip-{{ template "common.names.fullname" . }}"
   namespace: {{ include "common.names.namespace" . | quote }}
 spec:
   {{ with .Values.ingressRoutes.defaultMiddlewares.IPWhiteList }}
@@ -18,7 +18,7 @@ spec:
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name:  "{{ include "common.names.namespace" . }}-mailpit"
+  name: "{{ template "common.names.fullname" . }}"
   namespace: {{ include "common.names.namespace" . | quote }}
 spec:
   dnsNames:
@@ -27,12 +27,12 @@ spec:
     group: cert-manager.io
     kind: ClusterIssuer
     name: letsencrypt-prod
-  secretName: "{{ include "common.names.namespace" . }}-mailpit"
+  secretName: "{{ template "common.names.fullname" . }}"
 ---
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
-  name:  "{{ include "common.names.namespace" . }}-mailpit"
+  name: "{{ template "common.names.fullname" . }}"
   namespace: {{ include "common.names.namespace" . | quote }}
 spec:
   entryPoints:
@@ -42,13 +42,13 @@ spec:
       match: Host(`{{ .Values.ingressRoutes.host }}`)
       {{ if .Values.ingressRoutes.defaultMiddlewares.IPWhiteList }}
       middlewares:
-        - name: "ip-{{ include "common.names.namespace" . }}-mailpit"
+        - name: "ip-{{ template "common.names.fullname" . }}"
           namespace: {{ include "common.names.namespace" . | quote }}
       {{ end }}
       services:
-        - name: mailpit-http
+        - name: {{ template "common.names.fullname" . }}-http
           namespace: {{ include "common.names.namespace" . | quote }}
           port: 80
 
   tls:
-    secretName: "{{ include "common.names.namespace" . }}-mailpit"
+    secretName: "{{ template "common.names.fullname" . }}"
