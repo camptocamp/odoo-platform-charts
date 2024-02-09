@@ -215,13 +215,13 @@ odoo:
     periodSeconds: 10
     timeoutSeconds: 30
 
-  versionMigration:
-    contract: ""
-    sqlScript: ""
-    odooTargetVersion: ""
-    dumpName: ""
-    # Values: full|c2c
-    migrationType: "full"
+  versionMigration: {}
+    # contract: ""
+    # sqlScript: ""
+    # odooTargetVersion: ""
+    # dumpName: ""
+    # # Values: full|c2c
+    # migrationType: "full"
 
   db:
     secret:
