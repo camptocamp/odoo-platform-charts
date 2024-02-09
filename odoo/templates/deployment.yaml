@@ -46,6 +46,7 @@ spec:
           image: "{{ $.Values.image.odoo_migration.repository }}:{{ $.Values.image.odoo_migration.tag }}"
           imagePullPolicy: {{ $.Values.image.pullPolicy }}
           env:
+          {{- include "odoo.common-environment" $ | nindent 12 }}
             - name: ODOO_MIGRATION_STEP
               value: "pre"
           envFrom:
@@ -61,6 +62,7 @@ spec:
           image: "{{ $.Values.image.odoo_migration.repository }}:{{ $.Values.image.odoo_migration.tag }}"
           imagePullPolicy: {{ $.Values.image.pullPolicy }}
           env:
+          {{- include "odoo.common-environment" $ | nindent 12 }}
             - name: ODOO_MIGRATION_STEP
               value: "odoo"
           envFrom:
@@ -76,6 +78,7 @@ spec:
           image: "{{ $.Values.image.odoo_migration.repository }}:{{ $.Values.image.odoo_migration.tag }}"
           imagePullPolicy: {{ $.Values.image.pullPolicy }}
           env:
+          {{- include "odoo.common-environment" $ | nindent 12 }}
             - name: ODOO_MIGRATION_STEP
               value: "pre-c2c"
           envFrom:
@@ -101,6 +104,7 @@ spec:
           image: "{{ $.Values.image.odoo_migration.repository }}:{{ $.Values.image.odoo_migration.tag }}"
           imagePullPolicy: {{ $.Values.image.pullPolicy }}
           env:
+          {{- include "odoo.common-environment" $ | nindent 12 }}
             - name: ODOO_MIGRATION_STEP
               value: "post-c2c"
           envFrom:
