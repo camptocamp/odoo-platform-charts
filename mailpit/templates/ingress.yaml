@@ -4,7 +4,6 @@ apiVersion: traefik.containo.us/v1alpha1
 kind: Middleware
 metadata:
   name: "ip-{{ template "common.names.fullname" . }}"
-  namespace: {{ include "common.names.namespace" . | quote }}
 spec:
   {{ with .Values.ingressRoutes.defaultMiddlewares.IPWhiteList }}
   ipWhiteList:
@@ -19,7 +18,6 @@ apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
   name: "{{ template "common.names.fullname" . }}"
-  namespace: {{ include "common.names.namespace" . | quote }}
 spec:
   dnsNames:
     - {{ .Values.ingressRoutes.host }}
@@ -33,7 +31,6 @@ apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
   name: "{{ template "common.names.fullname" . }}"
-  namespace: {{ include "common.names.namespace" . | quote }}
 spec:
   entryPoints:
     - websecure
@@ -43,11 +40,9 @@ spec:
       {{ if .Values.ingressRoutes.defaultMiddlewares.IPWhiteList }}
       middlewares:
         - name: "ip-{{ template "common.names.fullname" . }}"
-          namespace: {{ include "common.names.namespace" . | quote }}
       {{ end }}
       services:
         - name: {{ template "common.names.fullname" . }}-http
-          namespace: {{ include "common.names.namespace" . | quote }}
           port: 80
 
   tls:
