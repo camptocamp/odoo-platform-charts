@@ -113,7 +113,7 @@ spec:
           projected:
             sources:
             {{- if or .Values.mailpit.ui.authFile.enabled .Values.mailpit.ui.authFile.enabled }}
-            - secret:
+            - configMap:
                 name: {{ template "common.names.fullname" . }}
             {{- end }}
             {{- if .Values.mailpit.ui.tls.enabled }}
