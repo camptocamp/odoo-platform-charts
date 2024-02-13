@@ -4,6 +4,9 @@
 
 replicaCount: 1
 
+serviceMonitor:
+  enabled: false
+
 image:
   pullPolicy: IfNotPresent
   preinit_manager:
@@ -40,7 +43,7 @@ resources:
       memory: 64Mi
     limits:
       memory: 256Mi
-  
+
 serviceAccountName: "default"
 
 nodeSelector: {}
@@ -253,7 +256,7 @@ odoo:
     # cpu: 5
     # memory: 8Gi
   queuejob:
-    enabled: false 
+    enabled: false
     workers: '2'
     limits:
       soft: "787973120"

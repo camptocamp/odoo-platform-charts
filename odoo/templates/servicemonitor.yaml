@@ -1,3 +1,4 @@
+{{- if .Values.serviceMonitor.enabled }}
 ---
 apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
@@ -10,7 +11,7 @@ metadata:
 spec:
   namespaceSelector:
     matchNames:
-      - {{ .Release.Namespace }}  
+      - {{ .Release.Namespace }}
   selector:
     matchLabels:
       {{- include "odoo.selectorLabels" . | nindent 6 }}
@@ -18,3 +19,4 @@ spec:
   - port: metrics
     path: "/metrics"
     interval: {{ .Values.odoo.metrics.scrapeInterval }}
+{{- end }}
