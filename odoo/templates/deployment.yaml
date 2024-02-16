@@ -47,7 +47,7 @@ spec:
           imagePullPolicy: {{ $.Values.image.pullPolicy }}
           env:
           {{- include "odoo.common-environment" $ | nindent 12 }}
-            - name: ODOO_MIGRATION_STEP
+            - name: ODOO_UPGRADE_STEP
               value: "pre"
           envFrom:
             - configMapRef:
@@ -63,7 +63,7 @@ spec:
           imagePullPolicy: {{ $.Values.image.pullPolicy }}
           env:
           {{- include "odoo.common-environment" $ | nindent 12 }}
-            - name: ODOO_MIGRATION_STEP
+            - name: ODOO_UPGRADE_STEP
               value: "odoo"
           envFrom:
             - configMapRef:
@@ -79,7 +79,7 @@ spec:
           imagePullPolicy: {{ $.Values.image.pullPolicy }}
           env:
           {{- include "odoo.common-environment" $ | nindent 12 }}
-            - name: ODOO_MIGRATION_STEP
+            - name: ODOO_UPGRADE_STEP
               value: "pre-c2c"
           envFrom:
             - configMapRef:
@@ -105,7 +105,7 @@ spec:
           imagePullPolicy: {{ $.Values.image.pullPolicy }}
           env:
           {{- include "odoo.common-environment" $ | nindent 12 }}
-            - name: ODOO_MIGRATION_STEP
+            - name: ODOO_UPGRADE_STEP
               value: "post-c2c"
           envFrom:
             - configMapRef:

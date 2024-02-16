@@ -216,12 +216,12 @@ odoo:
     timeoutSeconds: 30
 
   versionMigration: {}
-    # contract: ""
-    # sqlScript: ""
-    # odooTargetVersion: ""
-    # dumpName: ""
     # # Values: full|c2c
     # migrationType: "full"
+    # contract: ""
+    # odooTargetVersion: ""
+    # preSqlScript: ""
+    # dumpName: ""
 
   db:
     secret:

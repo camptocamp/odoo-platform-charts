@@ -5,7 +5,7 @@ metadata:
   name: odoo-migration{{- include "odoo-cs-suffix" $ }}
 data:
   ODOO_UPGRADE_CONTRACT: {{ .contract }}
-  ODOO_SQL_CONTENT: {{ .sqlScript }}
-  ODOO_UPGRADE_TARGET: {{ .odooTargetVersion | quote }}
-  DUMP_NAME: {{ .dumpName }}
+  ODOO_UPGRADE_PRE_SQL_CONTENT: {{ .preSqlContent }}
+  ODOO_UPGRADE_TARGET_VERSION: {{ .odooTargetVersion | quote }}
+  ODOO_UPGRADE_DUMP_NAME: {{ .dumpName }}
 {{- end }}
