@@ -1,38 +1,54 @@
 {{- if .Values.ingress.enabled -}}
-{{- $fullName := include "celebrimbor.fullname" . -}}
-{{- $svcPort := .Values.service.port -}}
-apiVersion: networking.k8s.io/v1
-kind: Ingress
+{{- with .Values.ingress.IPWhiteList }}
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
 metadata:
-  name: {{ $fullName }}
-  labels:
-    {{- include "celebrimbor.labels" . | nindent 4 }}
-  {{- with .Values.ingress.annotations }}
-  annotations:
-    {{- toYaml . | nindent 4 }}
-  {{- end }}
+  name: "ip-{{ include "celebrimbor.fullname" $ }}"
 spec:
-  {{- if .Values.ingress.tls }}
-  tls:
-    {{- range .Values.ingress.tls }}
-    - hosts:
-        {{- range .hosts }}
-        - {{ . | quote }}
-        {{- end }}
-      secretName: {{ .secretName }}
-    {{- end }}
+  ipWhiteList:
+    sourceRange:
+    {{- range . }}
+      - {{ . | quote -}}
+    {{ end }}
+{{ end }}
+{{- with .Values.ingress.hosts }}
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: "{{ include "celebrimbor.fullname" $ }}"
+spec:
+  dnsNames:
+  {{- range . }}
+    - {{ . | quote -}}
+  {{ end }}
+  issuerRef:
+    group: cert-manager.io
+    kind: ClusterIssuer
+    name: letsencrypt-prod
+  secretName: "{{ include "celebrimbor.fullname" $ }}-tls"
+{{ end }}
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: "{{ include "celebrimbor.fullname" . }}"
+spec:
+  entryPoints:
+    - websecure
+  routes:
+  {{- range .Values.ingress.hosts }}
+    - kind: Rule
+      match: Host(`{{ . }}`)
+      {{- if $.Values.ingress.IPWhiteList }}
+      middlewares:
+        - name: "ip-{{ include "celebrimbor.fullname" $ }}"
+      {{- end }}
+      services:
+        - name: {{ include "celebrimbor.fullname" $ }}
+          port: {{ $.Values.service.port }}
   {{- end }}
-  rules:
-    {{- range .Values.ingress.hosts }}
-    - host: {{ . | quote }}
-      http:
-        paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: {{ $fullName }}
-                port:
-                  number: {{ $svcPort }}
-    {{- end }}
+  tls:
+    secretName: "{{ include "celebrimbor.fullname" $ }}-tls"
 {{- end }}
