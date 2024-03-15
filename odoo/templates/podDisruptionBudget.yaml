@@ -1,0 +1,17 @@
+{{- with .Values.podDisruptionBudget }}
+---
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: odoo-pdb{{- include "odoo-cs-suffix" $ }}
+spec:
+  {{- with .maxUnavailable }}
+  maxUnavailable: {{ . }}
+  {{- end }}
+  {{- with .minAvailable }}
+  minAvailable: {{ . }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "odoo.selectorLabels" . | nindent 6 }}
+{{- end }}
