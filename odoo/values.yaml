@@ -60,6 +60,9 @@ affinity: {}
 additionalLabels: {}
   # aadpodidbinding: some-identity
 
+podDisruptionBudget:
+  minAvailable: 1
+
 additionalAnnotations: {}
 
 ingressRoutes: {}
