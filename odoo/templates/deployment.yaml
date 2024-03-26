@@ -36,11 +36,6 @@ spec:
         {{- end }}
 
     spec:
-      {{- with .Values.odoo.securitycontext }}
-      securityContext:
-        runAsUser: {{ .runasuser }}
-        runAsGroup: {{ .runasgroup }}
-      {{- end }}
       serviceAccountName: {{ .Values.serviceAccountName }}
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
@@ -86,6 +81,11 @@ spec:
       containers:
         - name: odoo
           image: "{{ .Values.image.odoo.repository }}:{{ .Values.image.odoo.tag }}"
+          {{- with .Values.odoo.securitycontext }}
+          securityContext:
+            runAsUser: {{ .runasuser }}
+            runAsGroup: {{ .runasgroup }}
+          {{- end }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           {{- if .Values.odoo.oldversion }}
           command: ['sh', '-c', "docker-entrypoint.sh odoo {{ printf "--load=%s" (.Values.odoo.server_wide_modules | default "web,attachment_azure,session_redis,logging_json") }}"]
@@ -132,6 +132,11 @@ spec:
               name: http
         - name: odoohealthz
           image: "{{ .Values.image.odoohealthz.repository }}:{{ .Values.image.odoohealthz.tag }}"
+          {{- with .Values.odoo.securitycontext }}
+          securityContext:
+            runAsUser: {{ .runasuser }}
+            runAsGroup: {{ .runasgroup }}
+          {{- end }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
             {{- include "odoo.common-environment" . | nindent 12 }}
@@ -225,6 +230,11 @@ spec:
       containers:
         - name: odooqueue
           image: "{{ .Values.image.odoo.repository }}:{{ .Values.image.odoo.tag }}"
+          {{- with .Values.odoo.securitycontext }}
+          securityContext:
+            runAsUser: {{ .runasuser }}
+            runAsGroup: {{ .runasgroup }}
+          {{- end }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           {{- if .Values.odoo.oldversion }}
           command: ['sh', '-c', "docker-entrypoint.sh odoo {{ printf "--load=%s,connector" (.Values.odoo.server_wide_modules | default "web,attachment_azure,session_redis,logging_json") }}"]
