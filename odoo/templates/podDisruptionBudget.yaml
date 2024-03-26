@@ -13,5 +13,5 @@ spec:
   {{- end }}
   selector:
     matchLabels:
-      {{- include "odoo.selectorLabels" . | nindent 6 }}
+      {{- include "odoo.selectorLabels" $ | nindent 6 }}
 {{- end }}
