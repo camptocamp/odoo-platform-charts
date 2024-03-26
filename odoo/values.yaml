@@ -185,6 +185,9 @@ odoo:
   base_url: ""
   report_url: ""
   env: integration
+  securitycontext:
+    runasuser: 999
+    runasgroup: 999
   storage:
     account_url: ""
     use_aad: '1'

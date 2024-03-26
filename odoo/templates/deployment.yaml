@@ -36,6 +36,11 @@ spec:
         {{- end }}
 
     spec:
+      {{- with .Values.odoo.securitycontext }}
+      securityContext:
+        runAsUser: {{ .runasuser }}
+        runAsGroup: {{ .runasgroup }}
+      {{- end }}
       serviceAccountName: {{ .Values.serviceAccountName }}
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
