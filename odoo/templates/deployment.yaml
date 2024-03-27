@@ -128,7 +128,7 @@ spec:
           resources:
             {{- toYaml .Values.resources.nginx | nindent 12 }}
           ports:
-            - containerPort: 80
+            - containerPort: 8000
               name: http
         - name: odoohealthz
           image: "{{ .Values.image.odoohealthz.repository }}:{{ .Values.image.odoohealthz.tag }}"
