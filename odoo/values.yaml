@@ -62,6 +62,9 @@ additionalLabels: {}
 
 additionalAnnotations: {}
 
+podDisruptionBudget:
+  minAvailable: 1
+
 ingressRoutes: {}
 # ingressRoutes:
 #   errorService:
