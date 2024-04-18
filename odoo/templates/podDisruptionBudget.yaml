@@ -13,5 +13,6 @@ spec:
   {{- end }}
   selector:
     matchLabels:
+      release: "{{ $.Release.Name }}"
       {{- include "odoo.selectorLabels" $ | nindent 6 }}
 {{- end }}
