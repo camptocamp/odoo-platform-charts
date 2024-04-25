@@ -51,7 +51,7 @@ spec:
               value: "pre"
           envFrom:
             - configMapRef:
-                name: preinit-manager-config{{- include "odoo-cs-suffix" . }}
+                name: preinit-manager-config{{- include "odoo-cs-suffix" $ }}
             - configMapRef:
                 name: odoo-migration{{- include "odoo-cs-suffix" $ }}
             - configMapRef:
@@ -69,7 +69,7 @@ spec:
               value: "odoo"
           envFrom:
             - configMapRef:
-                name: preinit-manager-config{{- include "odoo-cs-suffix" . }}
+                name: preinit-manager-config{{- include "odoo-cs-suffix" $ }}
             - configMapRef:
                 name: odoo-migration{{- include "odoo-cs-suffix" $ }}
             - configMapRef:
@@ -87,7 +87,7 @@ spec:
               value: "pre-c2c"
           envFrom:
             - configMapRef:
-                name: preinit-manager-config{{- include "odoo-cs-suffix" . }}
+                name: preinit-manager-config{{- include "odoo-cs-suffix" $ }}
             - configMapRef:
                 name: odoo-migration{{- include "odoo-cs-suffix" $ }}
             - configMapRef:
@@ -115,7 +115,7 @@ spec:
               value: "post-c2c"
           envFrom:
             - configMapRef:
-                name: preinit-manager-config{{- include "odoo-cs-suffix" . }}
+                name: preinit-manager-config{{- include "odoo-cs-suffix" $ }}
             - configMapRef:
                 name: odoo-migration{{- include "odoo-cs-suffix" $ }}
             - configMapRef:
