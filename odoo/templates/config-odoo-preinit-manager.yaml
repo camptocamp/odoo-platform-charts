@@ -1,4 +1,4 @@
-{{- if and .Values.odoo.marabunta.enabled (or (eq .Values.odoo.env "prod") .Values.odoo.marabunta.force_backup) }}
+{{- if and .Values.odoo.marabunta.enabled (or (eq .Values.odoo.env "prod") .Values.odoo.marabunta.force_backup .Values.odoo.versionMigration) }}
 apiVersion: v1
 kind: ConfigMap
 metadata:
