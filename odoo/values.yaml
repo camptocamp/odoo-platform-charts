@@ -220,7 +220,8 @@ odoo:
     # migrationType: "full"
     # contract: ""
     # odooTargetVersion: ""
-    # preSqlScript: ""
+    # upgradeCommand: "test"
+    # preSqlContent: ""
     # dumpName: ""
 
   db:
