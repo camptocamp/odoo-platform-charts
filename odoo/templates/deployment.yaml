@@ -67,7 +67,7 @@ spec:
           image: "{{ .Values.image.odoo.repository }}:{{ .Values.image.odoo.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           {{- if .Values.image.odoo.is_old_image_flavour }}
-          command: ['sh', '-c', "docker-entrypoint.sh gosu migrate"]
+          command: ['sh', '-c', "docker-entrypoint.sh gosu odoo migrate"]
           {{- else }}
           command: ['sh', '-c', "docker-entrypoint.sh migrate"]
           {{- end }}
