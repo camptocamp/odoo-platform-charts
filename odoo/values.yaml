@@ -4,6 +4,9 @@
 
 replicaCount: 1
 
+networkPolicies:
+  enabled: false
+
 serviceMonitor:
   enabled: false
 
