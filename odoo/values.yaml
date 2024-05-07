@@ -14,6 +14,7 @@ image:
     tag: 1.2.0
   odoo:
     repository: ghcr.io/camptocamp/customer_odoo
+    is_old_image_flavour: True
     tag: xx.0.1.0.0
   nginx:
     repository: camptocamp/odoo-nginx
