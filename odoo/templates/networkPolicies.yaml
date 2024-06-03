@@ -10,9 +10,11 @@ spec:
       - podSelector:                                                              
           matchLabels:                                                            
             app.kubernetes.io/name: traefik
+    - from:
       - podSelector:                                                              
           matchLabels:                                                            
             app: kube-prometheus-stack-operator
+    - from:
       - podSelector:                                                              
           matchLabels:
             app.kubernetes.io/name: kwkhtmltopdf
