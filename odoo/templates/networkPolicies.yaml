@@ -6,18 +6,32 @@ metadata:
   namespace: 
 spec:
   ingress:
-    - from: 
-      - podSelector:                                                              
-          matchLabels:                                                            
-            app.kubernetes.io/name: traefik
-    - from:
-      - podSelector:                                                              
-          matchLabels:                                                            
-            app: kube-prometheus-stack-operator
-    - from:
-      - podSelector:                                                              
-          matchLabels:
-            app.kubernetes.io/name: kwkhtmltopdf
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          kubernetes.io/metadata.name: traefik
+      podSelector:
+        matchLabels:
+          app.kubernetes.io/name: traefik
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          kubernetes.io/metadata.name: kube-prometheus-stack
+      podSelector:
+        matchLabels:
+          app: kube-prometheus-stack-operator
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          kubernetes.io/metadata.name: bs-kwkhtmltopdf01250
+      podSelector:
+        matchLabels:
+          app.kubernetes.io/name: kwkhtmltopdf
+    {{- with .Values.networkPolicies.explicitNamespacesSelector }}
+    - namespaceSelector:
+        {{- toYaml . | nindent 12 }}
+    {{- end }}
+
   podSelector: {}
   policyTypes:
     - Ingress
