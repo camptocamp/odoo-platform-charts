@@ -7,7 +7,12 @@ replicaCount: 1
 networkPolicies:
   enabled: False
   explicitNamespacesSelector: {}
-
+#    - matchLabels:
+#        kubernetes.io/metadata.name: xxxx
+#    - matchLabels:
+#        kubernetes.io/metadata.name: xxxx
+#    - matchLabels:
+#        kubernetes.io/metadata.name: xxxx
 serviceMonitor:
   enabled: false
 

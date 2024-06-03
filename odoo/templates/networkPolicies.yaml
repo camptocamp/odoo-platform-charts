@@ -27,10 +27,13 @@ spec:
       podSelector:
         matchLabels:
           app.kubernetes.io/name: kwkhtmltopdf
-    {{- with .Values.networkPolicies.explicitNamespacesSelector }}
+  {{- with .Values.networkPolicies.explicitNamespacesSelector }}
+  {{- range . }}
+  - from:
     - namespaceSelector:
-        {{- toYaml . | nindent 12 }}
-    {{- end }}
+  {{- toYaml . | nindent 8 }}
+  {{- end }}
+  {{- end }}
 
   podSelector: {}
   policyTypes:
