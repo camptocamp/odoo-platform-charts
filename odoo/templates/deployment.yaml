@@ -227,10 +227,8 @@ spec:
         - name: odooqueue
           image: "{{ .Values.image.odoo.repository }}:{{ .Values.image.odoo.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          {{- if .Values.image.odoo.is_old_image_flavour }}
-          command: ['sh', '-c', "docker-entrypoint.sh gosu odoo odoo {{ printf "--load=%s,connector" (.Values.odoo.server_wide_modules | default "web,attachment_azure,session_redis,logging_json") }}"]
-          {{- else }}
-          command: ['sh', '-c', "docker-entrypoint.sh odoo {{ printf "--load=%s" (.Values.odoo.server_wide_modules | default "web,attachment_azure,session_redis,logging_json") }}"]
+          {{- if not .Values.image.odoo.is_old_image_flavour }}
+          command: ['sh', '-c', "docker-entrypoint.sh odoo {{ printf "--load=%s,queue_job" (.Values.odoo.server_wide_modules | default "web,attachment_azure,session_redis,logging_json") }}"]
           {{- end }}
           env:
             {{- include "odoo.common-environment" . | nindent 12 }}
