@@ -27,6 +27,11 @@ spec:
       podSelector:
         matchLabels:
           app.kubernetes.io/name: kwkhtmltopdf
+  - from:
+    - podSelector:
+        matchLabels:
+          queuejob: "true"
+
   {{- with .Values.networkPolicies.explicitNamespacesSelector }}
   {{- range . }}
   - from:
