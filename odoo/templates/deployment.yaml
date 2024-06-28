@@ -116,8 +116,10 @@ spec:
           startupProbe:
               {{- toYaml . | nindent 14 }}
            {{- end }}
+          {{- with .Values.volumeMounts }}
           volumeMounts:
-            {{- toYaml .Values.volumeMounts | nindent 12 }}
+            {{- toYaml .odoo | nindent 12 }}
+          {{- end }}
           resources:
           {{- include "odoo.physical-resources" . | nindent 12 }}
         - name: nginx
@@ -143,14 +145,19 @@ spec:
                 name: odoohealthz-config{{- include "odoo-cs-suffix" . }}
           resources:
             {{- toYaml .Values.resources.odoohealthz | nindent 12 }}
+          {{- with .Values.volumeMounts }}
           volumeMounts:
-            {{- toYaml .Values.volumeMounts | nindent 12 }}
+            {{- toYaml .Values.volumeMounts.odoo | nindent 12 }}
+          {{- end }}
           ports:
             - containerPort: 8080
               name: odoohealthz
       volumes:
         - name: marabunta-tmp
           emptyDir: {}
+        {{- with .Values.volumes }}
+        {{- toYaml .odoo | nindent 8 }}
+        {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
@@ -253,8 +260,10 @@ spec:
           startupProbe:
               {{- toYaml . | nindent 14 }}
           {{- end }}
+          {{- with .Values.volumeMounts }}
           volumeMounts:
-            {{- toYaml .Values.volumeMounts | nindent 12 }}
+            {{- toYaml .queuejob | nindent 12 }}
+          {{- end }}
           resources:
           {{- include "odoo.physical-resources" . | nindent 12 }}
         - name: odoohealthz
@@ -269,12 +278,17 @@ spec:
                 name: odoohealthz-config{{- include "odoo-cs-suffix" . }}
           resources:
             {{- toYaml .Values.resources.odoohealthz | nindent 12 }}
+          {{- with .Values.volumeMounts }}
           volumeMounts:
-            {{- toYaml .Values.volumeMounts | nindent 12 }}
+            {{- toYaml .queuejob | nindent 12 }}
+          {{- end }}
           ports:
             - containerPort: 8080
               name: odoohealthz
-
+      {{- with .Values.volumes }}
+      volumes:
+        {{- toYaml .Values.volumes.queuejob | nindent 8 }}
+      {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
