@@ -117,8 +117,10 @@ spec:
               {{- toYaml . | nindent 14 }}
            {{- end }}
           {{- with .Values.volumeMounts }}
+          {{- if .odoo }}
           volumeMounts:
             {{- toYaml .odoo | nindent 12 }}
+          {{- end }}
           {{- end }}
           resources:
           {{- include "odoo.physical-resources" . | nindent 12 }}
@@ -146,8 +148,10 @@ spec:
           resources:
             {{- toYaml .Values.resources.odoohealthz | nindent 12 }}
           {{- with .Values.volumeMounts }}
+          {{- if .odoo }}
           volumeMounts:
             {{- toYaml .odoo | nindent 12 }}
+          {{- end }}
           {{- end }}
           ports:
             - containerPort: 8080
@@ -156,7 +160,9 @@ spec:
         - name: marabunta-tmp
           emptyDir: {}
         {{- with .Values.volumes }}
+        {{- if .odoo }}
         {{- toYaml .odoo | nindent 8 }}
+        {{- end }}
         {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
@@ -261,8 +267,10 @@ spec:
               {{- toYaml . | nindent 14 }}
           {{- end }}
           {{- with .Values.volumeMounts }}
+          {{- if .queuejob }}
           volumeMounts:
             {{- toYaml .queuejob | nindent 12 }}
+          {{- end }}
           {{- end }}
           resources:
           {{- include "odoo.physical-resources" . | nindent 12 }}
@@ -279,15 +287,19 @@ spec:
           resources:
             {{- toYaml .Values.resources.odoohealthz | nindent 12 }}
           {{- with .Values.volumeMounts }}
+          {{- if .queuejob }}
           volumeMounts:
             {{- toYaml .queuejob | nindent 12 }}
+          {{- end }}
           {{- end }}
           ports:
             - containerPort: 8080
               name: odoohealthz
       {{- with .Values.volumes }}
+      {{- if .queuejob }}
       volumes:
         {{- toYaml .queuejob | nindent 8 }}
+      {{- end }}
       {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
