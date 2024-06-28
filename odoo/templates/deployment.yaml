@@ -147,7 +147,7 @@ spec:
             {{- toYaml .Values.resources.odoohealthz | nindent 12 }}
           {{- with .Values.volumeMounts }}
           volumeMounts:
-            {{- toYaml .Values.volumeMounts.odoo | nindent 12 }}
+            {{- toYaml .odoo | nindent 12 }}
           {{- end }}
           ports:
             - containerPort: 8080
