@@ -287,7 +287,7 @@ spec:
               name: odoohealthz
       {{- with .Values.volumes }}
       volumes:
-        {{- toYaml .Values.volumes.queuejob | nindent 8 }}
+        {{- toYaml .queuejob | nindent 8 }}
       {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
