@@ -72,6 +72,12 @@ additionalLabels: {}
 
 additionalAnnotations: {}
 
+securityContext: {}
+  # odoo:
+  #   fsGroup: 999
+  # queuejob:
+  #   fsGroup: 999
+
 # podDisruptionBudget:
 #   minAvailable: 1
 
