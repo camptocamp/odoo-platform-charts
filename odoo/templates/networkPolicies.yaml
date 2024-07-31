@@ -20,6 +20,8 @@ spec:
       podSelector:
         matchLabels:
           app: kube-prometheus-stack-operator
+          app.kubernetes.io/instance: kube-prometheus-stack
+          app.kubernetes.io/name: prometheus
   - from:
     - namespaceSelector:
         matchLabels:
