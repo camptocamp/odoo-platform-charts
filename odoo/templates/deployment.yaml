@@ -41,6 +41,10 @@ spec:
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
+      {{- with .Values.securityContext.odoo }}
+      securityContext:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       {{- if .Values.odoo.marabunta.enabled }}
       initContainers:
         {{- if or (eq .Values.odoo.env "prod") .Values.odoo.marabunta.force_backup }}
@@ -228,6 +232,10 @@ spec:
       serviceAccountName: {{ .Values.serviceAccountName }}
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.securityContext.queuejob }}
+      securityContext:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       initContainers:
