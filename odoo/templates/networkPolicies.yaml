@@ -19,7 +19,14 @@ spec:
           kubernetes.io/metadata.name: kube-prometheus-stack
       podSelector:
         matchLabels:
-          app: kube-prometheus-stack-operator
+          app.kubernetes.io/name: kube-prometheus-stack-prometheus-operator
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          kubernetes.io/metadata.name: kube-prometheus-stack
+      podSelector:
+        matchLabels:
+          app.kubernetes.io/name: prometheus
   - from:
     - namespaceSelector:
         matchLabels:
