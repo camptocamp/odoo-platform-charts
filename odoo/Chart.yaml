@@ -2,4 +2,4 @@ apiVersion: v2
 name: odoo
 description: A Helm chart to deploy Odoo on CampToCamp own platform
 type: application
-version: 3.5.8
+version: 3.5.9
