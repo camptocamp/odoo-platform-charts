@@ -35,6 +35,13 @@ spec:
         matchLabels:
           app.kubernetes.io/name: kwkhtmltopdf
   - from:
+    - namespaceSelector:
+        matchLabels:
+          kubernetes.io/metadata.name: {{.Release.Namespace}}
+      podSelector:
+        matchLabels:
+          app.kubernetes.io/name: mailpit
+  - from:
     - podSelector:
         matchLabels:
           queuejob: "true"

@@ -29,6 +29,7 @@ spec:
         {{- end }}
       labels:
         app: {{ template "odoo.name" . }}
+        technology: "odoo"
         release: "{{ .Release.Name }}"
         {{- include "odoo.selectorLabels" . | nindent 8 }}
         {{- with .Values.additionalLabels }}
