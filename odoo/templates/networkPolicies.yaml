@@ -37,6 +37,13 @@ spec:
   - from:
     - namespaceSelector:
         matchLabels:
+          kubernetes.io/metadata.name: bs-kwkhtmltopdflog
+      podSelector:
+        matchLabels:
+          app.kubernetes.io/name: kwkhtmltopdf
+  - from:
+    - namespaceSelector:
+        matchLabels:
           kubernetes.io/metadata.name: {{.Release.Namespace}}
       podSelector:
         matchLabels:
