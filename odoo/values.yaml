@@ -197,6 +197,7 @@ preinit_manager: {}
 
 nginx:
   odooHost: localhost
+  odooLongpollingPort: "8072"
 
 odoo:
   customerName: customer
