@@ -116,21 +116,21 @@ requests:
   cpu: 0.1
   memory: 1.2Gi
 limits:
-  cpu: {{ .Values.odoo.override_resources.cpu | default 1 }}
+  cpu: {{ .Values.odoo.override_resources.cpu | default 4 }}
   memory: {{ .Values.odoo.override_resources.memory | default "3.5Gi" }}
 {{- else if eq .Values.odoo.instance_type "large" -}}
 requests:
   cpu: 0.1
   memory: 650Mi
 limits:
-  cpu: {{ .Values.odoo.override_resources.cpu | default 0.7 }}
+  cpu: {{ .Values.odoo.override_resources.cpu | default 2 }}
   memory: {{ .Values.odoo.override_resources.memory | default "3Gi" }}
 {{- else -}}
 requests:
   cpu: 0.1
   memory: 650Mi
 limits:
-  cpu: {{ .Values.odoo.override_resources.cpu | default 0.5 }}
+  cpu: {{ .Values.odoo.override_resources.cpu | default 1 }}
   memory: {{ .Values.odoo.override_resources.memory | default "2.2Gi" }}
 {{- end }}
 {{- end }}
