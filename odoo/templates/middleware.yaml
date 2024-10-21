@@ -17,6 +17,8 @@ apiVersion: traefik.containo.us/v1alpha1
 kind: Middleware
 metadata:
   name: mw-ip-{{ sha1sum (printf "IPWhiteList-%s-%s" $hosts $list) }}
+  labels:
+    {{- include "odoo.labels" . | nindent 4 }}
 spec:
   ipWhiteList:
     sourceRange:
@@ -34,6 +36,8 @@ apiVersion: traefik.containo.us/v1alpha1
 kind: Middleware
 metadata:
   name: mw-wf-{{ sha1sum (printf "waf-%s-%s" $hosts $list) }}
+  labels:
+    {{- include "odoo.labels" . | nindent 4 }}
 spec:
   forwardAuth:
     address: {{ .address }}
@@ -51,6 +55,8 @@ apiVersion: traefik.containo.us/v1alpha1
 kind: Middleware
 metadata:
   name: mw-rn-{{ sha1sum (printf "robotNoIndex-%s-%s" $hosts $list) }}
+  labels:
+    {{- include "odoo.labels" . | nindent 4 }}
 spec:
   headers:
     customResponseHeaders:
@@ -66,6 +72,8 @@ apiVersion: traefik.containo.us/v1alpha1
 kind: Middleware
 metadata:
   name: mw-rl-{{ sha1sum (printf "rateLimits-%s-%s" $hosts $list) }}
+  labels:
+    {{- include "odoo.labels" . | nindent 4 }}
 spec:
   rateLimit:
     average: {{ .average }}
@@ -86,6 +94,8 @@ apiVersion: traefik.containo.us/v1alpha1
 kind: Middleware
 metadata:
   name: mw-rs-{{ sha1sum (printf "redirectScheme-%s-%s" $hosts $list) }}
+  labels:
+    {{- include "odoo.labels" . | nindent 4 }}
 spec:
   redirectScheme:
     scheme: {{ .scheme }}
@@ -106,6 +116,8 @@ apiVersion: traefik.containo.us/v1alpha1
 kind: Middleware
 metadata:
   name: mw-rr-{{ sha1sum (printf "redirectRegex-%s-%s-%s-%s" $hosts $list .regex .replacement) }}
+  labels:
+    {{- include "odoo.labels" . | nindent 4 }}
 spec:
   redirectRegex:
     regex: {{ .regex }}
@@ -126,6 +138,8 @@ apiVersion: traefik.containo.us/v1alpha1
 kind: Middleware
 metadata:
   name: mw-hs-security{{- include "odoo-cs-suffix" . }}
+  labels:
+    {{- include "odoo.labels" . | nindent 4 }}
 spec:
   headers:
     stsSeconds: 31536000

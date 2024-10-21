@@ -3,6 +3,8 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: odoohealthz-config{{- include "odoo-cs-suffix" . }}
+  labels:
+    {{- include "odoo.labels" . | nindent 4 }}
 data:
   ODOO_HEALTHZ_URL: {{ .Values.odoohealthz.odoo_url | default "http://localhost:8069" | quote }}
   ODOO_TIMEOUT: {{ .Values.odoohealthz.odoo_timeout | default "30" | quote }}

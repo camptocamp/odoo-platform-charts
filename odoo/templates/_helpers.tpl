@@ -44,6 +44,9 @@ helm.sh/chart: {{ include "odoo.chart" . }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
+{{- if .Values.extraLabels }}
+{{ toYaml .Values.extraLabels }}
+{{- end}}
 {{- end }}
 
 {{/*
