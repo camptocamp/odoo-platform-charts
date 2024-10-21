@@ -9,6 +9,8 @@ apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
   name: odoo-ingress-{{ sha1sum $hosts }}
+  labels:
+    {{- include "odoo.labels" . | nindent 4 }}
 spec:
     {{- with $routeScope }}
   entryPoints:

@@ -4,6 +4,8 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: odooqueue-config{{- include "odoo-cs-suffix" . }}
+  labels:
+    {{- include "odoo.labels" . | nindent 4 }}
 data:
   SERVER_WIDE_MODULES: {{ printf "%s,queue_job" (.Values.odoo.server_wide_modules | default "web,attachment_azure,session_redis,logging_json") }}
   WORKERS: {{ .Values.odoo.queuejob.workers | default "2" | quote }}
