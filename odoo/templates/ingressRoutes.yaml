@@ -10,7 +10,7 @@ kind: IngressRoute
 metadata:
   name: odoo-ingress-{{ sha1sum $hosts }}
   labels:
-    {{- include "odoo.labels" . | nindent 4 }}
+    {{- include "odoo.labels" $ | nindent 4 }}
 spec:
     {{- with $routeScope }}
   entryPoints:

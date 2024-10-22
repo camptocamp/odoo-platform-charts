@@ -4,7 +4,7 @@ kind: ConfigMap
 metadata:
   name: nginx-config{{- include "odoo-cs-suffix" . }}
   labels:
-    {{- include "odoo.labels" . | nindent 4 }}
+    {{- include "odoo.labels" $ | nindent 4 }}
 data:
   NGX_ODOO_HOST: {{ .Values.nginx.odooHost | default "127.0.0.1" | quote }}
   NGX_ODOO_LONGPOLLING_PORT: {{ .Values.nginx.odooLongpollingPort | default "8072" | quote }}

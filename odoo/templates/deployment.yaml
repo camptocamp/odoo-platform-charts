@@ -4,7 +4,7 @@ kind: Deployment
 metadata:
   name: {{ include "odoo.name" . }}
   labels:
-    {{- include "odoo.labels" . | nindent 4 }}
+    {{- include "odoo.labels" $ | nindent 4 }}
 spec:
   replicas: {{ .Values.replicaCount }}
   strategy:
@@ -196,7 +196,7 @@ kind: Deployment
 metadata:
   name: {{ include "odoo.name" . }}-queuejob
   labels:
-    {{- include "odoo.labels" . | nindent 4 }}
+    {{- include "odoo.labels" $ | nindent 4 }}
 spec:
   replicas: 1
   strategy:
@@ -328,7 +328,7 @@ kind: Service
 metadata:
   name: {{ include "odoo.fullname" . }}
   labels:
-    {{- include "odoo.labels" . | nindent 4 }}
+    {{- include "odoo.labels" $ | nindent 4 }}
 spec:
   ports:
     - port: 80
@@ -344,7 +344,7 @@ metadata:
   labels:
     app: {{ template "odoo.name" . }}
     release: "{{ .Release.Name }}"
-    {{- include "odoo.labels" . | nindent 4 }}
+    {{- include "odoo.labels" $ | nindent 4 }}
 spec:
   ports:
     - name: metrics
