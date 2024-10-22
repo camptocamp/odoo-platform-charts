@@ -4,7 +4,7 @@ kind: ConfigMap
 metadata:
   name: preinit-manager-config{{- include "odoo-cs-suffix" . }}
   labels:
-    {{- include "odoo.labels" . | nindent 4 }}
+    {{- include "odoo.labels" $ | nindent 4 }}
 data:
   # Azure AUTH
   {{- $celebrimbor_cert := .Values.preinit_manager.celebrimbor_cert | default dict }}

@@ -3,7 +3,7 @@ kind: ConfigMap
 metadata:
   name: odoo-config{{- include "odoo-cs-suffix" . }}
   labels:
-    {{- include "odoo.labels" . | nindent 4 }}
+    {{- include "odoo.labels" $ | nindent 4 }}
 data:
   ODOO_BASE_URL: {{ .Values.odoo.base_url | default "http://localhost:8069" }}
   ODOO_REPORT_URL: {{ .Values.odoo.report_url | default "http://localhost:8069" }}

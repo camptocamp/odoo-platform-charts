@@ -6,7 +6,7 @@ kind: Middleware
 metadata:
   name: mw-ip-default{{- include "odoo-cs-suffix" $ }}
   labels:
-    {{- include "odoo.labels" . | nindent 4 }}
+    {{- include "odoo.labels" $ | nindent 4 }}
 spec:
   ipWhiteList:
     sourceRange:
@@ -21,7 +21,7 @@ kind: Middleware
 metadata:
   name: mw-wf-default{{- include "odoo-cs-suffix" $ }}
   labels:
-    {{- include "odoo.labels" . | nindent 4 }}
+    {{- include "odoo.labels" $ | nindent 4 }}
 spec:
   forwardAuth:
     address: {{ .address }}
@@ -36,7 +36,7 @@ kind: Middleware
 metadata:
   name: mw-rn-default{{- include "odoo-cs-suffix" $ }}
   labels:
-    {{- include "odoo.labels" . | nindent 4 }}
+    {{- include "odoo.labels" $ | nindent 4 }}
 spec:
   headers:
     customResponseHeaders:
@@ -49,7 +49,7 @@ kind: Middleware
 metadata:
   name: mw-rl-default{{- include "odoo-cs-suffix" $ }}
   labels:
-    {{- include "odoo.labels" . | nindent 4 }}
+    {{- include "odoo.labels" $ | nindent 4 }}
 spec:
   rateLimit:
     average: {{ .average }}
@@ -67,7 +67,7 @@ kind: Middleware
 metadata:
   name: mw-rs-default{{- include "odoo-cs-suffix" $ }}
   labels:
-    {{- include "odoo.labels" . | nindent 4 }}
+    {{- include "odoo.labels" $ | nindent 4 }}
 spec:
   redirectScheme:
     scheme: {{ .scheme }}
@@ -85,7 +85,7 @@ kind: Middleware
 metadata:
   name: mw-rr-default{{- include "odoo-cs-suffix" $ }}-{{ sha1sum (printf "redirectRegex-%s-%s" .regex .replacement) }}
   labels:
-    {{- include "odoo.labels" . | nindent 4 }}
+    {{- include "odoo.labels" $ | nindent 4 }}
 spec:
   redirectRegex:
     regex: {{ .regex }}
