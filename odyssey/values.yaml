@@ -157,14 +157,14 @@ settings:
     #
     # Periodically display information about active routes.
     #
-    log_stats: "no"
+    log_stats: "yes"
 
     #
     # Statistics update inverval.
     #
     # Set interval in seconds for internal statistics update and log report.
     #
-    stats_interval: 60
+    stats_interval: 15 
 
 
     ###
