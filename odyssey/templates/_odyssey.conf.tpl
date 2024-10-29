@@ -1,7 +1,6 @@
 {{ define "odyssey.conf.1.0.0" }}
 
 {{- $root := . -}}
-
 ## Global configuration
 {{- range $k, $v := .Values.settings.globals}}
   {{ if regexMatch "^[0-9]+$" ( $v | toString ) }}
@@ -62,6 +61,7 @@ database "{{ $value.database }}" {
 
 {{- end }}
   {{- range $k, $v := $.Values.settings.databases_default_value }}
+  {{- if eq ( hasKey $value.options $k ) false }}
   {{ if regexMatch "^[0-9]+$" ( $v | toString ) }}
    {{ $k }} {{ $v }}
   {{ else if regexMatch "^(?:yes|no)" ( $v | toString ) }}
@@ -69,7 +69,8 @@ database "{{ $value.database }}" {
   {{ else }}
    {{ $k }} "{{ $v }}"
   {{- end }}
-
+  {{- end }}
+  
 {{- end }}
 }
 }
