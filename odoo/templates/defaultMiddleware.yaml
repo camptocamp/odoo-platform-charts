@@ -94,4 +94,17 @@ spec:
     permanent: {{ . }}
     {{- end }}
   {{- end }}
+  {{- with .retry }}
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: mw-retry-default{{- include "odoo-cs-suffix" $ }}
+  labels:
+    {{- include "odoo.labels" $ | nindent 4 }}
+spec:
+  retry:
+    attempts: {{ .attempts }}
+    initialInterval: {{ .initialInterval }}
+  {{- end }}
 {{- end }}

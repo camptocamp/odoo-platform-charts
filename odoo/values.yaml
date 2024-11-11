@@ -208,12 +208,17 @@ odoo:
   base_url: ""
   report_url: ""
   env: integration
+
+  # workers | hybrid
+  mode: workers
+
   storage:
     account_url: ""
     use_aad: '1'
     secret:
       name: odoo-storage
       container: container_name
+
   metrics:
     scrapeInterval: 15s
 
@@ -239,7 +244,6 @@ odoo:
     periodSeconds: 10
     timeoutSeconds: 30
 
-
   db:
     secret:
       name: odoo-database
@@ -249,11 +253,13 @@ odoo:
       database: database
     port: "5432"
     max_conn: 5
+
   redis:
     enabled: False
     secret:
       name: odoo-redis
       url: url
+
   log_handler: :INFO,werkzeug:ERROR,azure:ERROR
   log_level: info
   unaccent: "False"
@@ -278,6 +284,7 @@ odoo:
   override_resources: {}
     # cpu: 5
     # memory: 8Gi
+
   queuejob:
     enabled: false
     workers: '2'
@@ -286,6 +293,7 @@ odoo:
       hard: "2147483648"
     max_cron: '0'
     channels: "root:2"
+
     livenessProbe:
       httpGet:
         path: /queue_liveness

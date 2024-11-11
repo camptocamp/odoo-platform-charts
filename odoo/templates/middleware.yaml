@@ -128,6 +128,23 @@ spec:
               {{- end }}
             {{- end }}
           {{- end }}
+          {{- with .retry }}
+            {{- if not .useDefault }}
+              {{- with .override }}
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: mw-retry-{{ sha1sum (printf "retry-%s-%s" $hosts $list) }}
+  labels:
+    {{- include "odoo.labels" $ | nindent 4 }}
+spec:
+  retry:
+    attempts: {{ .attempts }}
+    initialInterval: {{ .initialInterval }}
+              {{- end }}
+            {{- end }}
+          {{- end }}
         {{- end }}
       {{- end }}
     {{- end }}
@@ -145,4 +162,3 @@ spec:
     stsSeconds: 31536000
     stsIncludeSubdomains: true
     stsPreload: true
-
