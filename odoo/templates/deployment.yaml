@@ -28,6 +28,7 @@ spec:
           {{- toYaml . | nindent 8 }}
         {{- end }}
       labels:
+        {{- include "odoo.labels" $ | nindent 8 }}
         app: {{ template "odoo.name" . }}
         app.kubernetes.io/component: "odoo"
         release: "{{ .Release.Name }}"
@@ -222,6 +223,7 @@ spec:
           {{- toYaml . | nindent 8 }}
         {{- end }}
       labels:
+        {{- include "odoo.labels" $ | nindent 8 }}
         {{- include "odoo.selectorLabels" . | nindent 8 }}
         {{- with .Values.additionalLabels }}
           {{- toYaml . | nindent 8 }}
