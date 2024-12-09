@@ -29,7 +29,7 @@ image:
     is_old_image_flavour: True
     tag: xx.0.1.0.0
   nginx:
-    repository: camptocamp/odoo-nginx
+    repository: camptocamp.azurecr.io/odoo/camptocamp/odoo-nginx
     tag: xx.0-1.6.0
   odoohealthz:
     repository: ghcr.io/camptocamp/odoo-k8s-healthz
