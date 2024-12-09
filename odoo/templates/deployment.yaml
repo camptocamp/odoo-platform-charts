@@ -240,7 +240,7 @@ spec:
       {{- end }}
       initContainers:
         - name: wait-for-odoo
-          image: curlimages/curl:7.81.0
+          image: camptocamp.azurecr.io/odoo/curl:7.81.0
           imagePullPolicy: IfNotPresent
           # TODO: Change URL to healthcheck endpoint
           command: ['sh', '-c', "until [ $(curl -sw '%{http_code}' {{ include "odoo.fullname" . }}.$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace).svc.cluster.local/web/login -o /dev/null) = 200 ]; do echo waiting for Odoo; sleep 60; done"]
