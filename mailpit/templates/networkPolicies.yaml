@@ -21,12 +21,14 @@ spec:
   ingress:
   - from:
     - podSelector:
-        matchLabels:
-          app.kubernetes.io/component: odoo
-  - from:
-    - podSelector:
-        matchLabels:
-          app.kubernetes.io/component: odoo-queue
+        matchExpressions:
+        - key: app.kubernetes.io/component
+          operator: In
+          values:
+          - odoo
+          - odoo-thread
+          - odoo-cron
+          - odoo-queue
   - from:
     - namespaceSelector:
         matchLabels:
