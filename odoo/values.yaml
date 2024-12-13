@@ -22,19 +22,21 @@ serviceMonitor:
 image:
   pullPolicy: IfNotPresent
   preinit_manager:
-    repository: ghcr.io/camptocamp/odoo-preinit-manager
+    repository: camptocamp.azurecr.io/odoo/odoo-preinit-manager
     tag: 1.2.0
   odoo:
     repository: ghcr.io/camptocamp/customer_odoo
     is_old_image_flavour: True
     tag: xx.0.1.0.0
   nginx:
-    repository: camptocamp/odoo-nginx
+    repository: camptocamp.azurecr.io/odoo/odoo-nginx
     tag: xx.0-1.6.0
   odoohealthz:
-    repository: ghcr.io/camptocamp/odoo-k8s-healthz
+    repository: camptocamp.azurecr.io/odoo/odoo-k8s-healthz
     tag: app-1.5.0
-
+  curl:
+    repository: camptocamp.azurecr.io/odoo/curl
+    tag: 7.81.0
 
 imagePullSecrets:
   - name: github-packages
