@@ -32,8 +32,8 @@ global:
 ## @param image.debug Enable image debug mode
 ##
 image:
-  registry: docker.io
-  repository: axllent/mailpit
+  registry: camptocamp.azurecr.io
+  repository: odoo/mailpit
   tag: v1.6.18
   digest: ""
   ## Specify a imagePullPolicy
