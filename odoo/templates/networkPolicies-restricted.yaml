@@ -1,0 +1,51 @@
+{{- if .Values.networkPolicies.restrictedEnabled }}
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: {{ include "odoo.name" . }}-restricted
+  namespace: 
+spec:
+  ingress:
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          kubernetes.io/metadata.name: traefik
+      podSelector:
+        matchLabels:
+          app.kubernetes.io/name: traefik
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          kubernetes.io/metadata.name: kube-prometheus-stack
+      podSelector:
+        matchLabels:
+          app.kubernetes.io/name: prometheus
+  - from:
+    - podSelector:
+        matchLabels:
+          queuejob: "true"
+
+  {{- with .Values.networkPolicies.explicitNamespacesSelector }}
+  {{- range . }}
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          {{- if .matchLabels }}
+          {{- range $key, $value := .matchLabels }}
+          {{ $key }}: {{ $value | quote }}
+          {{- end }}
+          {{- end }}
+    {{- if .podSelector }}
+      podSelector:
+        matchLabels:
+          {{- range $key, $value := .podSelector.matchLabels }}
+          {{ $key }}: {{ $value | quote }}
+          {{- end }}
+    {{- end }}
+  {{- end }}
+  {{- end }}
+
+  podSelector: {}
+  policyTypes:
+    - Ingress
+{{- end}}
