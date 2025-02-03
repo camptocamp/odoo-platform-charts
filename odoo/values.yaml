@@ -189,6 +189,9 @@ odoohealthz: {}
   #max_transaction_duration: "3600"
   #log_level:  "ERROR"
   #check_expired_db: False
+  #complete_check_occurence: 0
+  #odoo_memory_limit: 0
+  #odoo_metrics_url: "http://localhost:8069/metrics"
 
 preinit_manager: {}
   # celebrimbor_cert:
