@@ -192,6 +192,7 @@ odoohealthz: {}
   #complete_check_occurence: 0
   #odoo_memory_limit: 0
   #odoo_metrics_url: "http://localhost:8069/metrics"
+  #odoo_metrics_timeout: 2
 
 preinit_manager: {}
   # celebrimbor_cert:

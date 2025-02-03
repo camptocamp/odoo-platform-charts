@@ -17,5 +17,5 @@ data:
   COMPLETE_CHECK_OCCURENCE: {{ .Values.odoohealthz.complete_check_occurence | default "0" | quote }}
   ODOO_MEMORY_LIMIT: {{ .Values.odoohealthz.odoo_memory_limit | default "0" | quote }}
   ODOO_METRICS_URL: {{ .Values.odoohealthz.odoo_metrics_url | default "http://localhost:8069/metrics" | quote }}
-    
+  ODOO_METRICS_TIMEOUT: {{ .Values.odoohealthz.odoo_metrics_timeout | default "2" | quote }}    
 
