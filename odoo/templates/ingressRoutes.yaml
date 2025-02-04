@@ -37,7 +37,7 @@ spec:
           {{- end }}
       kind: Rule
       services:
-        - name: {{ include "odoo.fullname" $ }}
+        - name: {{ include "odoo.fullname" $ }}-{{ $scope.component | default (include "odoo.deployment.defaultComponent" $) }}
           port: 80        
           {{- with $scope.middlewares }}
       middlewares:
@@ -105,6 +105,17 @@ spec:
               {{- else }}
                 {{- range $.Values.ingressRoutes.defaultMiddlewares.redirectRegex}}
         - name: mw-rr-default{{- include "odoo-cs-suffix" $ }}-{{ sha1sum (printf "redirectRegex-%s-%s" .regex .replacement) }}
+                {{- end }}
+              {{- end }}
+            {{- end }}
+            {{- with .retry }}
+              {{- if not .useDefault }}
+                {{- with .override }}
+        - name: mw-retry-{{ sha1sum (printf "retry-%s-%s" $hosts $list) }}
+                {{- end }}
+              {{- else }}
+                {{- with $.Values.ingressRoutes.defaultMiddlewares.retry }}
+        - name: mw-retry-default{{- include "odoo-cs-suffix" $ }}
                 {{- end }}
               {{- end }}
             {{- end }}
