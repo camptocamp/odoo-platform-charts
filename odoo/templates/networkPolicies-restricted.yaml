@@ -3,7 +3,7 @@ apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
   name: {{ include "odoo.name" . }}-restricted
-  namespace: 
+  namespace:
 spec:
   ingress:
   - from:
@@ -24,27 +24,9 @@ spec:
     - podSelector:
         matchLabels:
           queuejob: "true"
-
-  {{- with .Values.networkPolicies.explicitNamespacesSelector }}
-  {{- range . }}
-  - from:
-    - namespaceSelector:
-        matchLabels:
-          {{- if .matchLabels }}
-          {{- range $key, $value := .matchLabels }}
-          {{ $key }}: {{ $value | quote }}
-          {{- end }}
-          {{- end }}
-    {{- if .podSelector }}
-      podSelector:
-        matchLabels:
-          {{- range $key, $value := .podSelector.matchLabels }}
-          {{ $key }}: {{ $value | quote }}
-          {{- end }}
-    {{- end }}
-  {{- end }}
-  {{- end }}
-
+  {{- if .Values.networkPolicies.extraFrom }}
+  {{- toYaml $.Values.networkPolicies.extraFrom | nindent 2 }}
+  {{- end}}
   podSelector: {}
   policyTypes:
     - Ingress
