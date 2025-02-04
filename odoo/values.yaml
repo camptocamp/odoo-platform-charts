@@ -33,7 +33,7 @@ image:
     tag: xx.0-1.6.0
   odoohealthz:
     repository: camptocamp.azurecr.io/odoo/odoo-k8s-healthz
-    tag: app-1.5.0
+    tag: app-1.7.0
   curl:
     repository: camptocamp.azurecr.io/odoo/curl
     tag: 7.81.0
@@ -189,6 +189,10 @@ odoohealthz: {}
   #max_transaction_duration: "3600"
   #log_level:  "ERROR"
   #check_expired_db: False
+  #complete_check_occurence: 0
+  #odoo_memory_limit: 0
+  #odoo_metrics_url: "http://localhost:8069/metrics"
+  #odoo_metrics_timeout: 2
 
 preinit_manager: {}
   # celebrimbor_cert:
