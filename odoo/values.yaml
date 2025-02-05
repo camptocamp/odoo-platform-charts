@@ -93,7 +93,7 @@ ingressRoutes: {}
 #     namespace: "namespace"
 #     port: 80
 #   defaultMiddlewares:
-#     IPWhiteList:
+#     IPAllowList:
 #       - "10.10.0.0.0/16"
 #     waf:
 #       address: "waf.com"
@@ -132,7 +132,7 @@ ingressRoutes: {}
 #             - path: "/"
 #               type: prefix
 #           middlewares:
-#             IPWhiteList:
+#             IPAllowList:
 #               useDefault: true
 #             waf:
 #               useDefault: true
@@ -150,7 +150,7 @@ ingressRoutes: {}
 #             - path: "/path3"
 #               type: specific
 #           middlewares:
-#             IPWhiteList:
+#             IPAllowList:
 #               useDefault: false
 #               override:
 #                 - "192.168.1.5"
