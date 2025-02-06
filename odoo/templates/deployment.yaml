@@ -62,7 +62,7 @@ spec:
           {{- if eq .Values.odoo.mode "hybrid" }}
           command: ['sh', '-c', "until [ $(curl -sw '%{http_code}' {{ include "odoo.fullname" . }}-thread.$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace).svc.cluster.local/web/login -o /dev/null) = 200 ]; do echo waiting for Odoo; sleep 60; done"]
           {{- else }}
-          command: ['sh', '-c', "until [ $(curl -sw '%{http_code}' {{ include "odoo.fullname" . }}.$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace).svc.cluster.local/web/login -o /dev/null) = 200 ]; do echo waiting for Odoo; sleep 60; done"]
+          command: ['sh', '-c', "until [ $(curl -sw '%{http_code}' {{ include "odoo.fullname" . }}-worker.$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace).svc.cluster.local/web/login -o /dev/null) = 200 ]; do echo waiting for Odoo; sleep 60; done"]
           {{- end }}
       containers:
         - name: odooqueue
