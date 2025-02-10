@@ -1,7 +1,7 @@
 {{- with .Values.ingressRoutes.defaultMiddlewares}}
   {{- with .IPWhiteList }}
 ---
-apiVersion: traefik.containo.us/v1alpha1
+apiVersion: traefik.io/v1alpha1
 kind: Middleware
 metadata:
   name: mw-ip-default{{- include "odoo-cs-suffix" $ }}
@@ -16,7 +16,7 @@ spec:
   {{- end }}
   {{- with .waf }}
 ---
-apiVersion: traefik.containo.us/v1alpha1
+apiVersion: traefik.io/v1alpha1
 kind: Middleware
 metadata:
   name: mw-wf-default{{- include "odoo-cs-suffix" $ }}
@@ -31,7 +31,7 @@ spec:
   {{- end }}
   {{- if .robotNoIndex }}
 ---
-apiVersion: traefik.containo.us/v1alpha1
+apiVersion: traefik.io/v1alpha1
 kind: Middleware
 metadata:
   name: mw-rn-default{{- include "odoo-cs-suffix" $ }}
@@ -42,9 +42,9 @@ spec:
     customResponseHeaders:
       X-Robots-Tag: "noindex,nofollow,noarchive,nosnippet,noimageindex"
   {{- end }}
-  {{- with .rateLimits }}        
+  {{- with .rateLimits }}
 ---
-apiVersion: traefik.containo.us/v1alpha1
+apiVersion: traefik.io/v1alpha1
 kind: Middleware
 metadata:
   name: mw-rl-default{{- include "odoo-cs-suffix" $ }}
@@ -62,7 +62,7 @@ spec:
   {{- end }}
   {{- with .redirectScheme }}
 ---
-apiVersion: traefik.containo.us/v1alpha1
+apiVersion: traefik.io/v1alpha1
 kind: Middleware
 metadata:
   name: mw-rs-default{{- include "odoo-cs-suffix" $ }}
@@ -80,7 +80,7 @@ spec:
   {{- end }}
   {{- range .redirectRegex }}
 ---
-apiVersion: traefik.containo.us/v1alpha1
+apiVersion: traefik.io/v1alpha1
 kind: Middleware
 metadata:
   name: mw-rr-default{{- include "odoo-cs-suffix" $ }}-{{ sha1sum (printf "redirectRegex-%s-%s" .regex .replacement) }}
@@ -93,5 +93,18 @@ spec:
     {{- with .permanent }}
     permanent: {{ . }}
     {{- end }}
+  {{- end }}
+  {{- with .retry }}
+---
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: mw-retry-default{{- include "odoo-cs-suffix" $ }}
+  labels:
+    {{- include "odoo.labels" $ | nindent 4 }}
+spec:
+  retry:
+    attempts: {{ .attempts }}
+    initialInterval: {{ .initialInterval }}
   {{- end }}
 {{- end }}

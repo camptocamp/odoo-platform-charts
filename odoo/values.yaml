@@ -43,7 +43,7 @@ image:
     tag: xx.0-1.6.0
   odoohealthz:
     repository: camptocamp.azurecr.io/odoo/odoo-k8s-healthz
-    tag: app-1.5.0
+    tag: app-1.7.0
   curl:
     repository: camptocamp.azurecr.io/odoo/curl
     tag: 7.81.0
@@ -199,6 +199,10 @@ odoohealthz: {}
   #max_transaction_duration: "3600"
   #log_level:  "ERROR"
   #check_expired_db: False
+  #complete_check_occurence: 0
+  #odoo_memory_limit: 0
+  #odoo_metrics_url: "http://localhost:8069/metrics"
+  #odoo_metrics_timeout: 2
 
 preinit_manager: {}
   # celebrimbor_cert:
@@ -220,12 +224,17 @@ odoo:
   base_url: ""
   report_url: ""
   env: integration
+
+  # workers | hybrid
+  mode: workers
+
   storage:
     account_url: ""
     use_aad: '1'
     secret:
       name: odoo-storage
       container: container_name
+
   metrics:
     scrapeInterval: 15s
 
@@ -251,7 +260,6 @@ odoo:
     periodSeconds: 10
     timeoutSeconds: 30
 
-
   db:
     secret:
       name: odoo-database
@@ -261,11 +269,13 @@ odoo:
       database: database
     port: "5432"
     max_conn: 5
+
   redis:
     enabled: False
     secret:
       name: odoo-redis
       url: url
+
   log_handler: :INFO,werkzeug:ERROR,azure:ERROR
   log_level: info
   unaccent: "False"
@@ -290,6 +300,7 @@ odoo:
   override_resources: {}
     # cpu: 5
     # memory: 8Gi
+
   queuejob:
     enabled: false
     workers: '2'
@@ -298,6 +309,7 @@ odoo:
       hard: "2147483648"
     max_cron: '0'
     channels: "root:2"
+
     livenessProbe:
       httpGet:
         path: /queue_liveness
