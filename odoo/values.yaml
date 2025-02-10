@@ -8,7 +8,17 @@ replicaCount: 1
 #   label.foo.bar: baz
 
 networkPolicies:
-  enabled: False
+  enabled: false
+  restrictedEnabled: true
+  extraFrom: {}
+  # - from:
+  #   - namespaceSelector:
+  #       matchLabels:
+  #         kubernetes.io/metadata.name: xxx
+  #     podSelector:
+  #       matchLabels:
+  #         app.kubernetes.io/name: xxx
+  # deprecated, use instead extraFrom which is more flexible
   explicitNamespacesSelector: {}
 #    - matchLabels:
 #        kubernetes.io/metadata.name: xxxx
