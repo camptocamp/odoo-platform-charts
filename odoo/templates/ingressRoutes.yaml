@@ -42,13 +42,13 @@ spec:
           {{- with $scope.middlewares }}
       middlewares:
         - name: mw-hs-security{{- include "odoo-cs-suffix" $ }}
-            {{- with .IPWhiteList }}
+            {{- with .IPAllowList }}
               {{- if not .useDefault }}
                 {{- with .override }}
-        - name: mw-ip-{{ sha1sum (printf "IPWhiteList-%s-%s" $hosts $list) }}
+        - name: mw-ip-{{ sha1sum (printf "IPAllowList-%s-%s" $hosts $list) }}
                 {{- end }}
               {{- else }}
-                {{- with $.Values.ingressRoutes.defaultMiddlewares.IPWhiteList}}
+                {{- with $.Values.ingressRoutes.defaultMiddlewares.IPAllowList}}
         - name: mw-ip-default{{- include "odoo-cs-suffix" $ }}
                 {{- end }}
               {{- end }}

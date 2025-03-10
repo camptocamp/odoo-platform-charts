@@ -32,7 +32,7 @@ ingress:
   hosts:
     - chart-example.local
     - other.name
-  IPWhiteList: []
+  IPAllowList: []
 
 resources:
   nginx:
