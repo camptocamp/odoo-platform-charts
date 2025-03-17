@@ -4,4 +4,4 @@ kind: ConfigMap
 metadata:
   name: nginx-config
 data:
-  NGX_HOST: localhost
+  NGX_HOST: 127.0.0.1
