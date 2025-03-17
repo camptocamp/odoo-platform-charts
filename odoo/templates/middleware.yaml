@@ -9,18 +9,18 @@
             {{- $list = .path | append $list }}
         {{- end }}
         {{- with .middlewares }}
-          {{- with .IPWhiteList }}
+          {{- with .IPAllowList }}
             {{- if not .useDefault }}
               {{- with .override }}
 ---
 apiVersion: traefik.io/v1alpha1
 kind: Middleware
 metadata:
-  name: mw-ip-{{ sha1sum (printf "IPWhiteList-%s-%s" $hosts $list) }}
+  name: mw-ip-{{ sha1sum (printf "IPAllowList-%s-%s" $hosts $list) }}
   labels:
     {{- include "odoo.labels" $ | nindent 4 }}
 spec:
-  ipWhiteList:
+  ipAllowList:
     sourceRange:
                 {{- range . }}
       - {{ . | quote }}

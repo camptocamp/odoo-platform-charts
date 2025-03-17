@@ -1,12 +1,12 @@
 {{- if .Values.ingress.enabled -}}
-{{- with .Values.ingress.IPWhiteList }}
+{{- with .Values.ingress.IPAllowList }}
 ---
 apiVersion: traefik.io/v1alpha1
 kind: Middleware
 metadata:
   name: "ip-{{ include "celebrimbor.fullname" $ }}"
 spec:
-  ipWhiteList:
+  ipAllowList:
     sourceRange:
     {{- range . }}
       - {{ . | quote -}}
@@ -41,7 +41,7 @@ spec:
   {{- range .Values.ingress.hosts }}
     - kind: Rule
       match: Host(`{{ . }}`)
-      {{- if $.Values.ingress.IPWhiteList }}
+      {{- if $.Values.ingress.IPAllowList }}
       middlewares:
         - name: "ip-{{ include "celebrimbor.fullname" $ }}"
       {{- end }}

@@ -73,7 +73,7 @@ ingressRoutes:
   host: "sbla"
 # ingressRoutes:
 #   defaultMiddlewares:
-#     IPWhiteList:
+#     IPAllowList:
 #       - 128.179.66.4/32
 #       - 5.1.102.64/28
 #       - 185.127.205.0/25
