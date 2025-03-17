@@ -8,8 +8,8 @@ replicaCount: 1
 #   label.foo.bar: baz
 
 networkPolicies:
-  enabled: false
-  restrictedEnabled: true
+  enabled: true
+  enableSharedPrintinServices: true
   extraFrom: {}
   # - from:
   #   - namespaceSelector:

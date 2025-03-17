@@ -20,6 +20,7 @@ spec:
       podSelector:
         matchLabels:
           app.kubernetes.io/name: prometheus
+  {{- if .Values.networkPolicies.enableSharedPrintinServices }}
   - from:
     - namespaceSelector:
         matchLabels:
@@ -45,7 +46,7 @@ spec:
     - podSelector:
         matchLabels:
           queuejob: "true"
-
+  {{- end}}
   {{- with .Values.networkPolicies.explicitNamespacesSelector }}
   {{- range . }}
   - from:
