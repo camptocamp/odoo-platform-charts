@@ -14,7 +14,6 @@ spec:
     metadata:
       annotations:
         config-hash: {{ include (print $.Template.BasePath "/config-celebrimbor.yaml") $ | sha256sum | trunc 63 }}
-        secret-hash: {{ include (print $.Template.BasePath "/config-celebrimbor-secret.yaml") $ | sha256sum | trunc 63 }}
         {{- with .Values.additionalAnnotations }}
           {{- toYaml . | nindent 8 }}
         {{- end }}
@@ -24,7 +23,7 @@ spec:
           {{- toYaml . | nindent 8 }}
         {{- end }}
     spec:
-      {{- with .Values.serviceAccount }}
+      {{- with .Values.serviceAccountName }}
       serviceAccountName: {{ . }}
       {{- end }}
       {{- with .Values.imagePullSecrets }}
@@ -35,62 +34,27 @@ spec:
         - name: celebrimbor
           image: "{{ .Values.image.celebrimbor.repository }}:{{ .Values.image.celebrimbor.component }}-{{ .Values.image.version }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          env:
-            - name: AZURE_ACCOUNT_URL
-              valueFrom:
-                secretKeyRef:
-                  name: {{ .Values.celebrimbor.storage.secret_name }}
-                  key: {{ .Values.celebrimbor.storage.account_url_key }}
-            - name: AZURE_STORAGE_NAME
-              valueFrom:
-                secretKeyRef:
-                  name: {{ .Values.celebrimbor.storage.secret_name }}
-                  key: {{ .Values.celebrimbor.storage.storage_name_key }}
-            - name: GPG_KEYVAULT_NAME
-              valueFrom:
-                secretKeyRef:
-                  name: {{ .Values.celebrimbor.gpg.secret_name }}
-                  key: {{ .Values.celebrimbor.gpg.vault_name_key }}
-            - name: GPG_KEYVAULT_SECRET
-              valueFrom:
-                secretKeyRef:
-                  name: {{ .Values.celebrimbor.gpg.secret_name }}
-                  key: {{ .Values.celebrimbor.gpg.secret_name_key }}
-            - name: GPG_RECIPIENTS
-              valueFrom:
-                secretKeyRef:
-                  name: {{ .Values.celebrimbor.gpg.secret_name }}
-                  key: {{ .Values.celebrimbor.gpg.recipients_key }}
-            - name: SESSION_REDIS_URL
-              valueFrom:
-                secretKeyRef:
-                  name: {{ .Values.celebrimbor.redis.secret_name }}
-                  key: {{ .Values.celebrimbor.redis.primary_connection_url_key }}
-            - name: CLIENT_ID
-              valueFrom:
-                secretKeyRef:
-                  name: {{ .Values.celebrimbor.azure_app.secret_name }}
-                  key: {{ .Values.celebrimbor.azure_app.client_id_key }}
-            - name: CLIENT_SECRET
-              valueFrom:
-                secretKeyRef:
-                  name: {{ .Values.celebrimbor.azure_app.secret_name }}
-                  key: {{ .Values.celebrimbor.azure_app.client_secret_key }}
-            - name: TENANT_ID
-              valueFrom:
-                secretKeyRef:
-                  name: {{ .Values.celebrimbor.azure_app.secret_name }}
-                  key: {{ .Values.celebrimbor.azure_app.tenant_id_key }}
           envFrom:
             - configMapRef:
                 name: celebrimbor-config
             - secretRef:
-                name: celebrimbor-secret
+                name: azure-app
+            - secretRef:
+                name: gpg
+            - secretRef:
+                name: redis
+            - secretRef:
+                name: storage
+            - secretRef:
+                name: additional-secrets
+                optional: true
           ports:
             - containerPort: 5000
               name: celebrimbor
+          {{- with .Values.volumeMounts }}
           volumeMounts:
-            {{- toYaml .Values.volumeMounts | nindent 12 }}
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
           resources:
             {{- toYaml .Values.resources.celebrimbor | nindent 12 }}
         - name: nginx
@@ -104,8 +68,10 @@ spec:
           ports:
             - containerPort: 80
               name: http
+      {{- with .Values.volumes }}
       volumes:
-        {{- toYaml .Values.volumes | nindent 8 }}
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

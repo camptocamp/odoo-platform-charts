@@ -28,18 +28,9 @@ spec:
           - name: key-backup
             image: "{{ .Values.image.key_backup.repository }}:{{ .Values.image.key_backup.component }}-{{ .Values.image.version }}"
             imagePullPolicy: Always
-            env:
-              - name: GPG_KEYVAULT_NAME
-                valueFrom:
-                  secretKeyRef:
-                    name: {{ .Values.celebrimbor.gpg.secret_name }}
-                    key: {{ .Values.celebrimbor.gpg.vault_name_key }}
-              - name: GPG_KEYVAULT_SECRET
-                valueFrom:
-                  secretKeyRef:
-                    name: {{ .Values.celebrimbor.gpg.secret_name }}
-                    key: {{ .Values.celebrimbor.gpg.secret_name_key }}
             envFrom:
               - secretRef:
-                  name: keybackup-secret
+                  name: gpg
+              - secretRef:
+                  name: keybackup
 {{ end }}
