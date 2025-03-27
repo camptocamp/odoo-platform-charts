@@ -158,3 +158,24 @@ spec:
       targetPort: odoohealthz
   selector:
     {{- include "odoo.selectorLabels" . | nindent 4 }}
+---
+#Print services
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "odoo.fullname" . }}
+  labels:
+    {{- include "odoo.labels" $ | nindent 4 }}
+spec:
+  ports:
+    - port: 80
+      targetPort: http
+  selector:
+    {{- include "odoo.selectorLabels" . | nindent 4 }}
+    {{ if eq .Values.odoo.mode "hybrid" }}
+    app.kubernetes.io/component: "odoo-thread"
+    {{ else if eq .Values.odoo.mode "workers" }}
+    app.kubernetes.io/component: "odoo-worker"
+    {{ end }}
+
+---
