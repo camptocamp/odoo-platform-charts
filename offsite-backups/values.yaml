@@ -1,0 +1,12 @@
+keyvaultName: ""
+identity:
+  tenantID: ""
+  clientID: ""
+  clientID_celebrimbor: ""
+  clientID_filestore : ""
+  clientID_filestore_restore: ""
+
+serviceAccountName: "offsite-backups"
+
+# s3 | swift
+# offsiteStorageKind: ""
