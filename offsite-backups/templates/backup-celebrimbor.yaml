@@ -1,0 +1,56 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: celebrimbor-offsite-backup
+spec:
+  schedule: "0 0 * * *"
+  jobTemplate:
+    spec:
+      ttlSecondsAfterFinished: 86400
+      backoffLimit: 1
+      template:
+        metadata:
+          labels:
+            azure.workload.identity/use: "true"
+        spec:
+          serviceAccountName: celebrimbor
+          restartPolicy: Never
+          nodeSelector:
+            odoo.camptocamp.com/nodepool: miscapps
+            odoo.camptocamp.com/environment: prod
+          containers:
+          - name: rclone
+            image: rclone/rclone:latest
+            command: ["rclone"]
+            args: ["copy", "azure:$(CELEBRIMBOR_STORAGE_NAME)", "offsite:$(CELEBRIMBOR_STORAGE_NAME)", "--immutable", "--use-json-log"]
+            env:
+              - name: RCLONE_AZUREBLOB_ACCOUNT
+                valueFrom:
+                  secretKeyRef:
+                    name: azure-storage
+                    key: celebrimbor_account
+              - name: CELEBRIMBOR_STORAGE_NAME
+                valueFrom:
+                  secretKeyRef:
+                    name: azure-storage
+                    key: celebrimbor_storage_name
+            envFrom:
+              - configMapRef:
+                  name: offsite-storage-config
+              - secretRef:
+                  name: offsite-storage-secret
+          - name: cleanup
+            image: rclone/rclone:latest
+            command: ["rclone"]
+            args: ["delete", "--min-age", "3M", "offsite:$(CELEBRIMBOR_STORAGE_NAME)", "--use-json-log"]
+            env:
+              - name: CELEBRIMBOR_STORAGE_NAME
+                valueFrom:
+                  secretKeyRef:
+                    name: azure-storage
+                    key: celebrimbor_storage_name
+            envFrom:
+              - configMapRef:
+                  name: offsite-storage-config
+              - secretRef:
+                  name: offsite-storage-secret

@@ -1,0 +1,19 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: offsite-storage-config
+data:
+  RCLONE_CONFIG_OFFSITE_TYPE: {{ .Values.offsiteStorageKind }}
+  {{- if eq .Values.offsiteStorageKind "s3" }}
+  RCLONE_S3_ENV_AUTH: "true"
+  RCLONE_S3_PROVIDER: Other
+  RCLONE_S3_ENDPOINT: sos-ch-dk-2.exo.io
+  {{- else if eq .Values.offsiteStorageKind "swift" }}
+  RCLONE_CONFIG_OFFSITE_SWIFT_ENV_AUTH: "true"
+  RCLONE_SWIFT_AUTH: https://auth.cloud.ovh.net/v3
+  RCLONE_SWIFT_DOMAIN: default
+  RCLONE_SWIFT_TENANT_DOMAIN: default
+  RCLONE_SWIFT_REGION: GRA
+  {{- end }}
+  RCLONE_CONFIG_AZURE_TYPE: azureblob
+  RCLONE_AZUREBLOB_ENV_AUTH: "true"
