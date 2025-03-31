@@ -21,7 +21,7 @@ data:
   {{- end }}
   MIGRATION_FILE_PATH: "/tmp/migration.yml"
   # Technical
-  CELEBRIMBOR_SVC: {{ .Values.preinit_manager.celebrimbor_svc | default "http://celebrimbor.bs-celebrimbor.svc.cluster.local" }}
+  CELEBRIMBOR_SVC: {{ .Values.preinit_manager.celebrimbor_svc | default "http://celebrimbor.celebrimbor.svc.cluster.local" }}
   {{- with .Values.preinit_manager.onering_svc }}
   ONERING_SVC: {{ . }}
   {{- end }}
