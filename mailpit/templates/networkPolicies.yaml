@@ -29,6 +29,7 @@ spec:
           - odoo-thread
           - odoo-cron
           - odoo-queue
+          - odoo-worker
   - from:
     - namespaceSelector:
         matchLabels:
