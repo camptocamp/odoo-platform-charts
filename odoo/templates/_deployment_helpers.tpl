@@ -199,9 +199,18 @@ spec:
         {{- toYaml .odoo | nindent 8 }}
         {{- end }}
         {{- end }}
-      {{- with .Values.nodeSelector }}
+      {{- if or (and (eq .Values.odoo.mode "hybrid") .Values.separateOdooComponents) .Values.nodeSelector }}
       nodeSelector:
-        {{- toYaml . | nindent 8 }}
+        {{- if and (eq .Values.odoo.mode "hybrid") .Values.separateOdooComponents }}
+          {{- if eq .pod_type "cron" }}
+        odoo.camptocamp.com/component-cron: "true"
+          {{- else if eq .pod_type "thread" }}
+        odoo.camptocamp.com/component-thread: "true"
+          {{- end }}
+        {{- end }}
+        {{- if .Values.nodeSelector }}
+          {{- toYaml .Values.nodeSelector | nindent 8 }}
+        {{- end }}
       {{- end }}
       {{- with .Values.affinity }}
       affinity:
