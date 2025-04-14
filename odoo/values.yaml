@@ -74,8 +74,7 @@ serviceAccountName: "default"
 nodeSelector: {}
 
 separateOdooComponents: false
-# will add the following node selector to respective the deployment:
-# nodeSelector:
+# will add the following node selector to the respective deployment to match below labels:
 # odoo.camptocamp.com/component-thread=true
 # odoo.camptocamp.com/component-cron=true
 # odoo.camptocamp.com/component-queuejob=true
