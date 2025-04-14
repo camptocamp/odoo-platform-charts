@@ -309,7 +309,7 @@ odoo:
     # memory: 8Gi
 
   queuejob:
-    enabled: true
+    enabled: false
     workers: '2'
     limits:
       soft: "787973120"
