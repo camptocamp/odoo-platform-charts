@@ -72,6 +72,13 @@ resources:
 serviceAccountName: "default"
 
 nodeSelector: {}
+
+separateOdooComponents: false
+# will add the following node selector to the respective deployment to match below labels:
+# odoo.camptocamp.com/component-thread=true
+# odoo.camptocamp.com/component-cron=true
+# odoo.camptocamp.com/component-queuejob=true
+# this will allow to specify how to deploy service on nodes
 tolerations: []
 rollingupdatechart: False
 spreadOdooPodsOverNodes:
@@ -226,7 +233,7 @@ odoo:
   env: integration
 
   # workers | hybrid
-  mode: workers
+  mode: hybrid
 
   storage:
     account_url: ""
