@@ -233,7 +233,7 @@ odoo:
   env: integration
 
   # workers | hybrid
-  mode: hybrid
+  mode: workers
 
   storage:
     account_url: ""
