@@ -1,13 +1,15 @@
 {{- define "odoo.deployment.replicas" -}}
-{{- if .Values.replicaCount -}}
-  {{- if eq .pod_type "cron" -}}
-1
+  {{- if .Values.replicaCount -}}
+    {{- if eq .pod_type "cron" -}}
+{{- .Values.odoo.cron.defaultReplicaCount | default 1 -}}
+    {{- else if eq .pod_type "queuejob" -}}
+{{- .Values.odoo.queuejob.defaultReplicaCount | default 1 -}}
+    {{- else -}}
+  {{ .Values.replicaCount }}
+    {{- end -}}
   {{- else -}}
-{{ .Values.replicaCount }}
-  {{- end -}}
-{{- else -}}
 0
-{{- end -}}
+  {{- end -}}
 {{- end -}}
 
 {{- define "odoo.deployment.defaultComponent" -}}
@@ -103,7 +105,7 @@ spec:
             {{- include "odoo.common-environment" . | nindent 12 }}
           envFrom:
             - configMapRef:
-                name: odoo-config{{- include "odoo-cs-suffix" . }}
+                name: odoo-config{{- include "odoo-cs-suffix" . }}-{{ .pod_type }}
             - secretRef:
                 name: odoo-secret{{- include "odoo-cs-suffix" . }}
                 optional: true
@@ -117,20 +119,16 @@ spec:
           {{- end }}
           env:
             {{- if eq .pod_type "cron" }}
-            - name: MAX_CRON_THREADS
-              value: "1"
+            - name: CRON_POD
+              value: "True"
             {{- else if eq .pod_type "thread" }}
-            - name: WORKERS
-              value: "0"
-            - name: MAX_CRON_THREADS
-              value: "0"
             - name: ODOO_MAX_HTTP_THREADS
               value: "True"
             {{- end }}
           {{- include "odoo.common-environment" . | nindent 12 }}
           envFrom:
             - configMapRef:
-                name: odoo-config{{- include "odoo-cs-suffix" . }}
+                name: odoo-config{{- include "odoo-cs-suffix" . }}-{{ .pod_type }}
             - secretRef:
                 name: odoo-secret{{- include "odoo-cs-suffix" . }}
                 optional: true
@@ -158,7 +156,13 @@ spec:
           {{- end }}
           {{- end }}
           resources:
-          {{- include "odoo.physical-resources" . | nindent 12 }}
+          {{ if eq .pod_type "cron" }}
+            {{- include "odoo.physical-resources-cron" . | nindent 12 }}
+          {{ else if eq .pod_type "thread" }}
+            {{- include "odoo.physical-resources-thread" . | nindent 12 }}
+          {{ else }}
+            {{- include "odoo.physical-resources-worker" . | nindent 12 }}
+          {{ end }}
         - name: nginx
           image: "{{ .Values.image.nginx.repository }}:{{ .Values.image.nginx.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
@@ -177,7 +181,7 @@ spec:
             {{- include "odoo.common-environment" . | nindent 12 }}
           envFrom:
             - configMapRef:
-                name: odoo-config{{- include "odoo-cs-suffix" . }}
+                name: odoo-config{{- include "odoo-cs-suffix" . }}-{{ .pod_type }}
             - configMapRef:
                 name: odoohealthz-config{{- include "odoo-cs-suffix" . }}
           resources:

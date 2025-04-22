@@ -1,16 +1,4 @@
 {{ if .Values.odoo.queuejob.enabled }}
 ---
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: odooqueue-config{{- include "odoo-cs-suffix" . }}
-  labels:
-    {{- include "odoo.labels" $ | nindent 4 }}
-data:
-  SERVER_WIDE_MODULES: {{ printf "%s,queue_job" (.Values.odoo.server_wide_modules | default "web,attachment_azure,session_redis,logging_json") }}
-  WORKERS: {{ .Values.odoo.queuejob.workers | default "2" | quote }}
-  LIMIT_MEMORY_SOFT: {{ .Values.odoo.queuejob.limits.soft | default "787973120" | quote }}
-  LIMIT_MEMORY_HARD: {{ .Values.odoo.queuejob.limits.hard | default "2147483648" | quote }}
-  MAX_CRON_THREADS: {{ .Values.odoo.queuejob.max_cron | default "0" | quote }}
-  ODOO_QUEUE_JOB_CHANNELS: {{ .Values.odoo.queuejob.channels | default "root:2" }}
+{{ include "odoo.config" (merge (. | deepCopy) (dict "pod_type" "queuejob" "instance_type" .Values.odoo.instance_type)) }}
 {{ end }}

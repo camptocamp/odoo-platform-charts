@@ -51,6 +51,7 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 
 {{/*
 Selector labels
+
 */}}
 {{- define "odoo.selectorLabels" -}}
 app.kubernetes.io/name: {{ include "odoo.name" . }}
@@ -100,55 +101,21 @@ Odoo configuration to be reused within multiple pods
   value: {{ .Values.odoo.db.port | default "5432" | quote }}
 - name: DB_MAXCONN
   value: {{ .Values.odoo.db.max_conn | default "5" | quote }}
-{{- if .Values.odoo.redis.enabled }}
+  {{- if .Values.odoo.redis.enabled }}
 - name: ODOO_SESSION_REDIS_URL
   valueFrom:
     secretKeyRef:
       name: {{ .Values.odoo.redis.secret.name | quote }}
       key: {{ .Values.odoo.redis.secret.url | quote }}
-{{- end }}
-{{- end }}
+  {{- end }}
+{{- end -}}
 
 
-{{/*
-Resources configuration according to instance type
-*/}}
-{{- define "odoo.physical-resources" -}}
-{{- if eq .Values.odoo.instance_type "xlarge" -}}
-requests:
-  cpu: 0.1
-  memory: 1.2Gi
-limits:
-  cpu: {{ .Values.odoo.override_resources.cpu | default 4 }}
-  memory: {{ .Values.odoo.override_resources.memory | default "3.5Gi" }}
-{{- else if eq .Values.odoo.instance_type "large" -}}
-requests:
-  cpu: 0.1
-  memory: 650Mi
-limits:
-  cpu: {{ .Values.odoo.override_resources.cpu | default 2 }}
-  memory: {{ .Values.odoo.override_resources.memory | default "3Gi" }}
-{{- else -}}
-requests:
-  cpu: 0.1
-  memory: 650Mi
-limits:
-  cpu: {{ .Values.odoo.override_resources.cpu | default 1 }}
-  memory: {{ .Values.odoo.override_resources.memory | default "2.2Gi" }}
-{{- end }}
-{{- end }}
-
-
-{{/*
-Odoo specific resources configuration according to instance type
-*/}}
-{{- define "odoo.internal-resources" -}}
-LIMIT_MEMORY_SOFT: {{ .Values.odoo.override_limits.memory_soft | default "650117120" | quote }}
-{{- if or (eq .Values.odoo.instance_type "xlarge") (eq .Values.odoo.instance_type "large") }}
-LIMIT_MEMORY_HARD: {{ .Values.odoo.override_limits.memory_hard | default "4194304000" | quote }}
-WORKERS: {{ .Values.odoo.override_limits.workers | default "14" | quote }}
-{{- else }}
-LIMIT_MEMORY_HARD: {{ .Values.odoo.override_limits.memory_hard | default "2097152000" | quote }}
-WORKERS: {{ .Values.odoo.override_limits.workers | default "7" | quote }}
-{{- end }}
+{{- define "odoo.component-limits" -}}
+LIMIT_REQUEST: {{ .compo.limits.request | default "32000" | quote }}
+LIMIT_TIME_CPU: {{ .compo.limits.time_cpu | default "86400" | quote }}
+LIMIT_TIME_REAL: {{ .compo.limits.time_real | default "86400" | quote }}
+LIMIT_TIME_REAL_CRON: {{ .compo.limits.time_real_cron | default "600" | quote }}
+MAX_CRON_THREADS: {{ .compo.limits.max_cron | default .default_max_cron | quote }}
+DB_MAXCONN: {{ .compo.db.max_conn | default .default_max_conn | quote }}
 {{- end }}
