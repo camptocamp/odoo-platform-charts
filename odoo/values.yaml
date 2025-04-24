@@ -256,8 +256,9 @@ odoo:
     httpGet:
       path: /readiness
       port: 8080
-    periodSeconds: 60
-    timeoutSeconds: 30
+    periodSeconds: 2
+    timeoutSeconds: 5
+    failureThreshold: 2
 
   startupProbe:
     httpGet:
