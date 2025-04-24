@@ -35,7 +35,7 @@ requests:
 limits:
   cpu: {{ .Values.odoo.queuejob.override_resources.cpu | default 4 }}
   memory: {{ .Values.odoo.queuejob.override_resources.memory | default "3.5Gi" }}
-{ {- else if eq .Values.odoo.instance_type "large" -}}
+{{- else if eq .Values.odoo.instance_type "large" -}}
 requests:
   cpu: 0.1
   memory: 650Mi
