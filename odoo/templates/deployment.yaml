@@ -14,7 +14,7 @@ metadata:
   labels:
     {{- include "odoo.labels" $ | nindent 4 }}
 spec:
-  replicas: 1
+  replicas: {{ include "odoo.deployment.replicas" (merge (. | deepCopy) (dict "pod_type" "queuejob")) }}
   strategy:
     {{- if or (hasSuffix "-roll" .Values.image.odoo.tag) .Values.rollingupdatechart }}
     type: RollingUpdate
@@ -75,9 +75,7 @@ spec:
             {{- include "odoo.common-environment" . | nindent 12 }}
           envFrom:
             - configMapRef:
-                name: odoo-config{{- include "odoo-cs-suffix" . }}
-            - configMapRef:
-                name: odooqueue-config{{- include "odoo-cs-suffix" . }}
+                name: odoo-config{{- include "odoo-cs-suffix" . }}-queuejob
             - secretRef:
                 name: odoo-secret{{- include "odoo-cs-suffix" . }}
                 optional: true
@@ -101,7 +99,12 @@ spec:
           {{- end }}
           {{- end }}
           resources:
-          {{- include "odoo.physical-resources" . | nindent 12 }}
+          # todo switch to use correct ressources
+          {{ if eq .Values.odoo.mode "hybrid" }}
+            {{- include "odoo.physical-resources-queuejob" . | nindent 12 }}
+          {{- else }}
+            {{- include "odoo.physical-resources-worker" . | nindent 12 }}
+          {{- end }}
         - name: odoohealthz
           image: "{{ .Values.image.odoohealthz.repository }}:{{ .Values.image.odoohealthz.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
@@ -109,7 +112,7 @@ spec:
             {{- include "odoo.common-environment" . | nindent 12 }}
           envFrom:
             - configMapRef:
-                name: odoo-config{{- include "odoo-cs-suffix" . }}
+                name: odoo-config{{- include "odoo-cs-suffix" . }}-queuejob
             - configMapRef:
                 name: odoohealthz-config{{- include "odoo-cs-suffix" . }}
           resources:
@@ -164,7 +167,7 @@ spec:
   selector:
     {{- include "odoo.selectorLabels" . | nindent 4 }}
 ---
-#Print services
+#Print services retro compatibility
 apiVersion: v1
 kind: Service
 metadata:

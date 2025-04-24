@@ -236,7 +236,7 @@ odoo:
   mode: workers
 
   storage:
-    account_url: ""
+    account_url: "dummy"
     use_aad: '1'
     secret:
       name: odoo-storage
@@ -275,7 +275,6 @@ odoo:
       password: password
       database: database
     port: "5432"
-    max_conn: 5
 
   redis:
     enabled: False
@@ -301,20 +300,43 @@ odoo:
     time_real_cron: 600
     request: 8192
   override_limits: {}
-    # memory_soft: 650117120
-    # memory_hard: 2097152000
-    # workers: 12
+    # memory_soft: 6501171
+    # memory_hard: 2097152
+    # workers: 2
   override_resources: {}
     # cpu: 5
     # memory: 8Gi
 
+  cron:
+    defaultReplicaCount: 1
+    db:
+      max_conn: 5
+    override_limits: {}
+      # memory_soft: 6501173
+      # memory_hard: 2097154
+      # workers: 1
+    limits:
+      max_cron: 1
+    override_resources: {}
+      # cpu: 5
+      # memory: 8Gi
+
   queuejob:
+    defaultReplicaCount: 1
+    db:
+      max_conn: 5
+    override_resources: {}
+    override_limits: {}
+      # memory_soft: 6501173
+      # memory_hard: 2097154
+      # workers: 1
     enabled: false
+    # depreacted please move into override_limits
     workers: '2'
     limits:
       soft: "787973120"
       hard: "2147483648"
-    max_cron: '0'
+      max_cron: '0'
     channels: "root:2"
 
     livenessProbe:
