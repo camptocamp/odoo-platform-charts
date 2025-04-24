@@ -22,7 +22,7 @@ requests:
   memory: 1.2Gi
 limits:
   cpu: {{ .Values.odoo.override_resources.cpu | default 4 }}
-  memory: {{ .Values.odoo.override_resources.memory | default "1Gi" }}
+  memory: {{ .Values.odoo.override_resources.memory | default "2Gi" }}
   {{- else if eq .Values.odoo.instance_type "large" -}}
 requests:
   cpu: 0.1
@@ -36,6 +36,6 @@ requests:
   memory: 650Mi
 limits:
   cpu: {{ .Values.odoo.override_resources.cpu | default 1 }}
-  memory: {{ .Values.odoo.override_resources.memory | default "2Gi" }}
+  memory: {{ .Values.odoo.override_resources.memory | default "1.2Gi" }}
   {{- end }}
 {{- end }}
