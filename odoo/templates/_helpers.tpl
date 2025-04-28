@@ -99,8 +99,6 @@ Odoo configuration to be reused within multiple pods
       key: {{ .Values.odoo.db.secret.password | quote }}
 - name: DB_PORT
   value: {{ .Values.odoo.db.port | default "5432" | quote }}
-- name: DB_MAXCONN
-  value: {{ .Values.odoo.db.max_conn | default "5" | quote }}
   {{- if .Values.odoo.redis.enabled }}
 - name: ODOO_SESSION_REDIS_URL
   valueFrom:
