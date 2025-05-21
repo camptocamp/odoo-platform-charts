@@ -317,7 +317,7 @@ odoo:
       # memory_hard: 2097154
       # workers: 1
     limits:
-      max_cron: 1
+      max_cron: 2
     override_resources: {}
       # cpu: 5
       # memory: 8Gi
