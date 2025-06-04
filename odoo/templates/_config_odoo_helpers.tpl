@@ -50,7 +50,7 @@ data:
   KWKHTMLTOPDF_SERVER_URL: {{ .Values.odoo.kwkhtmltopdf_server_url | default "http://kwkhtmltopdf.bs-kwkhtmltopdf01250:8080" }}
   PGCLIENTENCODING: UTF8
   {{- if eq .pod_type "cron" -}}
-    {{- include "odoo.component-limits" (dict "compo" .Values.odoo.cron "default_max_conn" 5 "default_max_cron" "1") | nindent 2 -}}
+    {{- include "odoo.component-limits" (dict "compo" .Values.odoo.cron "default_max_conn" 5 "default_max_cron" "2") | nindent 2 -}}
   {{- else if eq .pod_type "thread" }}
     {{- include "odoo.component-limits" (dict "compo" .Values.odoo "default_max_conn" 20 "default_max_cron" "0") | nindent 2 -}}
   {{- else if eq .pod_type "queuejob" }}
