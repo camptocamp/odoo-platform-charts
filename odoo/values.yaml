@@ -311,7 +311,7 @@ odoo:
   cron:
     defaultReplicaCount: 1
     db:
-      max_conn: 5
+      max_conn: 20
     override_limits: {}
       # memory_soft: 6501173
       # memory_hard: 2097154
