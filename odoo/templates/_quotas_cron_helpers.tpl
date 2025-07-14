@@ -18,21 +18,21 @@ LIMIT_MEMORY_HARD: {{ .override.memory_hard | default "2097152000" | quote }}
   {{- if eq .Values.odoo.instance_type "xlarge" -}}
 requests:
   cpu: 0.1
-  memory: 1.2Gi
+  memory: 360Gi
 limits:
   cpu: {{ .Values.odoo.cron.override_resources.cpu | default 4 }}
   memory: {{ .Values.odoo.cron.override_resources.memory | default "3.5Gi" }}
 {{- else if eq .Values.odoo.instance_type "large" -}}
 requests:
   cpu: 0.1
-  memory: 650Mi
+  memory: 200Mi
 limits:
   cpu: {{ .Values.odoo.cron.override_resources.cpu | default 2 }}
   memory: {{ .Values.odoo.cron.override_resources.memory | default "3Gi" }}
   {{- else -}}
 requests:
   cpu: 0.1
-  memory: 650Mi
+  memory: 200Mi
 limits:
   cpu: {{ .Values.odoo.cron.override_resources.cpu | default 1 }}
   memory: {{ .Values.odoo.cron.override_resources.memory | default "2Gi" }}
