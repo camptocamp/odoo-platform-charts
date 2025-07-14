@@ -226,6 +226,7 @@ nginx:
   odooLongpollingPort: "8072"
 
 odoo:
+  odoo_version: 18.0
   customerName: customer
   instance_type: standard
   base_url: ""

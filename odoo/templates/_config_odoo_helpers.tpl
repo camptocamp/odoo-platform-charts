@@ -38,10 +38,18 @@ data:
   ODOO_SESSION_REDIS_PREFIX: {{ include "odoo.name" . }}
   {{- end }}
   RUNNING_ENV: {{ .Values.odoo.env }}
+  {{- if gt .Values.odoo.odoo_version 17.0 }}
+  {{- if eq .pod_type "queuejob" }}
+  SERVER_WIDE_MODULES: {{ printf "%s,queue_job" (.Values.odoo.server_wide_modules | default "web,session_redis,logging_json") }}
+  {{- else }}
+  SERVER_WIDE_MODULES: {{ .Values.odoo.server_wide_modules | default "web,session_redis,logging_json" }}
+  {{- end }}
+  {{- else }}
   {{- if eq .pod_type "queuejob" }}
   SERVER_WIDE_MODULES: {{ printf "%s,queue_job" (.Values.odoo.server_wide_modules | default "web,attachment_azure,session_redis,logging_json") }}
   {{- else }}
   SERVER_WIDE_MODULES: {{ .Values.odoo.server_wide_modules | default "web,attachment_azure,session_redis,logging_json" }}
+  {{- end }}
   {{- end }}
   SERVER_ENV_CONFIG: {{ toYaml .Values.odoo.server_env_config | indent 2 | default "" }}
   LOG_HANDLER: {{ .Values.odoo.log_handler | default ":INFO,werkzeug:ERROR,azure:ERROR" }}
