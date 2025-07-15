@@ -24,14 +24,14 @@ limits:
   memory: {{ .Values.odoo.override_resources.memory | default "3.5Gi" }}
   {{- else if eq .Values.odoo.instance_type "large" -}}
 requests:
-  cpu: 0.1
+  cpu: 0.05
   memory: 650Mi
 limits:
   cpu: {{ .Values.odoo.override_resources.cpu | default 2 }}
   memory: {{ .Values.odoo.override_resources.memory | default "3Gi" }}
   {{- else -}}
 requests:
-  cpu: 0.1
+  cpu: 0.05
   memory: 650Mi
 limits:
   cpu: {{ .Values.odoo.override_resources.cpu | default 1 }}
