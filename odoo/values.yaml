@@ -72,7 +72,8 @@ resources:
 serviceAccountName: "default"
 
 nodeSelector: {}
-
+pre-init-manager:
+  enabled: true
 separateOdooComponents: false
 # will add the following node selector to the respective deployment to match below labels:
 # odoo.camptocamp.com/component-thread=true
