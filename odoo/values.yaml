@@ -72,7 +72,7 @@ resources:
 serviceAccountName: "default"
 
 nodeSelector: {}
-pre-init-manager:
+preInitManager:
   enabled: true
 separateOdooComponents: false
 # will add the following node selector to the respective deployment to match below labels:
