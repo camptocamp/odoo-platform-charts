@@ -1,3 +1,24 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: rclone-parallel-script
+data:
+  # This is the content of our script
+  run-copy.sh: |
+    #!/bin/sh
+    set -e
+    BUCKET=$(echo "$1" | tr -d '/')
+    echo "--- [STARTING] $BUCKET ---"
+    # Run the rclone command
+    # --- FIX 3: Changed 'return' to 'exit' ---
+    if rclone copy "azure:$BUCKET" "offsite:$BUCKET"; then
+      echo "--- [SUCCESS] $BUCKET ---"
+      exit 0
+    else
+      echo "!!! [FAILED] $BUCKET !!!"
+      exit 1
+    fi
+---
 apiVersion: batch/v1
 kind: CronJob
 metadata:
@@ -15,14 +36,36 @@ spec:
         spec:
           serviceAccountName: filestore
           restartPolicy: Never
+          volumes:
+          - name: script-vol
+            configMap:
+              name: rclone-parallel-script
+              defaultMode: 0755
           nodeSelector:
             odoo.camptocamp.com/nodepool: miscapps
             odoo.camptocamp.com/environment: prod
           containers:
           - name: rclone
             image: rclone/rclone:latest
-            command: ["rclone"]
-            args: ["copy", "azure:", "offsite:", "--immutable", "--checksum", "--ignore-size", "--use-json-log"]
+            volumeMounts:
+            - name: script-vol
+              mountPath: /scripts/run-copy.sh
+              subPath: run-copy.sh
+            # --- FIX 1: Removed extra quote ---
+            command: ["/bin/sh", "-c"]
+            args:
+            - |
+              set -e
+              set -o pipefail
+
+              echo "Listing containers and starting 5 parallel workers..."
+              if rclone lsf "azure:" | grep -v -e '\-lab\/$' | grep -v -e '\-integration\/$' | xargs -n 1 -P 5 -I {} /bin/sh /scripts/run-copy.sh "{}"; then
+                echo "--- SCRIPT SUCCESS: All buckets processed successfully. ---"
+                exit 0
+              else
+                echo "!!! SCRIPT FAILED: One or more buckets failed to copy. !!!"
+                exit 1
+              fi
             env:
               - name: RCLONE_AZUREBLOB_ACCOUNT
                 valueFrom:
