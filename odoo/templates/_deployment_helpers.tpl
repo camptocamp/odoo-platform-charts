@@ -71,7 +71,6 @@ spec:
       {{- end }}
       {{- if .Values.odoo.marabunta.enabled }}
       initContainers:
-        {{- if or (eq .Values.odoo.env "prod") .Values.odoo.marabunta.force_backup }}
         - name: marabunta-setup
           image: "{{ .Values.image.odoo.repository }}:{{ .Values.image.odoo.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
@@ -87,10 +86,20 @@ spec:
               mountPath: "/tmp"
           env:
             {{- include "odoo.common-environment" . | nindent 12 }}
+            {{- if or (eq .Values.odoo.env "prod") .Values.odoo.marabunta.force_backup }}
+              {{- if or (eq .pod_type "cron") (eq .pod_type "worker")}}
+            - name: MUST_BACKUP
+              value: "true"
+              {{- end }}
+            {{- end }}
+            {{- if or (eq .pod_type "thread") (eq .pod_type "queuejob") }}
+            - name: MUST_ONLY_WAIT
+              value: "true"
+            {{- end }}
           envFrom:
             - configMapRef:
                 name: preinit-manager-config{{- include "odoo-cs-suffix" . }}
-        {{- end }}
+        {{- if or (eq .pod_type "cron") (eq .pod_type "worker")}}
         - name: marabunta-migration
           image: "{{ .Values.image.odoo.repository }}:{{ .Values.image.odoo.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
@@ -109,6 +118,7 @@ spec:
             - secretRef:
                 name: odoo-secret{{- include "odoo-cs-suffix" . }}
                 optional: true
+        {{- end }}
       {{- end }}
       containers:
         - name: odoo
