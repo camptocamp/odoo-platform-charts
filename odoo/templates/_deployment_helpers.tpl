@@ -71,7 +71,7 @@ spec:
       {{- end }}
       {{- if .Values.odoo.marabunta.enabled }}
       initContainers:
-        {{- if or (eq .Values.odoo.env "prod") .Values.odoo.marabunta.force_backup }}
+        {{- if or (and (eq .Values.odoo.env "prod") .Values.preInitManager.enabled) .Values.odoo.marabunta.force_backup }}
         - name: marabunta-setup
           image: "{{ .Values.image.odoo.repository }}:{{ .Values.image.odoo.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
