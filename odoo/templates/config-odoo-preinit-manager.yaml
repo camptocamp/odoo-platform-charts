@@ -1,4 +1,3 @@
-{{- if and .Values.odoo.marabunta.enabled (or (eq .Values.odoo.env "prod") .Values.odoo.marabunta.force_backup) }}
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -25,4 +24,3 @@ data:
   {{- with .Values.preinit_manager.onering_svc }}
   ONERING_SVC: {{ . }}
   {{- end }}
-{{- end }}
