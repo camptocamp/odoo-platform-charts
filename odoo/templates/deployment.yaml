@@ -69,7 +69,7 @@ spec:
           image: "{{ .Values.image.odoo.repository }}:{{ .Values.image.odoo.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           {{- if not .Values.image.odoo.is_old_image_flavour }}
-          command: ['sh', '-c', "docker-entrypoint.sh odoo {{ printf "--load=%s,queue_job" (.Values.odoo.server_wide_modules | default "web,attachment_azure,session_redis,logging_json") }}"]
+          command: ['sh', '-c', "docker-entrypoint.sh odoo --db-filter=''   {{ printf "--load=%s,queue_job"   (.Values.odoo.server_wide_modules | default "web,attachment_azure,session_redis,logging_json") }}"]
           {{- end }}
           env:
             {{- include "odoo.common-environment" . | nindent 12 }}
