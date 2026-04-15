@@ -329,10 +329,11 @@ odoo:
       max_conn: 5
     override_resources: {}
     override_limits: {}
+    override_request_resources: {}
       # memory_soft: 6501173
       # memory_hard: 2097154
       # workers: 1
-    enabled: false
+    enabled: true
     # depreacted please move into override_limits
     workers: '2'
     limits:
