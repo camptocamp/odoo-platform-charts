@@ -8,16 +8,13 @@ image:
   pullPolicy: IfNotPresent
   version: latest
   celebrimbor:
-    repository: ghcr.io/camptocamp/celebrimbor
+    repository: camptocamp.azurecr.io/odoo/celebrimbor
     component: app
   nginx:
-    repository: ghcr.io/camptocamp/celebrimbor
+    repository: camptocamp.azurecr.io/odoo/celebrimbor
     component: nginx
-  curl_proxy:
-    repository: ghcr.io/camptocamp/celebrimbor
-    component: curl_proxy
   key_backup:
-    repository: ghcr.io/camptocamp/celebrimbor
+    repository: camptocamp.azurecr.io/odoo/celebrimbor
     component: key_backup
 
 # imagePullSecrets:
