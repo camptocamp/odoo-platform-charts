@@ -11,6 +11,8 @@ data:
   TOKEN_KEY_PREFIX: {{ .Values.celebrimbor.token_key_prefix | default "celebrimbor-token:" | quote }}
   FLEXIBLE_SERVER_RG: {{ .Values.celebrimbor.flexible_server_rg | default "flexible-servers-rg" | quote }}
   DUMP_ALL_SCHEDULE:  {{ .Values.celebrimbor.internal_cron.dump_all_schedule }}
+  CLEANUP_SCHEDULE:  {{ .Values.celebrimbor.internal_cron.cleanup_schedule }}
+
   VACUUM_ALL_SCHEDULE: {{ .Values.celebrimbor.internal_cron.vacuum_all_schedule }}
   DISABLE_CRON_JOBS: {{ .Values.celebrimbor.internal_cron.disable_all | default "False" | quote }}
   LOG_DEBUG: {{ .Values.celebrimbor.log_debug | default "False" | quote }}
