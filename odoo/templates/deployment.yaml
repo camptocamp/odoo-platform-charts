@@ -169,24 +169,6 @@ spec:
   selector:
     {{- include "odoo.selectorLabels" . | nindent 4 }}
 ---
-{{- if .Values.serviceMonitorOdooMetrics.enabled }}
-apiVersion: v1
-kind: Service
-metadata:
-  name: {{ include "odoo.fullname" . }}-odoo-metrics
-  labels:
-    app: {{ template "odoo.name" . }}
-    release: "{{ .Release.Name }}"
-    {{- include "odoo.labels" $ | nindent 4 }}
-spec:
-  ports:
-    - name: odoo-metrics
-      port: 8069
-      targetPort: odoo
-  selector:
-    {{- include "odoo.selectorLabels" . | nindent 4 }}
----
-{{- end }}
 #Print services retro compatibility
 apiVersion: v1
 kind: Service
