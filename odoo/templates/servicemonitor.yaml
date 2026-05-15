@@ -41,4 +41,5 @@ spec:
   - port: odoocore
     path: "/metrics"
     interval: {{ .Values.serviceMonitorOdooMetrics.scrapeInterval | default .Values.odoo.metrics.scrapeInterval }}
+    fallbackScrapeProtocol: PrometheusText0.0.4
 {{- end }}
