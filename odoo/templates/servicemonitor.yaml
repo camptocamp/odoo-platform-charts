@@ -37,9 +37,11 @@ spec:
   selector:
     matchLabels:
       {{- include "odoo.selectorLabels" . | nindent 6 }}
+  {{- with .Values.serviceMonitorOdooMetrics.fallbackScrapeProtocol }}
+  fallbackScrapeProtocol: {{ . }}
+  {{- end }}
   endpoints:
   - port: odoocore
     path: "/metrics"
     interval: {{ .Values.serviceMonitorOdooMetrics.scrapeInterval | default .Values.odoo.metrics.scrapeInterval }}
-    fallbackScrapeProtocol: PrometheusText0.0.4
 {{- end }}
