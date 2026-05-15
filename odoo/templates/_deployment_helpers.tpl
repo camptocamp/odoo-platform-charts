@@ -175,6 +175,9 @@ spec:
           {{ else }}
             {{- include "odoo.physical-resources-worker" . | nindent 12 }}
           {{ end }}
+          ports:
+            - containerPort: 8069
+              name: odooCore
         - name: nginx
           image: "{{ .Values.image.nginx.repository }}:{{ .Values.image.nginx.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
