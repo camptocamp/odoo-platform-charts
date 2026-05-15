@@ -109,7 +109,7 @@ spec:
           {{- end }}
           ports:
             - containerPort: 8069
-              name: odooCore
+              name: odoocore
         - name: odoohealthz
           image: "{{ .Values.image.odoohealthz.repository }}:{{ .Values.image.odoohealthz.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
@@ -183,9 +183,9 @@ metadata:
     {{- include "odoo.labels" $ | nindent 4 }}
 spec:
   ports:
-    - name: odooCore
+    - name: odoocore
       port: 8069
-      targetPort: odooCore
+      targetPort: odoocore
   selector:
     {{- include "odoo.selectorLabels" . | nindent 4 }}
 {{- end }}

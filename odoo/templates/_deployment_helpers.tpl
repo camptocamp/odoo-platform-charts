@@ -177,7 +177,7 @@ spec:
           {{ end }}
           ports:
             - containerPort: 8069
-              name: odooCore
+              name: odoocore
         - name: nginx
           image: "{{ .Values.image.nginx.repository }}:{{ .Values.image.nginx.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
