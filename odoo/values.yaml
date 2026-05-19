@@ -28,6 +28,12 @@ networkPolicies:
 #        kubernetes.io/metadata.name: xxxx
 serviceMonitor:
   enabled: false
+serviceMonitorOdooMetrics:
+    enabled: false
+    
+    # scrapeInterval defaults to odoo.metrics.scrapeInterval if not set
+    # scrapeInterval: 15s
+    # fallbackScrapeProtocol: PrometheusText0.0.4
 
 image:
   pullPolicy: IfNotPresent

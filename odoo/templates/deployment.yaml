@@ -107,6 +107,9 @@ spec:
           {{- else }}
             {{- include "odoo.physical-resources-worker" . | nindent 12 }}
           {{- end }}
+          ports:
+            - containerPort: 8069
+              name: odoocore
         - name: odoohealthz
           image: "{{ .Values.image.odoohealthz.repository }}:{{ .Values.image.odoohealthz.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
@@ -168,6 +171,24 @@ spec:
       targetPort: odoohealthz
   selector:
     {{- include "odoo.selectorLabels" . | nindent 4 }}
+---
+{{- if .Values.serviceMonitorOdooMetrics.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "odoo.fullname" . }}-core-metrics
+  labels:
+    app: {{ template "odoo.name" . }}
+    release: "{{ .Release.Name }}"
+    {{- include "odoo.labels" $ | nindent 4 }}
+spec:
+  ports:
+    - name: odoocore
+      port: 8069
+      targetPort: odoocore
+  selector:
+    {{- include "odoo.selectorLabels" . | nindent 4 }}
+{{- end }}
 ---
 #Print services retro compatibility
 apiVersion: v1

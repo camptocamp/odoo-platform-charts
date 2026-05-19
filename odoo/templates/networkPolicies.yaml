@@ -3,7 +3,7 @@ apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
   name: {{ include "odoo.name" . }}
-  namespace: 
+  namespace:
 spec:
   ingress:
   - from:
@@ -20,6 +20,13 @@ spec:
       podSelector:
         matchLabels:
           app.kubernetes.io/name: prometheus
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          kubernetes.io/metadata.name: alloy-customers
+      podSelector:
+        matchLabels:
+          app.kubernetes.io/name: alloy
   {{- if .Values.networkPolicies.enableSharedPrintinServices }}
   - from:
     - namespaceSelector:
