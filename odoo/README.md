@@ -228,6 +228,7 @@ Use `odoo.override_limits` and `odoo.override_resources` to fine-tune individual
 | `nginx.odooLongpollingPort` | Longpolling port | `"8072"` |
 | `nginx.cacheSize` | Cache Size | `"10m"` |
 | `nginx.pdfContent` | Disable byte-range for PDF content [see details](https://github.com/camptocamp/docker-odoo-nginx/pull/29) | `""` |
+| `nginx.secureCookies` | Enable secure cookies | `""` |
 
 ### Metrics
 

@@ -14,3 +14,6 @@ data:
   {{- if .Values.nginx.pdfContent }}
   NGX_ODOO_PDFCONTENT: {{ .Values.nginx.pdfContent | default "" | quote }}
   {{- end }}
+  {{- if .Values.nginx.secureCookies }}
+  NGX_ODOO_SECURE_COOKIES: {{ .Values.nginx.secureCookies | default "" | quote }}
+  {{- end }}
