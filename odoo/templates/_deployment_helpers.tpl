@@ -56,6 +56,9 @@ spec:
         app.kubernetes.io/component: "odoo-{{ .pod_type }}"
         release: "{{ .Release.Name }}"
         {{- include "odoo.selectorLabels" . | nindent 8 }}
+        {{- if .Values.odoo.odoo_version }}
+        odoo-version: {{ .Values.odoo.odoo_version | quote }}
+        {{- end }}
         {{- with .Values.additionalLabels }}
           {{- toYaml . | nindent 8 }}
         {{- end }}
