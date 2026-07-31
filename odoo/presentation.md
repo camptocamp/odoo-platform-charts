@@ -270,9 +270,6 @@ odoo_version > 17.0  →  SERVER_WIDE_MODULES = "session_redis,logging_json"
 
 odoo_version ≤ 17.0  →  SERVER_WIDE_MODULES = "attachment_azure,session_redis,logging_json"
                          (Azure filestore requires the attachment_azure addon)
-
-is_old_image_flavour = True  →  entrypoint: gosu odoo odoo ...
-is_old_image_flavour = False →  entrypoint: odoo ...
 ```
 
 ---
