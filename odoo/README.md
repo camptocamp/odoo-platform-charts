@@ -99,7 +99,6 @@ helm install my-odoo ./odoo -f my-values.yaml
 | `image.pullPolicy` | Image pull policy | `IfNotPresent` |
 | `image.odoo.repository` | Odoo image repository | `ghcr.io/camptocamp/customer_odoo` |
 | `image.odoo.tag` | Odoo image tag | `xx.0.1.0.0` |
-| `image.odoo.is_old_image_flavour` | Use legacy entrypoint format | `true` |
 | `image.nginx.repository` | Nginx image repository | `camptocamp.azurecr.io/odoo/odoo-nginx` |
 | `image.nginx.tag` | Nginx image tag | `xx.0-1.6.0` |
 | `image.odoohealthz.repository` | Health check sidecar repository | `camptocamp.azurecr.io/odoo/odoo-k8s-healthz` |
