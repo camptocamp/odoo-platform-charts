@@ -103,7 +103,11 @@ spec:
         - name: marabunta-migration
           image: "{{ .Values.image.odoo.repository }}:{{ .Values.image.odoo.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          {{- if .Values.image.odoo.is_old_image_flavour }}
+          command: ['sh', '-c', "docker-entrypoint.sh gosu odoo migrate"]
+          {{- else }}
           command: ['sh', '-c', "docker-entrypoint.sh migrate"]
+          {{- end }}
           env:
             - name: LIMIT_MEMORY_SOFT
               value: "1300234240"
@@ -120,7 +124,11 @@ spec:
         - name: odoo
           image: "{{ .Values.image.odoo.repository }}:{{ .Values.image.odoo.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          {{- if not .Values.image.odoo.is_old_image_flavour }}
           command: ['sh', '-c', "docker-entrypoint.sh odoo --db-filter='' "]
+          {{- else }}
+          command: ['sh', '-c', "docker-entrypoint.sh gosu odoo odoo --db-filter='' "]
+          {{- end }}
           env:
             {{- if eq .pod_type "cron" }}
             - name: CRON_POD
