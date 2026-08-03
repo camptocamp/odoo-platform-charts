@@ -1,7 +1,7 @@
 # Odoo Helm Chart — Technical Presentation
 
-**Chart**: `odoo` v5.3.9  
-**Maintainer**: Camptocamp  
+**Chart**: `odoo` v5.3.9
+**Maintainer**: Camptocamp
 **Target platform**: Azure Kubernetes Service (AKS)
 
 ---
@@ -176,7 +176,7 @@ Controlled by `odoo.instance_type`. Sizes configure both **Odoo-internal** env v
 ### 6.1 Worker / Thread pod (HTTP-facing)
 
 | Profile | K8s CPU limit | K8s Mem limit | `WORKERS` | `LIMIT_MEMORY_SOFT` | `LIMIT_MEMORY_HARD` |
-|---------|--------------|--------------|-----------|--------------------|--------------------|
+|---------|---------------|---------------|-----------|---------------------|---------------------|
 | `standard` | 1 | 2.2 Gi | 7 | 650 MB | 2 GB |
 | `large` | 2 | 3 Gi | 14 | 650 MB | 4 GB |
 | `xlarge` | 4 | 3.5 Gi | 14 | 650 MB | 4 GB |
@@ -186,7 +186,7 @@ Thread mode always sets `WORKERS=0` (Odoo threaded mode) and has lower memory li
 ### 6.2 Cron pod
 
 | Profile | K8s CPU limit | K8s Mem limit | `WORKERS` | `LIMIT_MEMORY_SOFT` | `LIMIT_MEMORY_HARD` |
-|---------|--------------|--------------|-----------|--------------------|--------------------|
+|---------|---------------|---------------|-----------|---------------------|---------------------|
 | `standard` | 1 | 2 Gi | 1 | 750 MB | 2 GB |
 | `large` | 2 | 3 Gi | 1 | 1 GB | 2.5 GB |
 | `xlarge` | 4 | 3.5 Gi | 2 | 1.5 GB | 3 GB |
@@ -194,7 +194,7 @@ Thread mode always sets `WORKERS=0` (Odoo threaded mode) and has lower memory li
 ### 6.3 QueueJob pod
 
 | Profile | K8s CPU limit | K8s Mem limit | `WORKERS` | `DB_MAXCONN` |
-|---------|--------------|--------------|-----------|-------------|
+|---------|---------------|---------------|-----------|--------------|
 | `standard` | 1 | 2 Gi | 3 | 5 |
 | `large` | 2 | 3 Gi | 5 | 5 |
 | `xlarge` | 4 | 3.5 Gi | 7 | 5 |
@@ -323,7 +323,7 @@ Every route always gets the `mw-hs-security` middleware (HSTS: `stsSeconds: 3153
 Additional per-route middlewares (default or per-path override):
 
 | Key | Middleware type | Purpose |
-|-----|----------------|---------|
+|-----|-----------------|---------|
 | `ipAllowList` | `ipAllowList` | Source IP restriction |
 | `waf` | `forwardAuth` | External WAF service |
 | `robotNoIndex` | `headers` | `X-Robots-Tag: noindex` |
@@ -480,7 +480,7 @@ Resource dispatching by pod type:
 The chart is designed exclusively for Azure/AKS:
 
 | Feature | Azure service |
-|---------|--------------|
+|---------|---------------|
 | Container images (internal) | Azure Container Registry (`camptocamp.azurecr.io`) |
 | Container images (customer) | GitHub Container Registry (`ghcr.io`) |
 | Odoo filestore | Azure Blob Storage (`attachment_azure` / native v18) |
@@ -491,7 +491,7 @@ The chart is designed exclusively for Azure/AKS:
 Three Azure Blob Storage authentication modes are supported:
 
 | Mode | Values key | Mechanism |
-|------|-----------|-----------|
+|------|------------|-----------|
 | AAD (recommended) | `odoo.storage.use_aad: true` | Workload Identity → Managed Identity |
 | Connection string | `odoo.storage.connection_string` | SAS / connection string in secret |
 | Account key | `odoo.storage.account_name` + `account_key` | Storage account key |
@@ -541,7 +541,7 @@ The chart provides a complete, self-contained, production-ready Odoo deployment 
 
 #### `Chart.yaml`
 
-**Type**: Helm metadata  
+**Type**: Helm metadata
 **Role**: Declares the chart identity to Helm. Contains the chart name (`odoo`), description, type (`application`), and version (`5.3.9`). This file is mandatory for any Helm chart; without it the chart cannot be packaged or installed. The `apiVersion: v2` field marks this as a Helm 3 chart.
 
 ```yaml
@@ -556,7 +556,7 @@ version: 5.3.9
 
 #### `values.yaml`
 
-**Type**: Default configuration  
+**Type**: Default configuration
 **Role**: The single source of truth for all configurable parameters. Every template in the chart reads from this file via `.Values.*`. It defines defaults for all settings — images, resource sizing, deployment mode, ingress routes, migration config, Redis, Azure storage, health checks, network policies, and more. Operators override specific values using `-f my-values.yaml` at install/upgrade time.
 
 Key top-level sections:
@@ -582,21 +582,21 @@ Key top-level sections:
 
 #### `README.md`
 
-**Type**: Documentation  
+**Type**: Documentation
 **Role**: Human-readable reference for operators. Documents prerequisites (Kubernetes version, required secrets, external controllers), deployment modes, all Kubernetes resources created by the chart, and a full values reference table. Does not affect chart rendering in any way.
 
 ---
 
 #### `.helmignore`
 
-**Type**: Packaging exclusion list  
+**Type**: Packaging exclusion list
 **Role**: Tells `helm package` which files to exclude from the `.tgz` archive. Excludes OS artefacts (`.DS_Store`), VCS directories (`.git/`, `.svn/`), editor files (`.vscode/`, `.idea/`), and common backup/temp file patterns (`*.swp`, `*.bak`, `*.tmp`). Has no effect at install or render time — only relevant when building chart archives.
 
 ---
 
 #### `index.yaml`
 
-**Type**: Helm repository index (local, empty)  
+**Type**: Helm repository index (local, empty)
 **Role**: An empty Helm repository index stub local to this chart subdirectory. The real repository index lives at the root of `odoo-platform-charts/`. This file has no functional role at chart install or render time.
 
 ---
@@ -609,7 +609,7 @@ Files prefixed with `_` are never rendered directly as Kubernetes manifests. The
 
 #### `templates/_helpers.tpl`
 
-**Type**: Named template library  
+**Type**: Named template library
 **Role**: Defines the core naming and shared environment helper templates used by every other template in the chart.
 
 Named templates defined:
@@ -629,7 +629,7 @@ Named templates defined:
 
 #### `templates/_config_odoo_helpers.tpl`
 
-**Type**: Named template library  
+**Type**: Named template library
 **Role**: Defines the `odoo.config` named template, which generates the full content of an Odoo ConfigMap for a given pod type. It is the single place where all Odoo environment variables are assembled.
 
 The template is called with an injected `pod_type` key (`worker`, `thread`, `cron`, or `queuejob`) and dispatches:
@@ -643,7 +643,7 @@ The template is called with an injected `pod_type` key (`worker`, `thread`, `cro
 
 #### `templates/_deployment_helpers.tpl`
 
-**Type**: Named template library  
+**Type**: Named template library
 **Role**: Defines the main `odoo.deployment` named template, which generates a complete `Deployment` resource and its associated `Service` for a given pod type. It is the most complex file in the chart.
 
 Named templates defined:
@@ -674,7 +674,7 @@ Key logic inside `odoo.deployment`:
 
 #### `templates/_quotas_worker_helpers.tpl`
 
-**Type**: Named template library  
+**Type**: Named template library
 **Role**: Defines resource sizing for the `worker` pod type.
 
 | Template | Purpose |
@@ -685,7 +685,7 @@ Key logic inside `odoo.deployment`:
 Values by instance type:
 
 | Profile | `WORKERS` | `LIMIT_MEMORY_HARD` | CPU limit | Mem limit |
-|---------|-----------|--------------------|-----------|-----------| 
+|---------|-----------|---------------------|-----------|-----------|
 | `standard` | 7 | 2 GB | 1 | 2.2 Gi |
 | `large` | 14 | 4 GB | 2 | 3 Gi |
 | `xlarge` | 14 | 4 GB | 4 | 3.5 Gi |
@@ -694,7 +694,7 @@ Values by instance type:
 
 #### `templates/_quotas_thread_helpers.tpl`
 
-**Type**: Named template library  
+**Type**: Named template library
 **Role**: Defines resource sizing for the `thread` pod type (hybrid mode HTTP-handling deployment).
 
 | Template | Purpose |
@@ -705,7 +705,7 @@ Values by instance type:
 Values by instance type:
 
 | Profile | `WORKERS` | `LIMIT_MEMORY_HARD` | CPU limit | Mem limit |
-|---------|-----------|--------------------|-----------|-----------| 
+|---------|-----------|---------------------|-----------|-----------|
 | `standard` | 0 | 900 MB | 1 | 1.2 Gi |
 | `large` | 0 | 1.5 GB | 2 | 1.5 Gi |
 | `xlarge` | 0 | 2 GB | 4 | 2 Gi |
@@ -714,7 +714,7 @@ Values by instance type:
 
 #### `templates/_quotas_cron_helpers.tpl`
 
-**Type**: Named template library  
+**Type**: Named template library
 **Role**: Defines resource sizing for the `cron` pod type (hybrid mode scheduled-job deployment, or the cron threads running inside the worker pod in workers mode).
 
 | Template | Purpose |
@@ -725,7 +725,7 @@ Values by instance type:
 Values by instance type:
 
 | Profile | `WORKERS` | `LIMIT_MEMORY_HARD` | CPU limit | Mem limit |
-|---------|-----------|--------------------|-----------|-----------| 
+|---------|-----------|---------------------|-----------|-----------|
 | `standard` | 1 | 2 GB | 1 | 2 Gi |
 | `large` | 1 | 2.5 GB | 2 | 3 Gi |
 | `xlarge` | 2 | 3 GB | 4 | 3.5 Gi |
@@ -734,7 +734,7 @@ Values by instance type:
 
 #### `templates/_quotas_queuejob_helpers.tpl`
 
-**Type**: Named template library  
+**Type**: Named template library
 **Role**: Defines resource sizing for the `queuejob` pod type.
 
 | Template | Purpose |
@@ -745,7 +745,7 @@ Values by instance type:
 Values by instance type:
 
 | Profile | `WORKERS` | `LIMIT_MEMORY_HARD` | CPU limit | Mem limit |
-|---------|-----------|--------------------|-----------|-----------| 
+|---------|-----------|---------------------|-----------|-----------|
 | `standard` | 3 | 2 GB | 1 | 2 Gi |
 | `large` | 5 | 2.5 GB | 2 | 3 Gi |
 | `xlarge` | 7 | 3 GB | 4 | 3.5 Gi |
@@ -758,7 +758,7 @@ Values by instance type:
 
 #### `templates/deployment.yaml`
 
-**Type**: Kubernetes manifest dispatcher  
+**Type**: Kubernetes manifest dispatcher
 **Role**: The top-level entry point for all Deployment resources. It does not define pod specs directly — instead it dispatches to the `odoo.deployment` named template and defines the queuejob Deployment inline.
 
 Logic:
@@ -787,7 +787,7 @@ Also unconditionally emits two additional Services at the bottom:
 
 #### `templates/config-odoo.yaml`
 
-**Type**: ConfigMap manifest  
+**Type**: ConfigMap manifest
 **Role**: Dispatches the `odoo.config` named template to emit one or two Odoo ConfigMaps depending on mode:
 - `hybrid` → two ConfigMaps: `odoo-config[-<lab>]-thread` and `odoo-config[-<lab>]-cron`
 - `workers` → one ConfigMap: `odoo-config[-<lab>]-worker`
@@ -798,21 +798,21 @@ Each ConfigMap carries the full set of Odoo env vars for that pod type. The sha2
 
 #### `templates/config-odoo-queue.yaml`
 
-**Type**: ConfigMap manifest  
+**Type**: ConfigMap manifest
 **Role**: Emits the `odoo-config[-<lab>]-queuejob` ConfigMap, but only when `odoo.queuejob.enabled: true`. Calls the same `odoo.config` named template with `pod_type=queuejob`, which appends `,queue_job` to `SERVER_WIDE_MODULES` and sets `DB_MAXCONN=5`, `MAX_CRON_THREADS=0`, and `ODOO_QUEUE_JOB_CHANNELS`. The sha256 of this file is embedded as `config-hash-queuejob` in the queuejob Deployment's pod annotations.
 
 ---
 
 #### `templates/config-odoo-secret.yaml`
 
-**Type**: Secret manifest (optional)  
+**Type**: Secret manifest (optional)
 **Role**: Emits an `odoo-secret[-<lab>]` Kubernetes `Secret` resource only when `odoo.secrets` is defined in values. The secret carries arbitrary key-value pairs base64-encoded. This secret is then referenced as an optional `secretRef` in all Odoo containers (`optional: true`, so pods start even if the secret is absent). Allows injecting arbitrary Odoo env overrides without defining them as plain ConfigMap entries. The sha256 of this file is embedded in pod annotations to trigger restarts on secret changes.
 
 ---
 
 #### `templates/config-nginx.yaml`
 
-**Type**: ConfigMap manifest  
+**Type**: ConfigMap manifest
 **Role**: Emits the `nginx-config[-<lab>]` ConfigMap consumed by the nginx sidecar container in every pod. Contains:
 - `NGX_ODOO_HOST`: upstream Odoo hostname (default `127.0.0.1`)
 - `NGX_ODOO_LONGPOLLING_PORT`: longpolling port (default `8072`)
@@ -825,7 +825,7 @@ The nginx image reads these variables to configure itself at container start.
 
 #### `templates/config-odoo-healthz.yaml`
 
-**Type**: ConfigMap manifest  
+**Type**: ConfigMap manifest
 **Role**: Emits the `odoohealthz-config[-<lab>]` ConfigMap consumed by the `odoohealthz` sidecar. Configures all health check behaviour:
 
 | Key | Default | Purpose |
@@ -847,7 +847,7 @@ The nginx image reads these variables to configure itself at container start.
 
 #### `templates/config-odoo-preinit-manager.yaml`
 
-**Type**: ConfigMap manifest  
+**Type**: ConfigMap manifest
 **Role**: Emits the `preinit-manager-config[-<lab>]` ConfigMap consumed by the `preinit-manager` init container. Provides:
 - Azure Key Vault credentials (`VAULT_NAME`, `CERT_NAME`, `TENANT_ID`, `CLIENT_ID`) — used to authenticate to Azure and retrieve the Celebrimbor certificate
 - Odoo context (`CUSTOMER_NAME`, `ODOO_ENV`, optionally `LAB_NAME`) — used by the preinit manager to identify which instance it is coordinating
@@ -859,7 +859,7 @@ The nginx image reads these variables to configure itself at container start.
 
 #### `templates/ingressRoutes.yaml`
 
-**Type**: Traefik CRD manifest  
+**Type**: Traefik CRD manifest
 **Role**: Generates Traefik `IngressRoute` resources for all configured routes. This is the primary ingress configuration file.
 
 Iteration structure:
@@ -885,7 +885,7 @@ Key behaviours:
 
 #### `templates/middleware.yaml`
 
-**Type**: Traefik CRD manifest  
+**Type**: Traefik CRD manifest
 **Role**: Generates per-route Traefik `Middleware` resources and the always-present `mw-hs-security` middleware.
 
 Iterates the same route/hostGroup/path/list structure as `ingressRoutes.yaml`. For each path, for each middleware type (`IPAllowList`, `waf`, `robotNoIndex`, `rateLimits`, `redirectScheme`, `redirectRegex`, `retry`), emits a `Middleware` resource only when `useDefault: false` AND an `override` value is provided.
@@ -908,7 +908,7 @@ This middleware is referenced first in every IngressRoute's middleware chain.
 
 #### `templates/defaultMiddleware.yaml`
 
-**Type**: Traefik CRD manifest  
+**Type**: Traefik CRD manifest
 **Role**: Generates the "default" Traefik `Middleware` resources — shared middlewares that any route can reference with `useDefault: true` without needing to repeat the full configuration. Triggered by the presence of entries under `ingressRoutes.defaultMiddlewares`.
 
 For each middleware type defined under `defaultMiddlewares`, emits the corresponding `mw-*-default[-<lab>]` resource:
@@ -924,7 +924,7 @@ For each middleware type defined under `defaultMiddlewares`, emits the correspon
 
 #### `templates/certificates.yaml`
 
-**Type**: cert-manager CRD manifest  
+**Type**: cert-manager CRD manifest
 **Role**: Generates cert-manager `Certificate` resources for all host groups where `certificate.useDefault: false`. When `useDefault: true`, TLS is handled by the Traefik default TLS store (no Certificate resource needed). When `false`, the chart provisions a dedicated TLS certificate via cert-manager.
 
 For each such host group:
@@ -937,7 +937,7 @@ For each such host group:
 
 #### `templates/networkPolicies.yaml`
 
-**Type**: Kubernetes NetworkPolicy manifest  
+**Type**: Kubernetes NetworkPolicy manifest
 **Role**: Emits a `NetworkPolicy` resource when `networkPolicies.enabled: true` (default). Restricts pod ingress to a well-known set of sources, implementing a default-deny posture for the Odoo namespace.
 
 Allowed ingress sources (always):
@@ -956,7 +956,7 @@ The `podSelector: {}` at the end selects all pods in the namespace, applying thi
 
 #### `templates/servicemonitor.yaml`
 
-**Type**: Prometheus Operator CRD manifest  
+**Type**: Prometheus Operator CRD manifest
 **Role**: Emits a `ServiceMonitor` resource when `serviceMonitor.enabled: true`. This is the Prometheus Operator custom resource that tells Prometheus to scrape this chart's metrics.
 
 Configuration:
@@ -970,7 +970,7 @@ The `<fullname>-metrics` Service defined in `deployment.yaml` is the scrape targ
 
 #### `templates/podDisruptionBudget.yaml`
 
-**Type**: Kubernetes PodDisruptionBudget manifest  
+**Type**: Kubernetes PodDisruptionBudget manifest
 **Role**: Emits a `PodDisruptionBudget` named `odoo-pdb[-<lab>]` only when `podDisruptionBudget` is defined in values. Protects against accidental full-cluster disruption during node maintenance or rolling upgrades.
 
 Supports either:
@@ -983,7 +983,7 @@ The selector matches all pods in the release by `selectorLabels` and `release` l
 
 #### `templates/rbac.yaml`
 
-**Type**: Kubernetes RBAC manifest  
+**Type**: Kubernetes RBAC manifest
 **Role**: Emits `RoleBinding` resources for access control. Two independent mechanisms:
 
 1. **Custom RoleBindings** (`roleBindings` map): iterates the map and emits one `RoleBinding` per entry. The key becomes the `metadata.name`, the value is the full `RoleBinding` spec in YAML. Allows arbitrary role assignments to be declared entirely in values.
