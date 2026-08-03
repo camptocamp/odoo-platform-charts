@@ -817,7 +817,7 @@ Each ConfigMap carries the full set of Odoo env vars for that pod type. The sha2
 - `NGX_ODOO_HOST`: upstream Odoo hostname (default `127.0.0.1`)
 - `NGX_ODOO_LONGPOLLING_PORT`: longpolling port (default `8072`)
 - `NGX_CACHE_SIZE`: optional nginx cache size (only emitted when set)
-- `NGX_ODOO_PDFCONTENT`: optional PDF content setting (only emitted when set)
+- `NGX_ODOO_PDFCONTENT`: optional disable byte-range for PDF content (only emitted when set, see [docker-odoo-nginx#29](https://github.com/camptocamp/docker-odoo-nginx/pull/29))
 
 The nginx image reads these variables to configure itself at container start.
 
