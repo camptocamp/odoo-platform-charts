@@ -12,5 +12,5 @@ data:
   NGX_CACHE_SIZE: {{ .Values.nginx.cacheSize | default "10m" | quote }}
   {{- end }}
   {{- if .Values.nginx.pdfContent }}
-  NGX_ODOO_PDFCONTENT: {{ .Values.nginx.pdfContent | default "False" | quote }}
+  NGX_ODOO_PDFCONTENT: {{ .Values.nginx.pdfContent | default "" | quote }}
   {{- end }}
