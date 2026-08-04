@@ -152,6 +152,16 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
+      {{- if .Values.spreadOdooPodsOverNodes.enabled }}
+      topologySpreadConstraints:
+        - labelSelector:
+            matchLabels:
+              app: {{ template "odoo.name" . }}
+              release: "{{ .Release.Name }}"
+          maxSkew: {{ .Values.spreadOdooPodsOverNodes.maxSkew }}
+          topologyKey: {{ .Values.spreadOdooPodsOverNodes.topologyKey }}
+          whenUnsatisfiable: {{ .Values.spreadOdooPodsOverNodes.whenUnsatisfiable }}
+      {{- end }}
 {{ end }}
 ---
 apiVersion: v1
