@@ -1,6 +1,6 @@
 # Odoo Helm Chart — Technical Presentation
 
-**Chart**: `odoo` v5.3.9
+**Chart**: `odoo` v5.3.10
 **Maintainer**: Camptocamp
 **Target platform**: Azure Kubernetes Service (AKS)
 
@@ -24,7 +24,7 @@ Key design pillars:
 
 ```
 odoo/
-├── Chart.yaml                        Chart metadata (v5.3.9)
+├── Chart.yaml                        Chart metadata
 ├── values.yaml                       Default configuration
 └── templates/
     ├── _helpers.tpl                  Core naming & shared env helpers
@@ -539,14 +539,14 @@ The chart provides a complete, self-contained, production-ready Odoo deployment 
 #### `Chart.yaml`
 
 **Type**: Helm metadata
-**Role**: Declares the chart identity to Helm. Contains the chart name (`odoo`), description, type (`application`), and version (`5.3.9`). This file is mandatory for any Helm chart; without it the chart cannot be packaged or installed. The `apiVersion: v2` field marks this as a Helm 3 chart.
+**Role**: Declares the chart identity to Helm. Contains the chart name (`odoo`), description, type (`application`), and version. This file is mandatory for any Helm chart; without it the chart cannot be packaged or installed. The `apiVersion: v2` field marks this as a Helm 3 chart.
 
 ```yaml
 apiVersion: v2
 name: odoo
 description: A Helm chart to deploy Odoo on CampToCamp own platform
 type: application
-version: 5.3.9
+version: 5.3.10
 ```
 
 ---
