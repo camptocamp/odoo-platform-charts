@@ -175,13 +175,29 @@ Controlled by `odoo.instance_type`. Sizes configure both **Odoo-internal** env v
 
 ### 6.1 Worker / Thread pod (HTTP-facing)
 
+Config for workers mode:
+
 | Profile | K8s CPU limit | K8s Mem limit | `WORKERS` | `LIMIT_MEMORY_SOFT` | `LIMIT_MEMORY_HARD` |
 |---------|---------------|---------------|-----------|---------------------|---------------------|
 | `standard` | 1 | 2.2 Gi | 7 | 650 MB | 2 GB |
 | `large` | 2 | 3 Gi | 14 | 650 MB | 4 GB |
 | `xlarge` | 4 | 3.5 Gi | 14 | 650 MB | 4 GB |
 
-Thread mode always sets `WORKERS=0` (Odoo threaded mode) and has lower memory limits.
+Thread mode always sets `WORKERS=0` (Odoo threaded mode) and has different memory limits (the values are the one for chart >= 5.3.11):
+
+| Profile | K8s CPU limit | K8s Mem limit | `WORKERS` | `LIMIT_MEMORY_SOFT` | `LIMIT_MEMORY_HARD` |
+|---------|---------------|---------------|-----------|---------------------|---------------------|
+| `standard` | 1 | 2.2 Gi | 0 | 1.02 GiB | 1.2 GiB |
+| `large` | 2 | 3 Gi | 0 | 1.275 GiB | 1.5 GiB |
+| `xlarge` | 4 | 3.5 Gi | 0 | 1.7 GiB | 2 GiB |
+
+By default, in threaded mode you get a different number of replica based on the instance size (this is not part of the chart, it comes from the app template):
+
+| Profile | odoo-thread replica |
+|---------+---------------------|
+| ̀ standard` | 4 |
+| `large` | 5 |
+| `xlarge` | 6 | 
 
 ### 6.2 Cron pod
 
