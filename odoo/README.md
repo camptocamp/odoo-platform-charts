@@ -1,6 +1,8 @@
 # Odoo Helm Chart
 
-A Helm chart to deploy Odoo on the Camptocamp platform (version `5.3.5`).
+A Helm chart to deploy Odoo on the Camptocamp platform (version `5.4.0`).
+
+This chart is meant to be used with projects using docker-odoo-project 5.4.x
 
 ## Overview
 
