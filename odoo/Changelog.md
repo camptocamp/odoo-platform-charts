@@ -1,5 +1,10 @@
 # Odoo Chart Changelog
 
+## [5.4.0] - 2026-08-14
+
+- new feature release, with 5.4.x meant to be used with docker-odoo-project 5.4.x
+- documentation update
+
 ## [5.3.11] - 2026-08-07
 
 - Normalize threaded default memory limits
