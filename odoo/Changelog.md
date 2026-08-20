@@ -4,11 +4,13 @@
 
 - new feature release, with 5.4.x meant to be used with docker-odoo-project 5.4.x
 - documentation update
+- default pre-init manager version: 1.2.2
 
 ## [5.3.11] - 2026-08-07
 
 - Normalize threaded default memory limits
 - Use new wildcard cache rules in ACR
+- default pre-init manager version: 1.2.2
 
 ## [5.3.10] - 2026-08-04 — BROKEN
 
@@ -18,10 +20,12 @@
 - Create Odoo version label from `odoo.odoo_version`
 - Fix missing `topologySpreadConstraint` on odooqueue containers
 - Clean-up deployment.yaml and `_deployment_helpers.tpl`
+- default pre-init manager version: 1.2.2
 
 ## [5.3.9] - 2026-04-21 — BROKEN
 
 - Do not set `SERVER_WIDE_MODULES` by default; let Odoo use its own defaults (#167)
+- default pre-init manager version: 1.2.2
 
 ## [5.3.8] - 2026-04-15 — BROKEN
 
@@ -40,15 +44,18 @@
 
 - Change werkzeug log level from `ERROR` to `INFO`
 - Refactor preinit-manager configuration
+- default pre-init manager version: 1.2.2
 
 ## [5.3.4] - 2025-11-17
 
 - Reduce CPU request values for cron, thread, and worker pods on `xlarge` and `large` instance types (#157)
+- default pre-init manager version: 1.2.2
 
 ## [5.3.3] - 2025-07-14
 
 - `SERVER_WIDE_MODULES` is now version-aware: `attachment_azure` is only included for Odoo ≤ 17.0 (#154)
 - Update resource limits for instance types
+- default pre-init manager version: 1.2.0
 
 ## [5.3.2] - 2025-06-24
 
@@ -64,14 +71,17 @@
 ## [5.3.0] - 2025-04-24
 
 - Add support for per-component resource tuning via `odoo.cron.override_limits`, `odoo.queuejob.override_limits` etc. (#149)
+- default pre-init manager version: 1.2.0
 
 ## [5.2.3] - 2025-04-14
 
 - Add support for the `service` component type
+- default pre-init manager version: 1.2.0
 
 ## [5.2.2] - 2025-03-31
 
 - Fix celebrimbor namespace issue (#146)
+- default pre-init manager version: 1.2.0
 
 ## [5.2.1] - 2025-03-27
 
