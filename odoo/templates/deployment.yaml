@@ -131,10 +131,14 @@ spec:
         {{- toYaml .queuejob | nindent 8 }}
       {{- end }}
       {{- end }}
-      {{- if or (and (eq .Values.odoo.mode "hybrid") .Values.separateOdooComponents) .Values.nodeSelector }}
+      {{- $componentNodeSelector := get (.Values.componentNodeSelector | default dict) "queuejob" }}
+      {{- if or (and (eq .Values.odoo.mode "hybrid") .Values.separateOdooComponents) .Values.nodeSelector $componentNodeSelector }}
       nodeSelector:
         {{- if and (eq .Values.odoo.mode "hybrid") .Values.separateOdooComponents }}
         odoo.camptocamp.com/component-queuejob: "true"
+        {{- end }}
+        {{- with $componentNodeSelector }}
+        {{- toYaml . | nindent 8 }}
         {{- end }}
         {{- if .Values.nodeSelector }}
         {{- toYaml .Values.nodeSelector | nindent 8 }}
