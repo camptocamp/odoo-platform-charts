@@ -1,5 +1,13 @@
 # Odoo Chart Changelog
 
+## [5.4.1] - 2026-09-08
+
+- Add `componentNodeSelector`, to set a node selector on any component
+  (`thread`, `cron`, `worker`, `queuejob`) with no dependency on `odoo.mode`
+  or `separateOdooComponents`. Merged on top of the global `nodeSelector`;
+  `separateOdooComponents` behaviour is unchanged
+- default pre-init manager version: 1.2.2
+
 ## [5.4.0] - 2026-08-14
 
 - new feature release, with 5.4.x meant to be used with docker-odoo-project 5.4.x

@@ -209,7 +209,8 @@ spec:
         {{- toYaml .odoo | nindent 8 }}
         {{- end }}
         {{- end }}
-      {{- if or (and (eq .Values.odoo.mode "hybrid") .Values.separateOdooComponents) .Values.nodeSelector }}
+      {{- $componentNodeSelector := get (.Values.componentNodeSelector | default dict) .pod_type }}
+      {{- if or (and (eq .Values.odoo.mode "hybrid") .Values.separateOdooComponents) .Values.nodeSelector $componentNodeSelector }}
       nodeSelector:
         {{- if and (eq .Values.odoo.mode "hybrid") .Values.separateOdooComponents }}
           {{- if eq .pod_type "cron" }}
@@ -217,6 +218,9 @@ spec:
           {{- else if eq .pod_type "thread" }}
         odoo.camptocamp.com/component-thread: "true"
           {{- end }}
+        {{- end }}
+        {{- with $componentNodeSelector }}
+          {{- toYaml . | nindent 8 }}
         {{- end }}
         {{- if .Values.nodeSelector }}
           {{- toYaml .Values.nodeSelector | nindent 8 }}

@@ -1,6 +1,6 @@
 # Odoo Helm Chart
 
-A Helm chart to deploy Odoo on the Camptocamp platform (version `5.4.0`).
+A Helm chart to deploy Odoo on the Camptocamp platform (version `5.4.1`).
 
 This chart is meant to be used with projects using docker-odoo-project 5.4.x
 
@@ -79,11 +79,18 @@ helm install my-odoo ./odoo -f my-values.yaml
 | `additionalAnnotations` | Additional annotations on pod templates | `{}` |
 | `serviceAccountName` | Service account to use | `"default"` |
 | `nodeSelector` | Node selector for all pods | `{}` |
+| `componentNodeSelector` | Node selector per component, keyed by pod type (`thread`, `cron`, `worker`, `queuejob`). Applied with no conditions, on top of `nodeSelector` and of any `separateOdooComponents` label | `{}` |
 | `tolerations` | Tolerations for all pods | `[]` |
 | `affinity` | Affinity rules for all pods | `{}` |
 | `securityContext` | Security context per component (`odoo`, `queuejob`) | `{}` |
 | `rollingupdatechart` | Force `RollingUpdate` strategy (otherwise `Recreate`) | `false` |
 | `separateOdooComponents` | Pin components to dedicated nodes via node labels | `false` |
+
+> **Note:** when `separateOdooComponents` is enabled, do not reuse the
+> `odoo.camptocamp.com/component-<thread|cron|queuejob>` keys in
+> `componentNodeSelector` — both would be emitted and the resulting duplicate
+> YAML key is rejected by strict field validation. Use a distinct label key
+> instead, e.g. `odoo.camptocamp.com/component: queuejob`.
 
 ### Pod Spread
 

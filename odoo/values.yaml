@@ -72,6 +72,18 @@ serviceAccountName: "default"
 
 nodeSelector: {}
 
+# node selector per component, keyed by pod type
+# (thread, cron, worker, queuejob). Applied with no conditions, on top of
+# `nodeSelector` and of any label added by `separateOdooComponents`.
+# Do not reuse the `odoo.camptocamp.com/component-<type>` keys here when
+# `separateOdooComponents` is enabled: both would be emitted and the duplicate
+# YAML key is rejected by strict field validation.
+componentNodeSelector: {}
+#   queuejob:
+#     odoo.camptocamp.com/component: queuejob
+#   cron:
+#     agentpool: odoocron
+
 separateOdooComponents: false
 # will add the following node selector to the respective deployment to match below labels:
 # odoo.camptocamp.com/component-thread=true
