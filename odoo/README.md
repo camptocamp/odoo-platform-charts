@@ -128,6 +128,7 @@ helm install my-odoo ./odoo -f my-values.yaml
 | `odoo.demo` | Enable demo data | `"False"` |
 | `odoo.server_wide_modules` | Server-wide modules (comma-separated) | depends on odoo_version |
 | `odoo.server_env_config` | server_env module configuration | `""` |
+| `odoo.extraEnv` | Extra environment variables (key/value map) added to the `odoo-config` ConfigMaps | `{}` |
 | `odoo.kwkhtmltopdf_server_url` | KWKHTMLtoPDF server URL | `http://kwkhtmltopdf.bs-kwkhtmltopdf01250:8080` |
 | `odoo.override_limits` | Override Odoo internal memory/worker limits | `{}` |
 | `odoo.override_resources` | Override pod CPU/memory resource requests/limits | `{}` |
@@ -372,3 +373,20 @@ volumeMounts:
     - name: my-qj-volume
       mountPath: /etc/my-secret
 ```
+
+## Extra Environment Variables
+
+Additional environment variables can be passed to Odoo through `odoo.extraEnv`. Each key is added to the
+`odoo-config-<type>` ConfigMap of every pod type (worker/thread/cron/queuejob), so it reaches the Odoo
+container, the `marabunta-migration` init container and the `odoohealthz` sidecar. Values are rendered as
+strings, and any change triggers a rollout through the ConfigMap hash annotation.
+
+```yaml
+odoo:
+  extraEnv:
+    ODOO_FOO: "bar"
+    SOME_FLAG: "1"
+```
+
+Variables already managed by the chart (e.g. `LOG_LEVEL`, `SERVER_WIDE_MODULES`) have dedicated values; prefer
+those. Setting one of them in `extraEnv` produces a duplicate key in the ConfigMap, and the `extraEnv` value wins.
