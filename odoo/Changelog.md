@@ -2,7 +2,7 @@
 
 ## [unreleased] - xxx
 
-
+- use docker-odoo-nginx 1.12.0 by default
 
 ## [5.4.0] - 2026-08-14
 

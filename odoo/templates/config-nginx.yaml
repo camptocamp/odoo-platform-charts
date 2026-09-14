@@ -17,3 +17,12 @@ data:
   {{- if .Values.nginx.secureCookies }}
   NGX_ODOO_SECURE_COOKIES: {{ .Values.nginx.secureCookies | default "" | quote }}
   {{- end }}
+  {{- if .Values.nginx.realIPFrom }}
+  NGX_REAL_IP_FROM: {{ .Values.nginx.realIPFrom | default "" | quote }}
+  {{- end }}
+  {{- if .Values.nginx.resolver }}
+  NGINX_RESOLVER: {{ .Values.nginx.resolver | default "" | quote }}
+  {{- end }}
+  {{- if .Vallues.nginx.resolverOptions | default "" | quote }}
+  NGINX_RESOLVER_OPTIONS: {{ .Values.nginx.resolverOptions }}
+  {{- end }}

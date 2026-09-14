@@ -39,7 +39,7 @@ image:
     tag: xx.0.1.0.0
   nginx:
     repository: camptocamp.azurecr.io/ghcrio/camptocamp/docker-odoo-nginx
-    tag: xx.0-1.6.0
+    tag: xx.0-1.12.0
   odoohealthz:
     repository: camptocamp.azurecr.io/ghcrio/camptocamp/odoo-k8s-healthz
     tag: app-1.7.0
@@ -221,8 +221,11 @@ preinit_manager: {}
   # onering_svc: ""
 
 nginx:
-  odooHost: localhost
+  odooHost: 127.0.0.1
   odooLongpollingPort: "8072"
+  # resolver: ""
+  # resolverOptions: "ipv6=off"
+  # realIPFrom: ""
 
 odoo:
   odoo_version: 18.0
