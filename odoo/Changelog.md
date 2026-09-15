@@ -2,7 +2,7 @@
 
 ## [unreleased] - xxx
 
-
+- use preinit manager 1.3.0 by default
 
 ## [5.4.0] - 2026-08-14
 
