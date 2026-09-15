@@ -1,5 +1,9 @@
 # Odoo Chart Changelog
 
+## [unreleased] - xxx
+
+
+
 ## [5.4.0] - 2026-08-14
 
 - new feature release, with 5.4.x meant to be used with docker-odoo-project 5.4.x
