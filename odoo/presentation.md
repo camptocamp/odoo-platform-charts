@@ -713,7 +713,7 @@ Values by instance type:
 | Template | Purpose |
 |----------|---------|
 | `odoo.internal-resources-thread` | Emits `WORKERS: "0"` (always — thread mode uses Odoo's threaded server, not multi-process workers), plus `LIMIT_MEMORY_SOFT` and `LIMIT_MEMORY_HARD` scaled by `instance_type`. |
-| `odoo.physical-resources-thread` | Emits the `resources:` block for thread pods. Memory limits are lower than worker because threads do not each hold a full Odoo process in memory. |
+| `odoo.physical-resources-thread` | Emits the `resources:` block for thread pods. Memory limits are lower than worker because threads do not each hold a full Odoo process in memory. CPU/memory limits use `odoo.override_resources`; requests use the separate `odoo.override_request_resources` (allows decoupling request from limit). |
 
 Values by instance type:
 
@@ -733,7 +733,7 @@ Values by instance type:
 | Template | Purpose |
 |----------|---------|
 | `odoo.internal-resources-cron` | Emits `WORKERS` (1 or 2 depending on size), `LIMIT_MEMORY_SOFT`, `LIMIT_MEMORY_HARD`. Uses `odoo.cron.override_limits` for overrides. |
-| `odoo.physical-resources-cron` | Emits the `resources:` block for cron pods. Uses `odoo.cron.override_resources.cpu/memory` for overrides. |
+| `odoo.physical-resources-cron` | Emits the `resources:` block for cron pods. CPU/memory limits use `odoo.cron.override_resources`; requests use the separate `odoo.cron.override_request_resources` (allows decoupling request from limit). |
 
 Values by instance type:
 

@@ -310,6 +310,9 @@ odoo:
   override_resources: {}
     # cpu: 5
     # memory: 8Gi
+  override_request_resources: {}
+    # cpu: 0.05
+    # memory: 360Mi
 
   cron:
     defaultReplicaCount: 1
@@ -324,6 +327,9 @@ odoo:
     override_resources: {}
       # cpu: 5
       # memory: 8Gi
+    override_request_resources: {}
+      # cpu: 0.05
+      # memory: 360Mi
 
   queuejob:
     defaultReplicaCount: 1
