@@ -50,7 +50,7 @@ helm install my-odoo ./odoo -f my-values.yaml
 |----------|------|-------|
 | `<name>-worker` or `<name>-thread` / `<name>-cron` | `Deployment` | Main Odoo pod(s), depending on mode |
 | `<name>-queuejob` | `Deployment` | Created only when `odoo.queuejob.enabled: true` |
-| `<name>-worker` / `<name>-thread` / `<name>-cron` | `Service` | Per-component ClusterIP services |
+| `<name>-worker` / `<name>-thread` / `<name>-cron` / `<name>-queuejob` | `Service` | Per-component ClusterIP services |
 | `<name>-metrics` | `Service` | Exposes port 8080 for Prometheus scraping |
 | `<name>` | `Service` | Compatibility service pointing to the main component |
 | `odoo-config-<type>` | `ConfigMap` | Odoo environment configuration per pod type |
