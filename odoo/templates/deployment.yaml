@@ -71,7 +71,14 @@ spec:
           image: "{{ .Values.image.odoo.repository }}:{{ .Values.image.odoo.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           command: ['sh', '-c', "docker-entrypoint.sh odoo --db-filter='' "]
+          ports:
+            - containerPort: 8069
+              name: http
           env:
+            - name: ODOO_QUEUE_JOB_PORT
+              value: "80"
+            - name: ODOO_QUEUE_JOB_HOST
+              value: {{ include "odoo.fullname" . }}-queuejob
             {{- include "odoo.common-environment" . | nindent 12 }}
           envFrom:
             - configMapRef:
@@ -161,6 +168,22 @@ spec:
           topologyKey: {{ .Values.spreadOdooPodsOverNodes.topologyKey }}
           whenUnsatisfiable: {{ .Values.spreadOdooPodsOverNodes.whenUnsatisfiable }}
       {{- end }}
+{{ end }}
+---
+{{ if .Values.odoo.queuejob.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "odoo.fullname" . }}-queuejob
+  labels:
+    {{- include "odoo.labels" $ | nindent 4 }}
+spec:
+  ports:
+    - port: 80
+      targetPort: http
+  selector:
+    {{- include "odoo.selectorLabels" . | nindent 4 }}
+    queuejob: "true"
 {{ end }}
 ---
 apiVersion: v1
