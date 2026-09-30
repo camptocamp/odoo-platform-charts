@@ -3,6 +3,7 @@
 ## [unreleased] - xxx
 
 - Add `odoo.extraEnv` to define extra environment variables in the `odoo-config` ConfigMaps
+- Add a service for queue job pods, which will allow horizontal scaling of the pods
 
 ## [5.4.0] - 2026-08-14
 
