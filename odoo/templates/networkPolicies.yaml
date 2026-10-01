@@ -23,7 +23,7 @@ spec:
   - from:
     - namespaceSelector:
         matchLabels:
-          kubernetes.io/metadata.name: alloy-customers
+          kubernetes.io/metadata.name: alloy-infra
       podSelector:
         matchLabels:
           app.kubernetes.io/name: alloy
