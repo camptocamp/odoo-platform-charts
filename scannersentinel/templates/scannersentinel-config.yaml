@@ -1,8 +1,0 @@
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: scannersentinel-config-{{- include "scannersentinel.fullname" . }}
-data:
-  SCANNER_DB: {{ .Values.scannersentinel.scanner_db | quote }}
-  SCANNER_HOST: {{ .Values.scannersentinel.scanner_host | quote }}
-  SCANNER_PORT: {{ .Values.scannersentinel.scanner_port | quote }}

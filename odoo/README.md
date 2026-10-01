@@ -1,6 +1,8 @@
 # Odoo Helm Chart
 
-A Helm chart to deploy Odoo on the Camptocamp platform (version `5.3.5`).
+A Helm chart to deploy Odoo on the Camptocamp platform (version `5.4.0`).
+
+This chart is meant to be used with projects using docker-odoo-project 5.4.x
 
 ## Overview
 
@@ -99,7 +101,6 @@ helm install my-odoo ./odoo -f my-values.yaml
 | `image.pullPolicy` | Image pull policy | `IfNotPresent` |
 | `image.odoo.repository` | Odoo image repository | `ghcr.io/camptocamp/customer_odoo` |
 | `image.odoo.tag` | Odoo image tag | `xx.0.1.0.0` |
-| `image.odoo.is_old_image_flavour` | Use legacy entrypoint format | `true` |
 | `image.nginx.repository` | Nginx image repository | `camptocamp.azurecr.io/odoo/odoo-nginx` |
 | `image.nginx.tag` | Nginx image tag | `xx.0-1.6.0` |
 | `image.odoohealthz.repository` | Health check sidecar repository | `camptocamp.azurecr.io/odoo/odoo-k8s-healthz` |
@@ -127,6 +128,7 @@ helm install my-odoo ./odoo -f my-values.yaml
 | `odoo.demo` | Enable demo data | `"False"` |
 | `odoo.server_wide_modules` | Server-wide modules (comma-separated) | depends on odoo_version |
 | `odoo.server_env_config` | server_env module configuration | `""` |
+| `odoo.extraEnv` | Extra environment variables (key/value map) added to the `odoo-config` ConfigMaps | `{}` |
 | `odoo.kwkhtmltopdf_server_url` | KWKHTMLtoPDF server URL | `http://kwkhtmltopdf.bs-kwkhtmltopdf01250:8080` |
 | `odoo.override_limits` | Override Odoo internal memory/worker limits | `{}` |
 | `odoo.override_resources` | Override pod CPU/memory resource requests/limits | `{}` |
@@ -226,6 +228,9 @@ Use `odoo.override_limits` and `odoo.override_resources` to fine-tune individual
 |-----------|-------------|---------|
 | `nginx.odooHost` | Odoo upstream host | `localhost` |
 | `nginx.odooLongpollingPort` | Longpolling port | `"8072"` |
+| `nginx.cacheSize` | Cache Size | `"10m"` |
+| `nginx.pdfContent` | Disable byte-range for PDF content [see details](https://github.com/camptocamp/docker-odoo-nginx/pull/29) | `""` |
+| `nginx.secureCookies` | Enable secure cookies | `""` |
 
 ### Metrics
 
@@ -368,3 +373,20 @@ volumeMounts:
     - name: my-qj-volume
       mountPath: /etc/my-secret
 ```
+
+## Extra Environment Variables
+
+Additional environment variables can be passed to Odoo through `odoo.extraEnv`. Each key is added to the
+`odoo-config-<type>` ConfigMap of every pod type (worker/thread/cron/queuejob), so it reaches the Odoo
+container, the `marabunta-migration` init container and the `odoohealthz` sidecar. Values are rendered as
+strings, and any change triggers a rollout through the ConfigMap hash annotation.
+
+```yaml
+odoo:
+  extraEnv:
+    ODOO_FOO: "bar"
+    SOME_FLAG: "1"
+```
+
+Variables already managed by the chart (e.g. `LOG_LEVEL`, `SERVER_WIDE_MODULES`) have dedicated values; prefer
+those. Setting one of them in `extraEnv` produces a duplicate key in the ConfigMap, and the `extraEnv` value wins.

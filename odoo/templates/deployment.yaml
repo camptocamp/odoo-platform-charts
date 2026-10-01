@@ -2,9 +2,9 @@
 {{ if eq .Values.odoo.mode "hybrid" }}
 {{- include "odoo.deployment" (merge (. | deepCopy) (dict "pod_type" "thread")) }}
 {{- include "odoo.deployment" (merge (. | deepCopy) (dict "pod_type" "cron")) }}
-{{ else if eq .Values.odoo.mode "workers" }}
+{{- else if eq .Values.odoo.mode "workers" }}
 {{- include "odoo.deployment" (merge (. | deepCopy) (dict "pod_type" "worker")) }}
-{{ end }}
+{{- end }}
 {{ if .Values.odoo.queuejob.enabled }}
 ---
 apiVersion: apps/v1
@@ -38,12 +38,14 @@ spec:
         {{- end }}
       labels:
         {{- include "odoo.labels" $ | nindent 8 }}
-        {{- include "odoo.selectorLabels" . | nindent 8 }}
+        queuejob: "true"
+        app.kubernetes.io/component: "odoo-queue"
+        {{- if .Values.odoo.odoo_version }}
+        odoo-version: {{ .Values.odoo.odoo_version | quote }}
+        {{- end }}
         {{- with .Values.additionalLabels }}
           {{- toYaml . | nindent 8 }}
         {{- end }}
-        queuejob: "true"
-        app.kubernetes.io/component: "odoo-queue"
     spec:
       serviceAccountName: {{ .Values.serviceAccountName }}
       {{- with .Values.imagePullSecrets }}
@@ -68,11 +70,7 @@ spec:
         - name: odooqueue
           image: "{{ .Values.image.odoo.repository }}:{{ .Values.image.odoo.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          {{- if not .Values.image.odoo.is_old_image_flavour }}
-          command: ['sh', '-c', "docker-entrypoint.sh odoo --db-filter=''   {{ printf "--load=%s,queue_job"   (.Values.odoo.server_wide_modules | default "web,attachment_azure,session_redis,logging_json") }}"]
-          {{- else }}
-          command: ['sh', '-c', "docker-entrypoint.sh gosu odoo odoo --db-filter='' "]
-          {{- end }}
+          command: ['sh', '-c', "docker-entrypoint.sh odoo --db-filter='' "]
           env:
             {{- include "odoo.common-environment" . | nindent 12 }}
           envFrom:
@@ -89,7 +87,6 @@ spec:
           readinessProbe:
               {{- toYaml . | nindent 14 }}
           {{- end }}
-
           {{- with .Values.odoo.queuejob.startupProbe }}
           startupProbe:
               {{- toYaml . | nindent 14 }}
@@ -154,6 +151,16 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
+      {{- if .Values.spreadOdooPodsOverNodes.enabled }}
+      topologySpreadConstraints:
+        - labelSelector:
+            matchLabels:
+              app: {{ template "odoo.name" . }}
+              release: "{{ .Release.Name }}"
+          maxSkew: {{ .Values.spreadOdooPodsOverNodes.maxSkew }}
+          topologyKey: {{ .Values.spreadOdooPodsOverNodes.topologyKey }}
+          whenUnsatisfiable: {{ .Values.spreadOdooPodsOverNodes.whenUnsatisfiable }}
+      {{- end }}
 {{ end }}
 ---
 apiVersion: v1
@@ -203,10 +210,10 @@ spec:
       targetPort: http
   selector:
     {{- include "odoo.selectorLabels" . | nindent 4 }}
-    {{ if eq .Values.odoo.mode "hybrid" }}
+    {{- if eq .Values.odoo.mode "hybrid" }}
     app.kubernetes.io/component: "odoo-thread"
-    {{ else if eq .Values.odoo.mode "workers" }}
+    {{- else if eq .Values.odoo.mode "workers" }}
     app.kubernetes.io/component: "odoo-worker"
-    {{ end }}
+    {{- end }}
 
 ---

@@ -26,7 +26,7 @@ kind: Deployment
 metadata:
   name: {{ include "odoo.name" . }}-{{ .pod_type }}
   labels:
-    {{- include "odoo.labels" . | nindent 4 }}
+    {{- include "odoo.labels" $ | nindent 4 }}
 spec:
   replicas: {{ include "odoo.deployment.replicas" . }}
   strategy:
@@ -55,7 +55,9 @@ spec:
         app: {{ template "odoo.name" . }}
         app.kubernetes.io/component: "odoo-{{ .pod_type }}"
         release: "{{ .Release.Name }}"
-        {{- include "odoo.selectorLabels" . | nindent 8 }}
+        {{- if .Values.odoo.odoo_version }}
+        odoo-version: {{ .Values.odoo.odoo_version | quote }}
+        {{- end }}
         {{- with .Values.additionalLabels }}
           {{- toYaml . | nindent 8 }}
         {{- end }}
@@ -103,11 +105,7 @@ spec:
         - name: marabunta-migration
           image: "{{ .Values.image.odoo.repository }}:{{ .Values.image.odoo.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          {{- if .Values.image.odoo.is_old_image_flavour }}
-          command: ['sh', '-c', "docker-entrypoint.sh gosu odoo migrate"]
-          {{- else }}
           command: ['sh', '-c', "docker-entrypoint.sh migrate"]
-          {{- end }}
           env:
             - name: LIMIT_MEMORY_SOFT
               value: "1300234240"
@@ -124,11 +122,7 @@ spec:
         - name: odoo
           image: "{{ .Values.image.odoo.repository }}:{{ .Values.image.odoo.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          {{- if not .Values.image.odoo.is_old_image_flavour }}
           command: ['sh', '-c', "docker-entrypoint.sh odoo --db-filter='' "]
-          {{- else }}
-          command: ['sh', '-c', "docker-entrypoint.sh gosu odoo odoo --db-filter='' "]
-          {{- end }}
           env:
             {{- if eq .pod_type "cron" }}
             - name: CRON_POD
@@ -137,7 +131,7 @@ spec:
             - name: ODOO_MAX_HTTP_THREADS
               value: "True"
             {{- end }}
-          {{- include "odoo.common-environment" . | nindent 12 }}
+            {{- include "odoo.common-environment" . | nindent 12 }}
           envFrom:
             - configMapRef:
                 name: odoo-config{{- include "odoo-cs-suffix" . }}-{{ .pod_type }}
@@ -152,7 +146,7 @@ spec:
           {{- with .Values.odoo.livenessProbe }}
           livenessProbe:
               {{- toYaml . | nindent 14 }}
-           {{- end }}
+          {{- end }}
           {{- with .Values.odoo.readinessProbe }}
           readinessProbe:
               {{- toYaml . | nindent 14 }}
@@ -160,7 +154,7 @@ spec:
           {{- with .Values.odoo.startupProbe }}
           startupProbe:
               {{- toYaml . | nindent 14 }}
-           {{- end }}
+          {{- end }}
           {{- with .Values.volumeMounts }}
           {{- if .odoo }}
           volumeMounts:
@@ -170,9 +164,9 @@ spec:
           resources:
           {{ if eq .pod_type "cron" }}
             {{- include "odoo.physical-resources-cron" . | nindent 12 }}
-          {{ else if eq .pod_type "thread" }}
+          {{- else if eq .pod_type "thread" }}
             {{- include "odoo.physical-resources-thread" . | nindent 12 }}
-          {{ else }}
+          {{- else }}
             {{- include "odoo.physical-resources-worker" . | nindent 12 }}
           {{ end }}
           ports:
