@@ -168,7 +168,10 @@ spec:
             {{- include "odoo.physical-resources-thread" . | nindent 12 }}
           {{- else }}
             {{- include "odoo.physical-resources-worker" . | nindent 12 }}
-          {{- end }}
+          {{ end }}
+          ports:
+            - containerPort: 8069
+              name: odoocore
         - name: nginx
           image: "{{ .Values.image.nginx.repository }}:{{ .Values.image.nginx.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
