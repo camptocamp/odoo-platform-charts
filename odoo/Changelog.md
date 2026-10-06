@@ -3,6 +3,7 @@
 ## [unreleased] - xxx
 
 - Add `odoo.extraEnv` to define extra environment variables in the `odoo-config` ConfigMaps
+- Add `odoo.override_request_resources` and `odoo.cron.override_request_resources` to override CPU/memory requests of http (thread) and cron pods
 
 ## [5.4.0] - 2026-08-14
 
