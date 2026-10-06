@@ -2,7 +2,7 @@
 
 ## [unreleased] - xxx
 
-- use preinit manager 1.3.0 by default
+- Add `odoo.extraEnv` to define extra environment variables in the `odoo-config` ConfigMaps
 
 ## [5.4.0] - 2026-08-14
 
