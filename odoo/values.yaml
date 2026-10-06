@@ -28,6 +28,12 @@ networkPolicies:
 #        kubernetes.io/metadata.name: xxxx
 serviceMonitor:
   enabled: false
+serviceMonitorOdooMetrics:
+    enabled: false
+    
+    # scrapeInterval defaults to odoo.metrics.scrapeInterval if not set
+    # scrapeInterval: 15s
+    # fallbackScrapeProtocol: PrometheusText0.0.4
 
 image:
   pullPolicy: IfNotPresent
@@ -292,6 +298,9 @@ odoo:
   kwkhtmltopdf_server_url: http://kwkhtmltopdf.bs-kwkhtmltopdf01250:8080
   server_env_config: ""
   server_wide_modules: ""
+  extraEnv: {}
+    # ODOO_FOO: "bar"
+    # SOME_FLAG: 1
   demo: "False"
   marabunta:
     enabled: "True"

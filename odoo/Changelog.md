@@ -2,7 +2,7 @@
 
 ## [unreleased] - xxx
 
-- use docker-odoo-nginx 1.12.0 by default
+- Add `odoo.extraEnv` to define extra environment variables in the `odoo-config` ConfigMaps
 
 ## [5.4.0] - 2026-08-14
 
