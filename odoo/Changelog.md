@@ -2,8 +2,14 @@
 
 ## [unreleased] - xxx
 
+## [5.5.0] - 2026-10-06
+
 - Add `odoo.extraEnv` to define extra environment variables in the `odoo-config` ConfigMaps
 - Add `odoo.override_request_resources` and `odoo.cron.override_request_resources` to override CPU/memory requests of http (thread) and cron pods
+- change default nginx to 1.12.0
+- use preinit manager 1.3.0
+- add monitoring for odoo memory used
+- add a service for scaling odooqueue pods
 
 ## [5.4.0] - 2026-08-14
 
