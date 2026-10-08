@@ -23,6 +23,6 @@ data:
   {{- if .Values.nginx.resolver }}
   NGINX_RESOLVER: {{ .Values.nginx.resolver | default "" | quote }}
   {{- end }}
-  {{- if .Vallues.nginx.resolverOptions | default "" | quote }}
+  {{- if .Values.nginx.resolverOptions | default "" | quote }}
   NGINX_RESOLVER_OPTIONS: {{ .Values.nginx.resolverOptions }}
   {{- end }}
