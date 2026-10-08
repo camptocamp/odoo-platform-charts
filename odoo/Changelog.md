@@ -2,6 +2,10 @@
 
 ## [unreleased] - xxx
 
+## [5.5.1] - 2026-10-08
+
+- update preinit-manager to 1.3.1 to fix crash
+
 ## [5.5.0] - 2026-10-06
 
 - Add `odoo.extraEnv` to define extra environment variables in the `odoo-config` ConfigMaps
