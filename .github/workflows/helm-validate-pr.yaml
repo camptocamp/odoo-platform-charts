@@ -1,0 +1,69 @@
+---
+name: helm-validate-pr
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    branches:
+      - master
+
+permissions:
+  contents: read
+
+jobs:
+  detect-changes:
+    runs-on: ubuntu-latest
+    if: ${{ !startsWith(github.head_ref, 'release-please--') }}
+    outputs:
+      matrix: ${{ steps.create-matrix.outputs.matrix }}
+    steps:
+      - name: Checkout the repository
+        uses: actions/checkout@v6.0.2
+        with:
+          fetch-depth: 0
+
+      - name: Find changed Helm charts
+        id: create-matrix
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          charts=$(git diff --name-only "$BASE_SHA" "$HEAD_SHA"             | awk -F/ 'NF > 1 { print $1 }'             | sort -u             | while read -r chart; do
+                [ -f "$chart/Chart.yaml" ] && printf '%s\n' "$chart"
+              done)
+          matrix=$(printf '%s\n' "$charts" | jq -Rsc 'split("\n") | map(select(length > 0))')
+          echo "matrix=$matrix" >> "$GITHUB_OUTPUT"
+
+  validate:
+    needs: detect-changes
+    if: ${{ needs.detect-changes.outputs.matrix != '[]' }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        chart: ${{ fromJson(needs.detect-changes.outputs.matrix) }}
+    steps:
+      - name: Checkout the repository
+        uses: actions/checkout@v6.0.2
+
+      - name: Install Helm
+        uses: azure/setup-helm@v5.0.1
+
+      - name: Build dependencies
+        run: helm dependency build "${{ matrix.chart }}"
+
+      - name: Lint chart
+        run: helm lint "${{ matrix.chart }}"
+
+      - name: Render chart
+        run: helm template "${{ matrix.chart }}" "${{ matrix.chart }}" > /dev/null
+
+      - name: Package chart
+        run: helm package "${{ matrix.chart }}" --destination packaged-charts
+
+      - name: Upload packaged chart
+        uses: actions/upload-artifact@v4.6.2
+        with:
+          name: ${{ matrix.chart }}-pr-${{ github.event.pull_request.number }}
+          path: packaged-charts/*.tgz
+          if-no-files-found: error

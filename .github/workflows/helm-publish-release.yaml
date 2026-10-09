@@ -1,0 +1,118 @@
+---
+name: helm-publish-release
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - .release-please-manifest.json
+
+jobs:
+  detect-releases:
+    runs-on: ubuntu-latest
+    outputs:
+      releases: ${{ steps.releases.outputs.releases }}
+    steps:
+      - name: Checkout the release commit
+        uses: actions/checkout@v6.0.2
+        with:
+          fetch-depth: 2
+
+      - name: Find charts whose release version changed
+        id: releases
+        run: |
+          if ! git cat-file -e HEAD^:.release-please-manifest.json 2>/dev/null; then
+            echo 'releases=[]' >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          old=$(git show HEAD^:.release-please-manifest.json)
+          new=$(cat .release-please-manifest.json)
+          releases=$(jq -cn             --argjson old "$old"             --argjson new "$new"             '[$new | to_entries[] | select(.value != ($old[.key] // "")) | {chart: .key, version: .value}]')
+          echo "releases=$releases" >> "$GITHUB_OUTPUT"
+
+  publish:
+    needs: detect-releases
+    if: ${{ needs.detect-releases.outputs.releases != '[]' }}
+    runs-on: ubuntu-latest
+    # Every publication updates the shared root index.yaml. Queue publication jobs
+    # instead of allowing simultaneous release PR merges to race on that file.
+    concurrency:
+      group: helm-chart-repository-publication
+      cancel-in-progress: false
+    steps:
+      - name: Generate authentication token from GitHub App
+        id: app_token
+        uses: actions/create-github-app-token@v3.2.0
+        with:
+          client-id: ${{ secrets.SHELTER_MAINTAINER_CLIENT_ID }}
+          private-key: ${{ secrets.SHELTER_MAINTAINER_PRIVATE_KEY }}
+          owner: ${{ github.repository_owner }}
+          permission-contents: write
+
+      - name: Checkout the current release branch
+        uses: actions/checkout@v6.0.2
+        with:
+          token: ${{ steps.app_token.outputs.token }}
+          ref: master
+          fetch-depth: 0
+
+      - name: Install Helm
+        uses: azure/setup-helm@v5.0.1
+
+      - name: Package released charts and update the repository index
+        env:
+          RELEASES: ${{ needs.detect-releases.outputs.releases }}
+        run: |
+          git fetch --force --tags
+          worktree_root="$RUNNER_TEMP/released-charts"
+          mkdir -p "$worktree_root"
+          while IFS= read -r release; do
+            chart=$(jq -r '.chart' <<< "$release")
+            version=$(jq -r '.version' <<< "$release")
+            tag="${chart}-${version}"
+            for attempt in {1..12}; do
+              git fetch --force --tags
+              if git rev-parse --verify --quiet "${tag}^{commit}" > /dev/null; then
+                break
+              fi
+              if [ "$attempt" -eq 12 ]; then
+                echo "Expected release tag ${tag} was not created within two minutes" >&2
+                exit 1
+              fi
+              sleep 10
+            done
+            worktree="$worktree_root/$tag"
+            git worktree add --detach "$worktree" "$tag"
+            chart_version=$(awk -F': *' '$1 == "version" { gsub(/"/, "", $2); print $2; exit }' "$worktree/$chart/Chart.yaml")
+            [ "$chart_version" = "$version" ] || {
+              echo "Expected $tag:$chart/Chart.yaml version $version, got $chart_version" >&2
+              exit 1
+            }
+            helm dependency build "$worktree/$chart"
+            helm lint "$worktree/$chart"
+            helm template "$chart" "$worktree/$chart" > /dev/null
+            helm package "$worktree/$chart" --destination .
+            git worktree remove --force "$worktree"
+            [ -f "${chart}-${version}.tgz" ] || {
+              echo "Helm did not create ${chart}-${version}.tgz" >&2
+              exit 1
+            }
+          done < <(jq -c '.[]' <<< "$RELEASES")
+          helm repo index . --merge index.yaml
+
+      - name: Commit chart archives and index
+        env:
+          RELEASES: ${{ needs.detect-releases.outputs.releases }}
+        run: |
+          git config user.name "shelter-maintainer[bot]"
+          git config user.email "275694539+shelter-maintainer[bot]@users.noreply.github.com"
+          git add index.yaml
+          while IFS= read -r release; do
+            chart=$(jq -r '.chart' <<< "$release")
+            version=$(jq -r '.version' <<< "$release")
+            git add "${chart}-${version}.tgz"
+          done < <(jq -c '.[]' <<< "$RELEASES")
+          git diff --cached --quiet && exit 0
+          git commit -m "chore: publish released Helm charts"
+          git push
