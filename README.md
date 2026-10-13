@@ -20,12 +20,9 @@ On pull requests targeting `master`, CI detects changed chart directories, build
 
 After a chart change merges to `master`, Release Please opens a chart-specific release pull request. Merging that release pull request updates the chart version and changelog, creates a `<chart>-<version>` Git tag, packages each newly released chart at the repository root, and merges it into `index.yaml`.
 
-The release workflows require the GitHub App credentials already used by the Shelter release automation:
+The release workflows use GitHub's built-in `GITHUB_TOKEN`; no Shelter maintainer account or GitHub App credentials are required. In repository Settings → Actions → General, enable **Read and write permissions** and **Allow GitHub Actions to create and approve pull requests**.
 
-- `SHELTER_MAINTAINER_CLIENT_ID`
-- `SHELTER_MAINTAINER_PRIVATE_KEY`
-
-The app must be able to create pull requests, write repository contents, and push the generated `.tgz` files and `index.yaml` update to `master`. If `master` is protected, grant that app the narrowly scoped bypass required for the publication commit.
+The token must be allowed to create release pull requests, create tags/releases, and push the generated `.tgz` files and `index.yaml` update to `master`. If `master` is protected, allow GitHub Actions to perform the narrowly scoped publication commit or require that commit to be merged through a pull request.
 
 ## Adding a new chart
 

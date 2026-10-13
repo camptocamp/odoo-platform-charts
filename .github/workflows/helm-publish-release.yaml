@@ -8,6 +8,9 @@ on:
     paths:
       - .release-please-manifest.json
 
+permissions:
+  contents: write
+
 jobs:
   detect-releases:
     runs-on: ubuntu-latest
@@ -41,19 +44,10 @@ jobs:
       group: helm-chart-repository-publication
       cancel-in-progress: false
     steps:
-      - name: Generate authentication token from GitHub App
-        id: app_token
-        uses: actions/create-github-app-token@v3.2.0
-        with:
-          client-id: ${{ secrets.SHELTER_MAINTAINER_CLIENT_ID }}
-          private-key: ${{ secrets.SHELTER_MAINTAINER_PRIVATE_KEY }}
-          owner: ${{ github.repository_owner }}
-          permission-contents: write
-
       - name: Checkout the current release branch
         uses: actions/checkout@v6.0.2
         with:
-          token: ${{ steps.app_token.outputs.token }}
+          token: ${{ github.token }}
           ref: master
           fetch-depth: 0
 
@@ -105,8 +99,8 @@ jobs:
         env:
           RELEASES: ${{ needs.detect-releases.outputs.releases }}
         run: |
-          git config user.name "shelter-maintainer[bot]"
-          git config user.email "275694539+shelter-maintainer[bot]@users.noreply.github.com"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add index.yaml
           while IFS= read -r release; do
             chart=$(jq -r '.chart' <<< "$release")
