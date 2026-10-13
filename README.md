@@ -1,75 +1,90 @@
-# odoo-platform-charts
+# Odoo Platform Helm Charts
 
-Camptocamp Odoo charts intended to be used on Azure K8s cluster.
+This repository contains the Helm charts used to deploy Odoo Platform services to Kubernetes.
 
-## Branch policy
+## Deployment model
 
-`master` is the stable release branch. `devel` is the development branch. Fix pull requests may target either branch; feature pull requests should target `devel` unless the team agrees otherwise.
+Each chart can be deployed from a local checkout. Changed charts in pull requests are also published as Helm OCI preview artifacts in GitHub Container Registry (GHCR).
 
-## Pull request preview charts in GHCR
-
-When a pull request is opened or updated, the workflow detects every changed top-level Helm chart, builds dependencies, lints and renders the chart, then packages and publishes it as an OCI artifact to GitHub Container Registry.
-
-Each preview uses the chart version from `Chart.yaml` with the pull request number as the SemVer prerelease identifier:
+A preview artifact uses this reference:
 
 ```text
-<chart-version>-<PR-number>
+oci://ghcr.io/<owner>/odoo-platform-charts/<chart>
 ```
 
-For example, a pull request numbered `42` that changes the Odoo chart at version `5.5.1` is published as a Helm OCI chart with tag `5.5.1-42`.
-
-Pull the chart with Helm, not Docker:
+Its version is the chart version from `Chart.yaml` followed by the pull-request number. For example, a change to Odoo chart version `5.5.1` in pull request `42` is available as `5.5.1-42`.
 
 ```bash
-helm pull oci://ghcr.io/<owner>/odoo-platform-charts/odoo --version 5.5.1-42
-```
-
-Or install it directly from GHCR:
-
-```bash
-helm upgrade --install odoo oci://ghcr.io/<owner>/odoo-platform-charts/odoo \
+helm upgrade --install odoo \
+  oci://ghcr.io/<owner>/odoo-platform-charts/odoo \
   --version 5.5.1-42 \
-  --namespace <namespace> \
-  --create-namespace
+  --namespace odoo \
+  --create-namespace \
+  --values values.yaml
 ```
 
-Only pull requests opened from branches in this repository can publish previews. Fork pull requests are skipped because GitHub grants them a read-only `GITHUB_TOKEN`.
+These are Helm OCI charts, not Docker images. Use `helm pull`, `helm template`, `helm install`, or `helm upgrade`; do not use `docker pull`.
 
-## Commit linting
+## Deploying a chart
 
-Every pull request runs Conventional Commit validation. Release Please uses those commit types to calculate releases and generate changelog entries:
+1. Read the chart-specific `README.md` and review its `values.yaml`.
+2. Create the target namespace and any prerequisite Secrets, External Secrets, identities, or cluster-level CRDs required by that chart.
+3. Render the release before applying it:
 
-- `fix:` creates a patch release;
-- `feat:` creates a minor release once the chart is 1.0.0 or later; for a 0.x chart it creates a patch release;
-- a Conventional Commit breaking-change marker creates a major release once the chart is 1.0.0 or later; for a 0.x chart it creates a minor release.
+   ```bash
+   helm dependency build <chart>
+   helm lint <chart>
+   helm template <release> <chart> --namespace <namespace> --values values.yaml
+   ```
 
-## Automated release pull requests
+4. Install or upgrade the release:
 
-On every push to `master`, Release Please evaluates the configured charts and creates or updates independent release pull requests. A release pull request updates the chart's `Chart.yaml` version, its `CHANGELOG.md`, and `.release-please-manifest.json`. Merging it creates a `<chart>-<version>` Git tag and GitHub release.
+   ```bash
+   helm upgrade --install <release> <chart> \
+     --namespace <namespace> \
+     --create-namespace \
+     --values values.yaml
+   ```
 
-This first OCI implementation publishes preview charts only. A production GHCR publishing workflow, triggered after a Release Please release, is intentionally not included yet.
+5. Verify the deployment:
 
-## GitHub Actions permissions
+   ```bash
+   kubectl -n <namespace> get pods,svc
+   helm -n <namespace> status <release>
+   ```
 
-The workflows use the built-in `GITHUB_TOKEN`; no external user, PAT, or GitHub App credentials are required. In repository Settings → Actions → General, enable:
+6. Roll back or uninstall when needed:
 
-- **Read and write permissions**;
-- **Allow GitHub Actions to create and approve pull requests**.
+   ```bash
+   helm -n <namespace> history <release>
+   helm -n <namespace> rollback <release> <revision>
+   helm -n <namespace> uninstall <release>
+   ```
 
-If `master` is protected, allow GitHub Actions to create the release pull request and publish the release metadata, or define the required branch-protection exception.
+## Charts
 
-## Adding a new chart
+| Chart | Purpose | Documentation |
+|---|---|---|
+| `autossh` | SSH tunnel workload | [`autossh/README.md`](autossh/README.md) |
+| `celebrimbor` | Celebrimbor application with Azure Key Vault integration | [`celebrimbor/README.md`](celebrimbor/README.md) |
+| `kwkhtmltopdf` | HTML-to-PDF rendering service | [`kwkhtmltopdf/README.md`](kwkhtmltopdf/README.md) |
+| `mailpit` | SMTP testing service with web UI | [`mailpit/README.md`](mailpit/README.md) |
+| `odoo` | Odoo application platform chart | [`odoo/README.md`](odoo/README.md) |
+| `offsite-backups` | Scheduled offsite backups | [`offsite-backups/README.md`](offsite-backups/README.md) |
+| `odyssey` | PostgreSQL connection pooler/proxy | [`odyssey/README.md`](odyssey/README.md) |
+| `py3o` | Py3o document generation service | [`py3o/README.md`](py3o/README.md) |
 
-1. Add the chart directory with `Chart.yaml`, templates, values, and `CHANGELOG.md`.
-2. Add the chart name and initial published version to both Release Please files.
-3. Ensure the chart version matches the manifest value.
-4. Use Conventional Commits for future changes.
+## Pull-request previews and releases
 
-## Local verification
+Pull requests run commit-message validation and package every changed chart. Internal pull requests publish preview charts to GHCR using `<chart-version>-<PR-number>` versions.
 
-```bash
-helm dependency build <chart>
-helm lint <chart>
-helm template <chart> <chart>
-helm package <chart>
-```
+Release Please runs on `master`. It creates a release pull request for each changed chart, updates the chart version and changelog, and creates a `<chart>-<version>` Git tag when that release pull request is merged.
+
+The current GHCR workflow publishes pull-request previews. Production OCI publishing after a release tag is a separate next step.
+
+## Contributing a chart
+
+- Keep chart-specific deployment requirements in that chart's `README.md`.
+- Use Conventional Commit messages such as `fix:` and `feat:`.
+- Add a `CHANGELOG.md` and register a new chart in the Release Please configuration and manifest.
+- Do not place production credentials in committed values files.
