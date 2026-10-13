@@ -16,10 +16,21 @@ Each preview uses the chart version from `Chart.yaml` with the pull request numb
 <chart-version>-<PR-number>
 ```
 
-For example, a pull request numbered `42` that changes the Odoo chart at version `5.5.1` is published as:
+For example, a pull request numbered `42` that changes the Odoo chart at version `5.5.1` is published as a Helm OCI chart with tag `5.5.1-42`.
 
-```text
-oci://ghcr.io/<owner>/odoo-platform-charts/odoo --version 5.5.1-42
+Pull the chart with Helm, not Docker:
+
+```bash
+helm pull oci://ghcr.io/<owner>/odoo-platform-charts/odoo --version 5.5.1-42
+```
+
+Or install it directly from GHCR:
+
+```bash
+helm upgrade --install odoo oci://ghcr.io/<owner>/odoo-platform-charts/odoo \
+  --version 5.5.1-42 \
+  --namespace <namespace> \
+  --create-namespace
 ```
 
 Only pull requests opened from branches in this repository can publish previews. Fork pull requests are skipped because GitHub grants them a read-only `GITHUB_TOKEN`.
