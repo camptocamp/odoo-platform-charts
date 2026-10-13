@@ -1,0 +1,103 @@
+---
+name: helm-publish-release
+
+on:
+  workflow_run:
+    workflows: [release-please]
+    types: [completed]
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  detect-releases:
+    if: ${{ github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.head_branch == 'master' }}
+    runs-on: ubuntu-latest
+    outputs:
+      releases: ${{ steps.releases.outputs.releases }}
+    steps:
+      - name: Checkout the release commit
+        uses: actions/checkout@v7
+        with:
+          ref: ${{ github.event.workflow_run.head_sha }}
+          fetch-depth: 2
+
+      - name: Find released charts
+        id: releases
+        run: |
+          if ! git cat-file -e HEAD^:.release-please-manifest.json 2>/dev/null; then
+            echo 'releases=[]' >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          old=$(git show HEAD^:.release-please-manifest.json)
+          new=$(cat .release-please-manifest.json)
+          releases=$(jq -cn --argjson old "$old" --argjson new "$new" '[$new | to_entries[] | select(.value != ($old[.key] // "")) | {chart: .key, version: .value}]')
+          echo "releases=$releases" >> "$GITHUB_OUTPUT"
+
+  publish:
+    needs: detect-releases
+    if: ${{ needs.detect-releases.outputs.releases != '[]' }}
+    runs-on: ubuntu-latest
+    concurrency:
+      group: helm-oci-release-publish
+      cancel-in-progress: false
+    strategy:
+      fail-fast: false
+      matrix:
+        include: ${{ fromJson(needs.detect-releases.outputs.releases) }}
+    steps:
+      - name: Checkout the Release Please commit and tags
+        uses: actions/checkout@v7
+        with:
+          ref: ${{ github.event.workflow_run.head_sha }}
+          fetch-depth: 0
+
+      - name: Install Helm
+        uses: azure/setup-helm@v5.0.1
+
+      - name: Package the release tag
+        id: package
+        env:
+          CHART: ${{ matrix.chart }}
+          VERSION: ${{ matrix.version }}
+        run: |
+          tag="${CHART}-${VERSION}"
+          for attempt in {1..12}; do
+            git fetch --force --tags
+            if git rev-parse --verify --quiet "${tag}^{commit}" > /dev/null; then
+              break
+            fi
+            if [ "$attempt" -eq 12 ]; then
+              echo "Release tag ${tag} was not created within two minutes" >&2
+              exit 1
+            fi
+            sleep 10
+          done
+
+          worktree="$RUNNER_TEMP/${tag}"
+          git worktree add --detach "$worktree" "$tag"
+          chart_version=$(helm show chart "$worktree/$CHART" | awk -F': *' '$1 == "version" { gsub(/"/, "", $2); print $2; exit }')
+          test "$chart_version" = "$VERSION"
+          helm dependency build "$worktree/$CHART"
+          helm lint "$worktree/$CHART"
+          helm template "$CHART" "$worktree/$CHART" > /dev/null
+          mkdir packaged-charts
+          helm package "$worktree/$CHART" --destination packaged-charts
+          git worktree remove --force "$worktree"
+          archive=$(find packaged-charts -maxdepth 1 -name '*.tgz' -print -quit)
+          test -n "$archive"
+          echo "archive=$archive" >> "$GITHUB_OUTPUT"
+
+      - name: Log in to GitHub Container Registry
+        env:
+          GHCR_TOKEN: ${{ github.token }}
+        run: echo "$GHCR_TOKEN" | helm registry login ghcr.io --username "${{ github.actor }}" --password-stdin
+
+      - name: Push final chart to GitHub Container Registry
+        env:
+          ARCHIVE: ${{ steps.package.outputs.archive }}
+          REPOSITORY: oci://ghcr.io/${{ github.repository }}
+        run: |
+          repository=$(printf '%s' "$REPOSITORY" | tr '[:upper:]' '[:lower:]')
+          helm push "$ARCHIVE" "$repository"
