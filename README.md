@@ -38,12 +38,70 @@ These are Helm OCI charts, not Docker images. Use `helm pull`, `helm template`, 
 | `odyssey` | PostgreSQL connection pooler/proxy | [`odyssey/README.md`](odyssey/README.md) |
 | `py3o` | Py3o document generation service | [`py3o/README.md`](py3o/README.md) |
 
-## Pull-request previews and releases
+## Working on a chart
 
-Pull requests run commit-message validation and package every changed chart. Internal feature and fix pull requests publish preview charts to GHCR using `<chart-version>-pr.<PR-number>` versions. Release Please pull requests are excluded from preview publication because they produce final releases instead.
+1. Create a branch and change the chart templates, values, dependencies, and chart-specific `README.md` as needed.
+2. Do not manually change the Helm chart `version:` in `Chart.yaml`. Release Please manages that version.
+3. Update `appVersion:` in `Chart.yaml` when the underlying application version changes. This is application metadata and remains a manual change.
+4. Validate locally before opening a pull request:
 
-Release Please runs on `master`. It creates a release pull request for each changed chart, updates the chart version and changelog, and creates a `<chart>-<version>` Git tag when that release pull request is merged.
+   ```bash
+   helm dependency build <chart>
+   helm lint <chart>
+   helm template <release> <chart> --namespace <namespace> --values values.yaml
+   ```
 
-When a normal pull request is merged into `master`, its cleanup workflow removes only that pull request's preview chart from GHCR. For example, merging PR `42` removes `<chart-version>-pr.42` but leaves previews for other open pull requests unchanged.
+5. Use a Conventional Commit message so Release Please can calculate the next chart version:
 
-After a Release Please release PR is merged, the final publisher runs after Release Please completes. It builds the chart from the matching `<chart>-<version>` Git tag and publishes it to GHCR with the final `<chart-version>` OCI tag.
+   ```text
+   fix(odoo): correct session configuration
+   feat(mailpit): add SMTP TLS option
+   ```
+
+6. Open a pull request against `master`. After its preview workflow completes, test the published preview chart if needed:
+
+   ```bash
+   helm upgrade --install <release> \
+     oci://ghcr.io/camptocamp/odoo-platform-charts/<chart> \
+     --version <chart-version>-pr.<PR-number> \
+     --namespace <namespace> \
+     --create-namespace \
+     --values values.yaml
+   ```
+
+Do not edit `CHANGELOG.md` or `.release-please-manifest.json` in a normal feature or fix pull request. Release Please updates them in its generated release pull request.
+
+## CI and release pipeline
+
+```text
+Open normal PR
+  → commit-message check
+  → Helm lint and render validation
+  → preview chart published to GHCR: x.x.x-pr.<PR-number>
+
+Merge normal PR into master
+  → that PR's preview chart is deleted from GHCR
+  → Release Please creates or updates a release PR
+
+Review and merge Release Please PR
+  → Chart.yaml version, CHANGELOG.md, and release manifest are updated
+  → Release Please creates <chart>-<version> Git tag and GitHub Release
+  → final chart is published to GHCR: x.x.x
+```
+
+The workflows responsible for this are:
+
+| Workflow | Responsibility |
+|---|---|
+| `commits-checks.yaml` | Checks Conventional Commit messages on pull requests. |
+| `helm-publish-pr.yaml` | Validates changed charts and publishes PR preview charts. |
+| `helm-cleanup-pr-preview.yaml` | Removes only the preview chart belonging to a merged normal PR. |
+| `release-please.yaml` | Creates release PRs and, after their merge, creates final tags and GitHub Releases. |
+| `helm-publish-release.yaml` | Packages the immutable release tag and publishes the final OCI chart. |
+
+## Contributing a chart
+
+- Keep chart-specific deployment requirements in that chart's `README.md`.
+- Use Conventional Commit messages such as `fix:` and `feat:`.
+- Register a new chart in the Release Please configuration and manifest.
+- Do not place production credentials in committed values files.
