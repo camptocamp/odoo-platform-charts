@@ -18,7 +18,7 @@ jobs:
   detect-changes:
     # Fork pull requests receive a read-only token and cannot publish to this
     # repository's GHCR namespace.
-    if: ${{ github.event.pull_request.head.repo.full_name == github.repository }}
+    if: ${{ github.event.pull_request.head.repo.full_name == github.repository && !startsWith(github.head_ref, 'release-please--') }}
     runs-on: ubuntu-latest
     outputs:
       matrix: ${{ steps.create-matrix.outputs.matrix }}
@@ -50,7 +50,7 @@ jobs:
         chart: ${{ fromJson(needs.detect-changes.outputs.matrix) }}
     steps:
       - name: Checkout the pull request
-        uses: actions/checkout@v6.0.2
+        uses: actions/checkout@v7
 
       - name: Install Helm
         uses: azure/setup-helm@v5.0.1
@@ -69,7 +69,7 @@ jobs:
         run: |
           base_version=$(helm show chart "$CHART" | awk -F': *' '$1 == "version" { gsub(/"/, "", $2); print $2; exit }')
           test -n "$base_version"
-          version="${base_version}-${PR_NUMBER}"
+          version="${base_version}-pr.${PR_NUMBER}"
           helm package "$CHART" --version "$version" --destination packaged-charts
           echo "version=$version" >> "$GITHUB_OUTPUT"
           echo "archive=packaged-charts/${CHART}-${version}.tgz" >> "$GITHUB_OUTPUT"

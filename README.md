@@ -12,12 +12,12 @@ A preview artifact uses this reference:
 oci://ghcr.io/<owner>/odoo-platform-charts/<chart>
 ```
 
-Its version is the chart version from `Chart.yaml` followed by the pull-request number. For example, a change to Odoo chart version `5.5.1` in pull request `42` is available as `5.5.1-42`.
+Its version is the chart version from `Chart.yaml` followed by the pull-request number. For example, a change to Odoo chart version `5.5.1` in pull request `42` is available as `5.5.1-pr.42`.
 
 ```bash
 helm upgrade --install odoo \
   oci://ghcr.io/<owner>/odoo-platform-charts/odoo \
-  --version 5.5.1-42 \
+  --version 5.5.1-pr.42 \
   --namespace odoo \
   --create-namespace \
   --values values.yaml
@@ -76,11 +76,11 @@ These are Helm OCI charts, not Docker images. Use `helm pull`, `helm template`, 
 
 ## Pull-request previews and releases
 
-Pull requests run commit-message validation and package every changed chart. Internal pull requests publish preview charts to GHCR using `<chart-version>-<PR-number>` versions.
+Pull requests run commit-message validation and package every changed chart. Internal feature and fix pull requests publish preview charts to GHCR using `<chart-version>-pr.<PR-number>` versions. Release Please pull requests are excluded from preview publication because they produce final releases instead.
 
 Release Please runs on `master`. It creates a release pull request for each changed chart, updates the chart version and changelog, and creates a `<chart>-<version>` Git tag when that release pull request is merged.
 
-The current GHCR workflow publishes pull-request previews. Production OCI publishing after a release tag is a separate next step.
+After a Release Please release PR is merged, the final publisher runs after Release Please completes. It builds the chart from the matching `<chart>-<version>` Git tag and publishes it to GHCR with the final `<chart-version>` OCI tag.
 
 ## Contributing a chart
 
