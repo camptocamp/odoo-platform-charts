@@ -71,9 +71,6 @@ spec:
           image: "{{ .Values.image.odoo.repository }}:{{ .Values.image.odoo.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           command: ['sh', '-c', "docker-entrypoint.sh odoo --db-filter='' "]
-          ports:
-            - containerPort: 8069
-              name: http
           env:
             - name: ODOO_QUEUE_JOB_PORT
               value: "80"
@@ -180,7 +177,7 @@ metadata:
 spec:
   ports:
     - port: 80
-      targetPort: http
+      targetPort: odoocore
   selector:
     {{- include "odoo.selectorLabels" . | nindent 4 }}
     queuejob: "true"

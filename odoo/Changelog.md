@@ -2,6 +2,8 @@
 
 ## [unreleased] - xxx
 
+- fix: odooqueue port and service definition
+
 ## [5.5.1] - 2026-10-08
 
 - update preinit-manager to 1.3.1 to fix crash
