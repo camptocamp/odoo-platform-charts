@@ -79,8 +79,10 @@ Open normal PR
   → Helm lint and render validation
   → preview chart published to GHCR: x.x.x-pr.<PR-number>
 
-Merge normal PR into master
+Close normal PR
   → that PR's preview chart is deleted from GHCR
+
+Merge normal PR into master
   → Release Please creates or updates a release PR
 
 Review and merge Release Please PR
@@ -95,7 +97,7 @@ The workflows responsible for this are:
 |---|---|
 | `commits-checks.yaml` | Checks Conventional Commit messages on pull requests. |
 | `helm-publish-pr.yaml` | Validates changed charts and publishes PR preview charts. |
-| `helm-cleanup-pr-preview.yaml` | Removes only the preview chart belonging to a merged normal PR. |
+| `helm-cleanup-pr-preview.yaml` | Removes only the preview charts belonging to a closed normal PR. |
 | `release-please.yaml` | Creates release PRs and, after their merge, creates final tags and GitHub Releases. |
 | `helm-publish-release.yaml` | Packages the immutable release tag and publishes the final OCI chart. |
 

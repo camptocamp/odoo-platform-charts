@@ -1,11 +1,9 @@
 ---
 name: helm-cleanup-pr-preview
 
-# A preview belongs to its source PR. Delete it as soon as that PR is merged
-# into master, rather than deleting previews from unrelated open PRs later.
+# Remove preview chart versions belonging to an internal PR when it closes.
 on:
   pull_request:
-    branches: [master]
     types: [closed]
 
 concurrency:
@@ -13,129 +11,56 @@ concurrency:
   cancel-in-progress: false
 
 permissions:
-  contents: read
   packages: write
 
 jobs:
-  detect-changes:
-    if: ${{ github.event.pull_request.merged == true && github.event.pull_request.head.repo.full_name == github.repository && !startsWith(github.event.pull_request.head.ref, 'release-please--') }}
-    runs-on: ubuntu-latest
-    outputs:
-      matrix: ${{ steps.create-matrix.outputs.matrix }}
-    steps:
-      - name: Checkout the pull request commit
-        uses: actions/checkout@v7
-        with:
-          ref: ${{ github.event.pull_request.head.sha }}
-
-      - name: Find changed Helm charts
-        id: create-matrix
-        env:
-          GH_TOKEN: ${{ github.token }}
-          PR_NUMBER: ${{ github.event.pull_request.number }}
-          REPOSITORY: ${{ github.repository }}
-        run: |
-          changed_files=$(mktemp)
-          trap 'rm -f "$changed_files"' EXIT
-          page=1
-          while :; do
-            files=$(curl --fail --silent --show-error --location \
-              -H "Accept: application/vnd.github+json" \
-              -H "Authorization: Bearer ${GH_TOKEN}" \
-              -H "X-GitHub-Api-Version: 2022-11-28" \
-              "${GITHUB_API_URL}/repos/${REPOSITORY}/pulls/${PR_NUMBER}/files?per_page=100&page=${page}")
-            count=$(jq 'length' <<< "$files")
-            [ "$count" -eq 0 ] && break
-            jq -r '.[].filename' <<< "$files" >> "$changed_files"
-            [ "$count" -lt 100 ] && break
-            page=$((page + 1))
-          done
-
-          charts=$(awk -F/ 'NF > 1 { print $1 }' "$changed_files" \
-            | sort -u \
-            | while read -r chart; do
-                [ -f "$chart/Chart.yaml" ] && printf '%s\n' "$chart"
-              done)
-          matrix=$(printf '%s\n' "$charts" | jq -Rsc 'split("\n") | map(select(length > 0))')
-          echo "matrix=$matrix" >> "$GITHUB_OUTPUT"
-
   cleanup:
-    needs: detect-changes
-    if: ${{ needs.detect-changes.result == 'success' && needs.detect-changes.outputs.matrix != '[]' }}
+    if: ${{ github.event.pull_request.head.repo.full_name == github.repository && !startsWith(github.event.pull_request.head.ref, 'release-please--') }}
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        chart: ${{ fromJson(needs.detect-changes.outputs.matrix) }}
     steps:
-      - name: Checkout the pull request commit
-        uses: actions/checkout@v7
-        with:
-          ref: ${{ github.event.pull_request.head.sha }}
-
-      - name: Install Helm
-        uses: azure/setup-helm@v5.0.1
-
-      - name: Remove this pull request's preview chart
+      - name: Delete this pull request's preview charts
         env:
           GH_TOKEN: ${{ github.token }}
           OWNER: ${{ github.repository_owner }}
           OWNER_TYPE: ${{ github.event.repository.owner.type }}
           REPOSITORY_NAME: ${{ github.event.repository.name }}
-          CHART: ${{ matrix.chart }}
           PR_NUMBER: ${{ github.event.pull_request.number }}
         run: |
-          base_version=$(helm show chart "$CHART" | awk -F': *' '$1 == "version" { gsub(/"/, "", $2); print $2; exit }')
-          test -n "$base_version"
-          preview_version="${base_version}-pr.${PR_NUMBER}"
-          package_name="${REPOSITORY_NAME}/${CHART}"
-          export PACKAGE_NAME="$package_name"
-          encoded_package=$(python3 -c 'from urllib.parse import quote; import os; print(quote(os.environ["PACKAGE_NAME"], safe=""))')
+          set -euo pipefail
           case "$OWNER_TYPE" in
-            Organization) api_path="orgs/${OWNER}/packages/container/${encoded_package}" ;;
-            User) api_path="users/${OWNER}/packages/container/${encoded_package}" ;;
+            Organization) api_path="orgs/${OWNER}" ;;
+            User) api_path="users/${OWNER}" ;;
             *) echo "Unsupported repository owner type: ${OWNER_TYPE}" >&2; exit 1 ;;
           esac
 
-          preview_ids_file=$(mktemp)
-          trap 'rm -f "$preview_ids_file"' EXIT
-          page=1
-          while :; do
-            response=$(curl --silent --show-error --location --write-out $'\n%{http_code}'               -H "Accept: application/vnd.github+json"               -H "Authorization: Bearer ${GH_TOKEN}"               -H "X-GitHub-Api-Version: 2022-11-28"               "${GITHUB_API_URL}/${api_path}/versions?per_page=100&page=${page}")
-            status=${response##*$'\n'}
-            versions=${response%$'\n'*}
-            case "$status" in
-              200) ;;
-              404)
-                echo "No GHCR package exists for ${package_name}; no preview needs cleanup."
-                exit 0
-                ;;
-              *)
-                echo "Could not list versions for ${package_name}; GitHub API returned HTTP ${status}." >&2
-                exit 1
-                ;;
+          preview_suffix="-pr.${PR_NUMBER}"
+          package_prefix="${REPOSITORY_NAME}/"
+          packages=$(gh api --paginate
+            -H "Accept: application/vnd.github+json"
+            -H "X-GitHub-Api-Version: 2026-03-10"
+            "${api_path}/packages?package_type=container&per_page=100"
+            --jq '.[].name')
+
+          while IFS= read -r package_name; do
+            case "$package_name" in
+              "$package_prefix"*) ;;
+              *) continue ;;
             esac
 
-            count=$(jq 'length' <<< "$versions")
-            [ "$count" -eq 0 ] && break
-            jq -r --arg preview "$preview_version" '
-              .[]
-              | select((.metadata.container.tags | length) > 0)
-              | select((.metadata.container.tags | index($preview)) != null)
-              | select(all(.metadata.container.tags[]; . == $preview))
-              | .id
-            ' <<< "$versions" >> "$preview_ids_file"
+            export PACKAGE_NAME="$package_name"
+            encoded_package=$(python3 -c 'from urllib.parse import quote; import os; print(quote(os.environ["PACKAGE_NAME"], safe=""))')
+            version_ids=$(gh api --paginate
+              -H "Accept: application/vnd.github+json"
+              -H "X-GitHub-Api-Version: 2026-03-10"
+              "${api_path}/packages/container/${encoded_package}/versions?per_page=100"
+              --jq ".[] | select((.metadata.container.tags | length) > 0) | select(all(.metadata.container.tags[]; endswith(\"${preview_suffix}\"))) | .id")
 
-            [ "$count" -lt 100 ] && break
-            page=$((page + 1))
-          done
-
-          if [ ! -s "$preview_ids_file" ]; then
-            echo "No preview package version found for ${package_name}:${preview_version}."
-            exit 0
-          fi
-
-          while IFS= read -r version_id; do
-            echo "Deleting preview package version ${package_name}:${preview_version} (ID ${version_id})"
-            curl --fail --silent --show-error --location --request DELETE               -H "Accept: application/vnd.github+json"               -H "Authorization: Bearer ${GH_TOKEN}"               -H "X-GitHub-Api-Version: 2022-11-28"               "${GITHUB_API_URL}/${api_path}/versions/${version_id}"
-          done < "$preview_ids_file"
+            while IFS= read -r version_id; do
+              [ -z "$version_id" ] && continue
+              echo "Deleting ${package_name}:${preview_suffix} (package version ${version_id})"
+              gh api --method DELETE
+              -H "Accept: application/vnd.github+json"
+              -H "X-GitHub-Api-Version: 2026-03-10"
+              "${api_path}/packages/container/${encoded_package}/versions/${version_id}"
+            done <<< "$version_ids"
+          done <<< "$packages"
