@@ -1,0 +1,66 @@
+---
+name: helm-cleanup-pr-preview
+
+# Remove preview chart versions belonging to an internal PR when it closes.
+on:
+  pull_request:
+    types: [closed]
+
+concurrency:
+  group: helm-oci-pr-cleanup-${{ github.event.pull_request.number }}
+  cancel-in-progress: false
+
+permissions:
+  packages: write
+
+jobs:
+  cleanup:
+    if: ${{ github.event.pull_request.head.repo.full_name == github.repository && !startsWith(github.event.pull_request.head.ref, 'release-please--') }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Delete this pull request's preview charts
+        env:
+          GH_TOKEN: ${{ github.token }}
+          OWNER: ${{ github.repository_owner }}
+          OWNER_TYPE: ${{ github.event.repository.owner.type }}
+          REPOSITORY_NAME: ${{ github.event.repository.name }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+        run: |
+          set -euo pipefail
+          case "$OWNER_TYPE" in
+            Organization) api_path="orgs/${OWNER}" ;;
+            User) api_path="users/${OWNER}" ;;
+            *) echo "Unsupported repository owner type: ${OWNER_TYPE}" >&2; exit 1 ;;
+          esac
+
+          preview_suffix="-pr.${PR_NUMBER}"
+          package_prefix="${REPOSITORY_NAME}/"
+          packages=$(gh api --paginate
+            -H "Accept: application/vnd.github+json"
+            -H "X-GitHub-Api-Version: 2026-03-10"
+            "${api_path}/packages?package_type=container&per_page=100"
+            --jq '.[].name')
+
+          while IFS= read -r package_name; do
+            case "$package_name" in
+              "$package_prefix"*) ;;
+              *) continue ;;
+            esac
+
+            export PACKAGE_NAME="$package_name"
+            encoded_package=$(python3 -c 'from urllib.parse import quote; import os; print(quote(os.environ["PACKAGE_NAME"], safe=""))')
+            version_ids=$(gh api --paginate
+              -H "Accept: application/vnd.github+json"
+              -H "X-GitHub-Api-Version: 2026-03-10"
+              "${api_path}/packages/container/${encoded_package}/versions?per_page=100"
+              --jq ".[] | select((.metadata.container.tags | length) > 0) | select(all(.metadata.container.tags[]; endswith(\"${preview_suffix}\"))) | .id")
+
+            while IFS= read -r version_id; do
+              [ -z "$version_id" ] && continue
+              echo "Deleting ${package_name}:${preview_suffix} (package version ${version_id})"
+              gh api --method DELETE
+              -H "Accept: application/vnd.github+json"
+              -H "X-GitHub-Api-Version: 2026-03-10"
+              "${api_path}/packages/container/${encoded_package}/versions/${version_id}"
+            done <<< "$version_ids"
+          done <<< "$packages"

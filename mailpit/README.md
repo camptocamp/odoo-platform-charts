@@ -1,74 +1,55 @@
-# mailpit
+# Mailpit
 
-Fork of https://github.com/jouve/charts/tree/main/charts/mailpit
+Deploys Mailpit, an SMTP testing service with a web UI and API.
 
+## Prerequisites
 
-## Parameters
+- Helm 3 and Kubernetes.
+- Traefik `IngressRoute` CRD and cert-manager `Certificate` CRD: this chart creates both by default.
+- A `letsencrypt-prod` ClusterIssuer.
+- Registry access for the selected Mailpit image.
+- A NetworkPolicy-capable CNI when policy enforcement is required.
 
-### Global parameters
+## Resources created
 
-| Name                      | Description                                     | Value |
-| ------------------------- | ----------------------------------------------- | ----- |
-| `global.imageRegistry`    | Global Docker image registry                    | `""`  |
-| `global.imagePullSecrets` | Global Docker registry secret names as an array | `[]`  |
-| `global.storageClass`     | Global StorageClass for Persistent Volume(s)    | `""`  |
+- Deployment
+- HTTP Service (port 80 to container port 8025) and SMTP Service (port 25 to container port 1025)
+- NetworkPolicy
+- cert-manager Certificate and Traefik IngressRoute
+- Optional IP allow-list Middleware, PVC, authentication ConfigMap, and SMTP relay Secret
 
-### Common
+## Install
 
-| Name                             | Description                                                                                                                                | Value             |
-| -------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ | ----------------- |
-| `image.registry`                 | image registry                                                                                                                             | `docker.io`       |
-| `image.repository`               | image repository                                                                                                                           | `axllent/mailpit` |
-| `image.tag`                      | image tag (immutable tags are recommended)                                                                                                 | `v1.6.13`         |
-| `image.digest`                   | image digest in the way sha256:aa.... Please note this parameter, if set, will override the tag image tag (immutable tags are recommended) | `""`              |
-| `image.pullPolicy`               | image pull policy                                                                                                                          | `IfNotPresent`    |
-| `image.pullSecrets`              | image pull secrets                                                                                                                         | `[]`              |
-| `image.debug`                    | Enable image debug mode                                                                                                                    | `false`           |
-| `updateStrategy.type`            | statefulset strategy type                                                                                                                  | `RollingUpdate`   |
-| `replicaCount`                   | Number of replicas to deploy                                                                                                               | `1`               |
-| `resources.limits.cpu`           | The resources limits for the containers                                                                                                    | `100m`            |
-| `resources.limits.memory`        | The resources limits for the containers                                                                                                    | `64Mi`            |
-| `resources.requests.cpu`         | The requested resources for the containers                                                                                                 | `10m`             |
-| `resources.requests.memory`      | The requested resources for the containers                                                                                                 | `8Mi`             |
-| `args`                           | Override default container args (useful when using custom images)                                                                          | `[]`              |
-| `extraEnvVars`                   | Array with extra environment variables to add to nodes                                                                                     | `[]`              |
-| `mailpit.ui.authFile.enabled`    | Adding basic authentication to web UI                                                                                                      | `false`           |
-| `mailpit.ui.authFile.htpasswd`   | htpasswd content                                                                                                                           | `""`              |
-| `mailpit.ui.tls.enabled`         | Enable tls for web UI                                                                                                                      | `false`           |
-| `mailpit.ui.tls.secretName`      | tls secret for web UI                                                                                                                      | `""`              |
-| `mailpit.smtp.authFile.enabled`  | Adding SMTP authentication                                                                                                                 | `false`           |
-| `mailpit.smtp.authFile.htpasswd` | htpasswd content                                                                                                                           | `""`              |
-| `mailpit.smtp.tls.enabled`       | Enable tls for SMTP                                                                                                                        | `false`           |
-| `mailpit.smtp.tls.secretName`    | tls secret for SMTP                                                                                                                        | `""`              |
-| `mailpit.relay.enabled`          | enable SMTP Relay configuration                                                                                                            | `false`           |
-| `mailpit.relay.config`           | Mailpit SMTP relay configuration                                                                                                           | `{}`              |
-| `mailpit.relay.relayAll`         | Relay all messages to relay                                                                                                                | `false`           |
+The chart defaults to zero replicas, so set a positive replica count and a real host name.
 
-### Traffic Exposure Parameters
+```bash
+helm upgrade --install mailpit ./mailpit \
+  --namespace mailpit \
+  --create-namespace \
+  --set replicaCount=1 \
+  --set ingressRoutes.host=mailpit.example.com \
+  --set persistence.enabled=true
+```
 
-| Name                       | Description                                                                                                                      | Value            |
-| -------------------------- | -------------------------------------------------------------------------------------------------------------------------------- | ---------------- |
-| `service.http.type`        | service type                                                                                                                     | `ClusterIP`      |
-| `service.http.nodePort`    | nodeport bind for HTTP service                                                                                                   | `nil`            |
-| `service.smtp.type`        | service type                                                                                                                     | `ClusterIP`      |
-| `service.smtp.nodePort`    | nodeport bind for STMP service                                                                                                   | `nil`            |
-| `ingress.enabled`          | Enable ingress record generation for %%MAIN_CONTAINER_NAME%%                                                                     | `false`          |
-| `ingress.hostname`         | Default host for the ingress record                                                                                              | `hostname.local` |
-| `ingress.ingressClassName` | IngressClass that will be be used to implement the Ingress (Kubernetes 1.18+)                                                    | `""`             |
-| `ingress.path`             | Default path for the ingress record                                                                                              | `/`              |
-| `ingress.annotations`      | Additional annotations for the Ingress resource. To enable certificate autogeneration, place here your cert-manager annotations. | `{}`             |
-| `ingress.tls`              | Enable TLS configuration for the host defined at `ingress.hostname` parameter                                                    | `false`          |
+## Main values
 
-### Persistence Parameters
+| Value group | Purpose |
+|---|---|
+| `replicaCount`, `resources`, `args`, `extraEnvVars` | Workload behavior |
+| `image.*`, `global.image*` | Image selection and registry access |
+| `persistence.*` | Mailpit SQLite database persistence |
+| `service.http.*`, `service.smtp.*` | Service types and NodePorts |
+| `ingressRoutes.*` | HTTPS host and optional IP allow list |
+| `mailpit.ui.*`, `mailpit.smtp.*` | Basic authentication and TLS Secrets |
+| `mailpit.relay.*` | SMTP relay configuration |
 
-| Name                        | Description                                                            | Value               |
-| --------------------------- | ---------------------------------------------------------------------- | ------------------- |
-| `persistence.enabled`       | Enable persistence using Persistent Volume Claims                      | `false`             |
-| `persistence.storageClass`  | Storage class of backing PVC                                           | `""`                |
-| `persistence.annotations`   | Persistent Volume Claim annotations                                    | `{}`                |
-| `persistence.labels`        | Persistent Volume Claim labels                                         | `{}`                |
-| `persistence.accessModes`   | Persistent Volume Access Modes                                         | `["ReadWriteOnce"]` |
-| `persistence.size`          | Size of data volume                                                    | `8Gi`               |
-| `persistence.existingClaim` | The name of an existing PVC to use for persistence                     | `""`                |
-| `persistence.selector`      | Selector to match an existing Persistent Volume for WordPress data PVC | `{}`                |
-| `persistence.dataSource`    | Custom PVC data source                                                 | `{}`                |
+## Security notes
+
+- UI and SMTP TLS Secrets must contain `tls.crt` and `tls.key`.
+- Treat relay configuration as sensitive; the chart renders it into a Kubernetes Secret.
+- Basic-auth content is rendered into a ConfigMap, so do not use it for credentials requiring strong at-rest protection.
+
+## Operational notes
+
+- The chart is opinionated about Traefik, cert-manager, the `letsencrypt-prod` issuer, and its NetworkPolicy source namespaces/labels.
+- The SMTP-auth-only path has a current template limitation: enabling SMTP authentication without UI authentication does not mount the generated auth file. Enable UI auth too or validate the rendered manifest before relying on SMTP-only auth.

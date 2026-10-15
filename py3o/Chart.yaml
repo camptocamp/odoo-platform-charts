@@ -2,4 +2,4 @@ apiVersion: v2
 name: py3o 
 description: A Helm chart to deploy py3o on Camptocamp own platform
 type: application
-version: 0.1.0
+version: 0.1.10

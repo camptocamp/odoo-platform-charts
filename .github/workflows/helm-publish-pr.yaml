@@ -1,0 +1,88 @@
+---
+name: helm-publish-pr
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+# A new commit on the same PR replaces its previous preview charts.
+concurrency:
+  group: helm-oci-pr-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  detect-changes:
+    # Fork pull requests receive a read-only token and cannot publish to this
+    # repository's GHCR namespace.
+    if: ${{ github.event.pull_request.head.repo.full_name == github.repository && !startsWith(github.head_ref, 'release-please--') }}
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.create-matrix.outputs.matrix }}
+    steps:
+      - name: Checkout the repository
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - name: Find changed Helm charts
+        id: create-matrix
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          charts=$(git diff --name-only "$BASE_SHA" "$HEAD_SHA"             | awk -F/ 'NF > 1 { print $1 }'             | sort -u             | while read -r chart; do
+                [ -f "$chart/Chart.yaml" ] && printf '%s\n' "$chart"
+              done)
+          matrix=$(printf '%s\n' "$charts" | jq -Rsc 'split("\n") | map(select(length > 0))')
+          echo "matrix=$matrix" >> "$GITHUB_OUTPUT"
+
+  publish:
+    needs: detect-changes
+    if: ${{ needs.detect-changes.result == 'success' && needs.detect-changes.outputs.matrix != '[]' }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        chart: ${{ fromJson(needs.detect-changes.outputs.matrix) }}
+    steps:
+      - name: Checkout the pull request
+        uses: actions/checkout@v7
+
+      - name: Install Helm
+        uses: azure/setup-helm@v5.0.1
+
+      - name: Build and validate chart
+        run: |
+          helm dependency build "${{ matrix.chart }}"
+          helm lint "${{ matrix.chart }}"
+          helm template "${{ matrix.chart }}" "${{ matrix.chart }}" > /dev/null
+
+      - name: Package preview chart
+        id: package
+        env:
+          CHART: ${{ matrix.chart }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+        run: |
+          base_version=$(helm show chart "$CHART" | awk -F': *' '$1 == "version" { gsub(/"/, "", $2); print $2; exit }')
+          test -n "$base_version"
+          version="${base_version}-pr.${PR_NUMBER}"
+          helm package "$CHART" --version "$version" --destination packaged-charts
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+          echo "archive=packaged-charts/${CHART}-${version}.tgz" >> "$GITHUB_OUTPUT"
+
+      - name: Log in to GitHub Container Registry
+        env:
+          GHCR_TOKEN: ${{ github.token }}
+        run: echo "$GHCR_TOKEN" | helm registry login ghcr.io --username "${{ github.actor }}" --password-stdin
+
+      - name: Push preview chart to GitHub Container Registry
+        env:
+          ARCHIVE: ${{ steps.package.outputs.archive }}
+          REPOSITORY: oci://ghcr.io/${{ github.repository }}
+        run: |
+          repository=$(printf '%s' "$REPOSITORY" | tr '[:upper:]' '[:lower:]')
+          helm push "$ARCHIVE" "$repository"
