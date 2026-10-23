@@ -5,6 +5,20 @@
 
 ### Features
 
+* added workflow for release ([f0ba03c](https://github.com/camptocamp/odoo-platform-charts/commit/f0ba03c3e5bab4edfe3dd141e9ed419bed6e4e62))
+* added workflow for release ([576a1fa](https://github.com/camptocamp/odoo-platform-charts/commit/576a1fadcef199d8bc735a3063d3c18d0e1730db))
+* implementation of automatisation release ([#192](https://github.com/camptocamp/odoo-platform-charts/issues/192)) ([72f9c9f](https://github.com/camptocamp/odoo-platform-charts/commit/72f9c9f8fd73da33c331570171d6b284b061730a))
+
+
+### Bug Fixes
+
+* publish chart package ([576a1fa](https://github.com/camptocamp/odoo-platform-charts/commit/576a1fadcef199d8bc735a3063d3c18d0e1730db))
+
+## [0.1.6](https://github.com/camptocamp/odoo-platform-charts/compare/kwkhtmltopdf-0.1.5...kwkhtmltopdf-0.1.6) (2026-10-23)
+
+
+### Features
+
 * add pod additional annotations ([035a3ee](https://github.com/camptocamp/odoo-platform-charts/commit/035a3eeaeb1c2b0951db20789f33972dc1bea98c))
 * added workflow for release ([f0ba03c](https://github.com/camptocamp/odoo-platform-charts/commit/f0ba03c3e5bab4edfe3dd141e9ed419bed6e4e62))
 * added workflow for release ([576a1fa](https://github.com/camptocamp/odoo-platform-charts/commit/576a1fadcef199d8bc735a3063d3c18d0e1730db))
