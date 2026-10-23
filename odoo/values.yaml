@@ -30,7 +30,7 @@ serviceMonitor:
   enabled: false
 serviceMonitorOdooMetrics:
     enabled: false
-    
+
     # scrapeInterval defaults to odoo.metrics.scrapeInterval if not set
     # scrapeInterval: 15s
     # fallbackScrapeProtocol: PrometheusText0.0.4
@@ -229,8 +229,12 @@ preinit_manager: {}
 nginx:
   odooHost: 127.0.0.1
   odooLongpollingPort: "8072"
+  resolverOptions:
+    enabled: false # if enabled, values will be set in NGINX_RESOLVER_OPTIONS
+  # values: "ipv6=off"
+  # resolver is normally not set, there is a startup script that guesses if
+  # from /etc/resolv.conf    
   # resolver: ""
-  # resolverOptions: "ipv6=off"
   # realIPFrom: ""
 
 odoo:
