@@ -1,0 +1,10 @@
+{
+  "odoo": "5.6.0",
+  "autossh": "0.0.8",
+  "celebrimbor": "0.10.1",
+  "kwkhtmltopdf": "0.1.6",
+  "mailpit": "0.3.17",
+  "offsite-backups": "0.2.1",
+  "odyssey": "0.1.28",
+  "py3o": "0.1.11"
+}
