@@ -42,6 +42,7 @@ jobs:
     concurrency:
       group: helm-oci-release-publish
       cancel-in-progress: false
+      queue: max
     strategy:
       fail-fast: false
       matrix:
