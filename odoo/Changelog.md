@@ -2,11 +2,11 @@
 
 ## [unreleased] - xxx
 
-## [5.5.1] - 2026-10-08
+## [5.5.1] - 2026-10-08 [BROKEN DO NOT USE]
 
 - update preinit-manager to 1.3.1 to fix crash
 
-## [5.5.0] - 2026-10-06
+## [5.5.0] - 2026-10-06 [BROKEN DO NOT USE]
 
 - Add `odoo.extraEnv` to define extra environment variables in the `odoo-config` ConfigMaps
 - Add `odoo.override_request_resources` and `odoo.cron.override_request_resources` to override CPU/memory requests of http (thread) and cron pods
