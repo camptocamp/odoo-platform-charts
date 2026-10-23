@@ -52,6 +52,7 @@ These are Helm OCI charts, not Docker images. Use `helm pull`, `helm template`, 
    ```
 
 5. Use a Conventional Commit message so Release Please can calculate the next chart version:
+For example:
 
    ```text
    fix(odoo): correct session configuration
