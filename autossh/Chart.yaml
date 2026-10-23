@@ -13,7 +13,7 @@ description: A Helm chart for Kubernetes
 type: application
 
 # This version is managed by Release Please.
-version: 0.0.7
+version: 0.0.8
 
 # This is the version number of the application being deployed. This version number should be
 # incremented each time you make changes to the application. Versions are not expected to
