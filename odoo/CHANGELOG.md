@@ -1,5 +1,12 @@
 # Odoo Chart Changelog
 
+## [5.7.0](https://github.com/camptocamp/odoo-platform-charts/compare/odoo-5.6.0...odoo-5.7.0) (2026-10-23)
+
+
+### Features
+
+* added variable to disabled cpu limit ([82f0089](https://github.com/camptocamp/odoo-platform-charts/commit/82f00896762b4467e3e3c7b92610244a896eb86d))
+
 ## [5.6.0](https://github.com/camptocamp/odoo-platform-charts/compare/odoo-5.5.1...odoo-5.6.0) (2026-10-23)
 
 
