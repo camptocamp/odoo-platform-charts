@@ -131,7 +131,8 @@ helm install my-odoo ./odoo -f my-values.yaml
 | `odoo.extraEnv` | Extra environment variables (key/value map) added to the `odoo-config` ConfigMaps | `{}` |
 | `odoo.kwkhtmltopdf_server_url` | KWKHTMLtoPDF server URL | `http://kwkhtmltopdf.bs-kwkhtmltopdf01250:8080` |
 | `odoo.override_limits` | Override Odoo internal memory/worker limits | `{}` |
-| `odoo.override_resources` | Override pod CPU/memory resource requests/limits | `{}` |
+| `odoo.override_resources` | Configure worker/thread CPU and memory limits (also queue job limits in `workers` mode) | `{cpu_limit_enabled: true}` |
+| `odoo.override_resources.cpu_limit_enabled` | Set to `false` to omit the worker/thread CPU limit (also applies to queue job pods in `workers` mode) | `true` |
 
 ### Odoo Limits
 
@@ -187,7 +188,8 @@ helm install my-odoo ./odoo -f my-values.yaml
 | `odoo.cron.db.max_conn` | Max DB connections for cron | `20` |
 | `odoo.cron.limits.max_cron` | Max cron threads | `2` |
 | `odoo.cron.override_limits` | Override cron internal limits | `{}` |
-| `odoo.cron.override_resources` | Override cron pod resources | `{}` |
+| `odoo.cron.override_resources` | Configure cron pod CPU and memory limits | `{cpu_limit_enabled: true}` |
+| `odoo.cron.override_resources.cpu_limit_enabled` | Set to `false` to omit the cron CPU limit in `hybrid` mode | `true` |
 
 ### Queue Job Component
 
@@ -198,7 +200,8 @@ helm install my-odoo ./odoo -f my-values.yaml
 | `odoo.queuejob.channels` | Queue job channels | `"root:2"` |
 | `odoo.queuejob.db.max_conn` | Max DB connections | `5` |
 | `odoo.queuejob.override_limits` | Override internal limits | `{}` |
-| `odoo.queuejob.override_resources` | Override pod resources | `{}` |
+| `odoo.queuejob.override_resources` | Configure queue job CPU and memory limits in `hybrid` mode; `workers` mode uses `odoo.override_resources` | `{cpu_limit_enabled: true}` |
+| `odoo.queuejob.override_resources.cpu_limit_enabled` | Set to `false` to omit the queue job CPU limit in `hybrid` mode | `true` |
 
 ### Instance Sizing Profiles
 
@@ -211,6 +214,27 @@ Resource requests and internal Odoo limits are automatically set based on `odoo.
 | `xlarge` | 14 | 4 | 3.5Gi |
 
 Use `odoo.override_limits` and `odoo.override_resources` to fine-tune individual values.
+
+### Disabling CPU Limits
+
+CPU limits are enabled by default for all instance sizes (`standard`, `large`, and `xlarge`). Set `cpu_limit_enabled` to the boolean `false` to omit `resources.limits.cpu` from the corresponding Odoo container. CPU requests and memory settings remain unchanged.
+
+```yaml
+odoo:
+  override_resources:
+    cpu_limit_enabled: false
+  cron:
+    override_resources:
+      cpu_limit_enabled: false
+  queuejob:
+    override_resources:
+      cpu_limit_enabled: false
+```
+
+- In `workers` mode, worker and queue job pods intentionally share `odoo.override_resources`; the queue job-specific setting is not used.
+- In `hybrid` mode, thread pods use `odoo.override_resources`, cron pods use `odoo.cron.override_resources`, and queue job pods use `odoo.queuejob.override_resources`.
+
+When `cpu_limit_enabled` is `true`, the CPU limit uses the corresponding `override_resources.cpu` override or the instance-size default. When it is `false`, the CPU limit is omitted even if a CPU override is provided. This setting does not disable the pods or affect sidecar resources.
 
 ### Health Checks
 

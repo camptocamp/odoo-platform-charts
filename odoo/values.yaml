@@ -233,7 +233,7 @@ nginx:
     enabled: false # if enabled, values will be set in NGINX_RESOLVER_OPTIONS
   # values: "ipv6=off"
   # resolver is normally not set, there is a startup script that guesses if
-  # from /etc/resolv.conf    
+  # from /etc/resolv.conf
   # resolver: ""
   # realIPFrom: ""
 
@@ -320,7 +320,8 @@ odoo:
     # memory_soft: 6501171
     # memory_hard: 2097152
     # workers: 2
-  override_resources: {}
+  override_resources:
+    cpu_limit_enabled: true # set to false to disable cpu limits
     # cpu: 5
     # memory: 8Gi
   override_request_resources: {}
@@ -337,7 +338,8 @@ odoo:
       # workers: 1
     limits:
       max_cron: 2
-    override_resources: {}
+    override_resources:
+      cpu_limit_enabled: true # set to false to disable cpu limits
       # cpu: 5
       # memory: 8Gi
     override_request_resources: {}
@@ -348,7 +350,8 @@ odoo:
     defaultReplicaCount: 1
     db:
       max_conn: 5
-    override_resources: {}
+    override_resources:
+      cpu_limit_enabled: true # set to false to disable cpu limits
     override_limits: {}
     override_request_resources: {}
       # memory_soft: 6501173
