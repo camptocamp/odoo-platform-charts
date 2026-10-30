@@ -14,7 +14,7 @@ data:
     # --checksum: compare MD5 from listings, avoids 1 HEAD request per file on S3 to read modtime
     # https://rclone.org/s3/#avoiding-head-requests-to-read-the-modification-time
     # Azure Blob, S3 and Swift all use MD5, so checksums are comparable
-    if rclone copy --checksum "azure:$BUCKET" "offsite:$BUCKET"; then
+    if rclone copy --checksum --stats 2h --stats-log-level NOTICE "azure:$BUCKET" "offsite:$BUCKET"; then
       echo "--- [SUCCESS] $BUCKET ---"
       exit 0
     else
