@@ -1,5 +1,17 @@
 # Odoo Chart Changelog
 
+## [5.8.0](https://github.com/camptocamp/odoo-platform-charts/compare/odoo-5.7.0...odoo-5.8.0) (2026-10-30)
+
+
+### Features
+
+* upgrade Nginx image to 1.12.1 ([#211](https://github.com/camptocamp/odoo-platform-charts/issues/211)) ([6726643](https://github.com/camptocamp/odoo-platform-charts/commit/6726643590b215b1d14a18a5251dc15e784a7d42))
+
+
+### Bug Fixes
+
+* odooqueue ports and service definition ([#196](https://github.com/camptocamp/odoo-platform-charts/issues/196)) ([4489c09](https://github.com/camptocamp/odoo-platform-charts/commit/4489c099e41308ef566dd0b5664fba3d321fc95e))
+
 ## [5.7.0](https://github.com/camptocamp/odoo-platform-charts/compare/odoo-5.6.0...odoo-5.7.0) (2026-10-23)
 
 
