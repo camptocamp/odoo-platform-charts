@@ -102,11 +102,11 @@ helm install my-odoo ./odoo -f my-values.yaml
 | `image.odoo.repository` | Odoo image repository | `ghcr.io/camptocamp/customer_odoo` |
 | `image.odoo.tag` | Odoo image tag | `xx.0.1.0.0` |
 | `image.nginx.repository` | Nginx image repository | `camptocamp.azurecr.io/odoo/odoo-nginx` |
-| `image.nginx.tag` | Nginx image tag | `xx.0-1.6.0` |
+| `image.nginx.tag` | Nginx image tag | `xx.0-1.12.1` |
 | `image.odoohealthz.repository` | Health check sidecar repository | `camptocamp.azurecr.io/odoo/odoo-k8s-healthz` |
-| `image.odoohealthz.tag` | Health check sidecar tag | `app-1.7.0` |
+| `image.odoohealthz.tag` | Health check sidecar tag | `app-1.8.0` |
 | `image.preinit_manager.repository` | Pre-init manager repository | `camptocamp.azurecr.io/odoo/odoo-preinit-manager` |
-| `image.preinit_manager.tag` | Pre-init manager tag | `1.2.2` |
+| `image.preinit_manager.tag` | Pre-init manager tag | `1.3.1` |
 | `image.curl.repository` | Curl image (used in init containers) | `camptocamp.azurecr.io/odoo/curl` |
 | `image.curl.tag` | Curl image tag | `7.81.0` |
 | `imagePullSecrets` | Image pull secrets | `[{name: github-packages}]` |
