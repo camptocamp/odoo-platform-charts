@@ -295,7 +295,8 @@ odoo:
     secret:
       name: odoo-redis
       url: url
-
+  pgbouncer:
+    enabled: False
   log_handler: :INFO,azure:ERROR
   log_level: info
   unaccent: "False"
