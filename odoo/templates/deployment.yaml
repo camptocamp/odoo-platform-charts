@@ -177,7 +177,7 @@ metadata:
 spec:
   ports:
     - port: 80
-      targetPort: odoocore
+      targetPort: 8069
   selector:
     {{- include "odoo.selectorLabels" . | nindent 4 }}
     queuejob: "true"
