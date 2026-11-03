@@ -11,6 +11,7 @@ service:
   type: ClusterIP
   annotations: {}
   name: null
+  # This is a test line to make a new release
 
 certificate:
   enabled: true
@@ -164,7 +165,7 @@ settings:
     #
     # Set interval in seconds for internal statistics update and log report.
     #
-    stats_interval: 15 
+    stats_interval: 15
 
 
     ###
