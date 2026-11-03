@@ -10,6 +10,7 @@ concurrency:
   cancel-in-progress: false
 
 permissions:
+  contents: read
   packages: write
 
 jobs:
@@ -17,6 +18,12 @@ jobs:
     if: ${{ github.event.pull_request.head.repo.full_name == github.repository && !startsWith(github.event.pull_request.head.ref, 'release-please--') }}
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout chart definition
+        uses: actions/checkout@v7
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          persist-credentials: false
+
       - name: Delete this pull request's preview charts
         env:
           GH_TOKEN: ${{ github.token }}
@@ -33,18 +40,14 @@ jobs:
           esac
 
           preview_suffix="-pr.${PR_NUMBER}"
-          package_prefix="${REPOSITORY_NAME}/"
-          packages=$(gh api --paginate \
-            -H "Accept: application/vnd.github+json" \
-            -H "X-GitHub-Api-Version: 2026-03-10" \
-            "${api_path}/packages?package_type=container&per_page=100" \
-            --jq '.[].name')
 
-          while IFS= read -r package_name; do
-            case "$package_name" in
-              "$package_prefix"*) ;;
-              *) continue ;;
-            esac
+          for chart_file in */Chart.yaml; do
+            [ -f "$chart_file" ] || continue
+
+            chart="${chart_file%/Chart.yaml}"
+            package_name="${REPOSITORY_NAME,,}/${chart}"
+
+            echo "Checking preview versions for ${package_name}"
 
             export PACKAGE_NAME="$package_name"
             encoded_package=$(python3 -c 'from urllib.parse import quote; import os; print(quote(os.environ["PACKAGE_NAME"], safe=""))')
@@ -58,8 +61,8 @@ jobs:
               [ -z "$version_id" ] && continue
               echo "Deleting ${package_name}:${preview_suffix} (package version ${version_id})"
               gh api --method DELETE \
-              -H "Accept: application/vnd.github+json" \
-              -H "X-GitHub-Api-Version: 2026-03-10" \
-              "${api_path}/packages/container/${encoded_package}/versions/${version_id}"
+                -H "Accept: application/vnd.github+json" \
+                -H "X-GitHub-Api-Version: 2026-03-10" \
+                "${api_path}/packages/container/${encoded_package}/versions/${version_id}"
             done <<< "$version_ids"
-          done <<< "$packages"
+          done
