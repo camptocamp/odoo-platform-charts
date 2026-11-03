@@ -1,0 +1,73 @@
+# Benchmark of the rclone copy of the offsite-backups filestore job
+#   source  = Azurite (Azure Blob emulator)  -> rclone remote "azure:"
+#   offsite = rclone serve s3                -> rclone remote "offsite:"
+# Data is preloaded in the images (see Dockerfile). Usage: see bench.sh.
+
+x-rclone-env: &rclone-env
+  RCLONE_CONFIG_AZURE_TYPE: azureblob
+  RCLONE_CONFIG_AZURE_USE_EMULATOR: "true"
+  RCLONE_CONFIG_AZURE_ENDPOINT: http://source-azure:10000/devstoreaccount1
+  RCLONE_CONFIG_OFFSITE_TYPE: s3
+  RCLONE_CONFIG_OFFSITE_PROVIDER: Rclone
+  RCLONE_CONFIG_OFFSITE_ENDPOINT: http://offsite-s3:9000
+  RCLONE_CONFIG_OFFSITE_ACCESS_KEY_ID: s3key
+  RCLONE_CONFIG_OFFSITE_SECRET_ACCESS_KEY: s3secret
+
+services:
+  source-azure:
+    image: offsite-backups-test:preloaded
+    build: .
+    command: azurite-blob --location /data/azurite --blobHost 0.0.0.0 --loose --skipApiVersionCheck
+    ports: ["10000:10000"]
+    healthcheck:
+      test: ["CMD", "rclone", "lsd", "azure:"]
+      interval: 1s
+      retries: 30
+
+  # S3 server (MinIO is avoided because of its license)
+  offsite-s3:
+    image: offsite-backups-test:preloaded
+    command: rclone serve s3 /data/s3 --addr :9000 --auth-key s3key,s3secret
+    ports: ["9000:9000"]
+    healthcheck:
+      test: ["CMD", "rclone", "lsd", "offsite:"]
+      interval: 1s
+      retries: 30
+
+  # Network delays (Linux netem), to simulate remote storages: added to
+  # every packet the server sends, also through the published port.
+  # Each runs in its server's network namespace; netshoot ships "tc".
+  # AZURE_DELAY=0ms / S3_DELAY=0ms disables it.
+  source-azure-delay:
+    image: nicolaka/netshoot:v0.13
+    network_mode: service:source-azure
+    depends_on:
+      source-azure: {condition: service_healthy}
+    cap_add: [NET_ADMIN]
+    environment:
+      AZURE_DELAY: ${AZURE_DELAY:-20ms}
+    command: ["sh", "-ec", "tc qdisc replace dev eth0 root netem delay $$AZURE_DELAY && sleep infinity"]
+
+  offsite-s3-delay:
+    image: nicolaka/netshoot:v0.13
+    network_mode: service:offsite-s3
+    depends_on:
+      offsite-s3: {condition: service_healthy}
+    cap_add: [NET_ADMIN]
+    environment:
+      S3_DELAY: ${S3_DELAY:-20ms}
+    command: ["sh", "-ec", "tc qdisc replace dev eth0 root netem delay $$S3_DELAY && sleep infinity"]
+
+  # Inject drift on Azurite, then run + measure rclone copy (see bench.sh).
+  benchmark:
+    image: rclone/rclone:1.69.1
+    depends_on: [source-azure-delay, offsite-s3-delay]
+    volumes:
+      - ./bench.sh:/bench.sh:ro
+      - ../templates/backup-filestore.yaml:/chart/backup-filestore.yaml:ro
+    environment:
+      <<: *rclone-env
+      RCLONE_DUMP: headers
+      RCLONE_LOG_FILE: /tmp/rclone.log
+      EDITED: ${EDITED:-3}
+    entrypoint: ["/bin/sh", "/bench.sh"]
