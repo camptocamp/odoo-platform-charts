@@ -20,7 +20,7 @@ spec:
             odoo.camptocamp.com/environment: prod
           containers:
           - name: rclone
-            image: rclone/rclone:latest
+            image: ghcr.io/divad1196/rclone:1.77.0-fork.1@sha256:ce5bc925159535659950b4f38f4cac0d67cd289df1cfb7c878ca39b429ebca97
             command: ["rclone"]
             args: ["copy", "azure:$(CELEBRIMBOR_STORAGE_NAME)", "offsite:$(CELEBRIMBOR_STORAGE_NAME)", "--immutable", "--use-json-log"]
             env:
@@ -40,7 +40,7 @@ spec:
               - secretRef:
                   name: offsite-storage-secret
           - name: cleanup
-            image: rclone/rclone:latest
+            image: ghcr.io/divad1196/rclone:1.77.0-fork.1@sha256:ce5bc925159535659950b4f38f4cac0d67cd289df1cfb7c878ca39b429ebca97
             command: ["rclone"]
             args: ["delete", "--min-age", "3M", "offsite:$(CELEBRIMBOR_STORAGE_NAME)", "--use-json-log"]
             env:
