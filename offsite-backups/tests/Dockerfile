@@ -7,7 +7,7 @@
 # Containers write on top of the image, so recreating them brings every
 # test back to this exact state.
 
-FROM rclone/rclone:1.69.1 AS rclone
+FROM rclone/rclone:latest AS rclone
 
 FROM mcr.microsoft.com/azure-storage/azurite:3.33.0 AS preloaded
 COPY --from=rclone /usr/local/bin/rclone /usr/local/bin/

@@ -60,7 +60,7 @@ services:
 
   # Inject drift on Azurite, then run + measure rclone copy (see bench.sh).
   benchmark:
-    image: rclone/rclone:1.69.1
+    image: rclone/rclone:latest
     depends_on: [source-azure-delay, offsite-s3-delay]
     volumes:
       - ./bench.sh:/bench.sh:ro
@@ -69,5 +69,7 @@ services:
       <<: *rclone-env
       RCLONE_DUMP: headers
       RCLONE_LOG_FILE: /tmp/rclone.log
+      # Triggers on-disk sorting like in production, without preloading 1M+ files
+      RCLONE_LIST_CUTOFF: ${LIST_CUTOFF:-5000}
       EDITED: ${EDITED:-3}
     entrypoint: ["/bin/sh", "/bench.sh"]
