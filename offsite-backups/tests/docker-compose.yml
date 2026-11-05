@@ -60,7 +60,8 @@ services:
 
   # Inject drift on Azurite, then run + measure rclone copy (see bench.sh).
   benchmark:
-    image: rclone/rclone:latest
+    image: offsite-backups-test:rclone
+    build: {context: ., target: rclone}
     depends_on: [source-azure-delay, offsite-s3-delay]
     volumes:
       - ./bench.sh:/bench.sh:ro
