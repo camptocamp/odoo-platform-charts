@@ -7,7 +7,16 @@
 # Containers write on top of the image, so recreating them brings every
 # test back to this exact state.
 
-FROM rclone/rclone:1.69.1 AS rclone
+# [DO NOT MERGE] rclone built with the fix of
+# https://github.com/rclone/rclone/pull/10253
+FROM golang:1.26-alpine AS rclone-build
+ARG RCLONE_COMMIT=bf8445f7c37b81ca57189ae0a0e84113baf59ea5
+ADD https://github.com/divad1196/rclone/archive/${RCLONE_COMMIT}.tar.gz /rclone.tar.gz
+RUN mkdir /src && tar -xzf /rclone.tar.gz -C /src --strip-components=1 \
+    && cd /src && CGO_ENABLED=0 go build -o /rclone .
+
+FROM rclone/rclone:latest AS rclone
+COPY --from=rclone-build /rclone /usr/local/bin/rclone
 
 FROM mcr.microsoft.com/azure-storage/azurite:3.33.0 AS preloaded
 COPY --from=rclone /usr/local/bin/rclone /usr/local/bin/
