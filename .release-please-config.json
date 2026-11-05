@@ -1,0 +1,28 @@
+{
+  "$schema": "https://raw.githubusercontent.com/googleapis/release-please/main/schemas/config.json",
+  "packages": {
+    "autossh": { "component": "autossh" },
+    "celebrimbor": { "component": "celebrimbor" },
+    "kwkhtmltopdf": { "component": "kwkhtmltopdf" },
+    "mailpit": { "component": "mailpit" },
+    "odoo": { "component": "odoo" },
+    "offsite-backups": { "component": "offsite-backups" },
+    "odyssey": { "component": "odyssey" },
+    "py3o": { "component": "py3o" }
+  },
+  "release-type": "helm",
+  "include-v-in-tag": false,
+  "include-component-in-tag": true,
+  "tag-separator": "-",
+  "separate-pull-requests": true,
+  "pull-request-title-pattern": "chore: release ${component}-${version}",
+  "bump-minor-pre-major": true,
+  "bump-patch-for-minor-pre-major": true,
+  "changelog-sections": [
+    { "type": "feat", "section": "Features" },
+    { "type": "feature", "section": "Features" },
+    { "type": "fix", "section": "Bug Fixes" },
+    { "type": "perf", "section": "Performance Improvements" },
+    { "type": "revert", "section": "Reverts" }
+  ]
+}

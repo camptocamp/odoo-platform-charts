@@ -33,21 +33,27 @@ requests:
   cpu:  {{ .Values.odoo.queuejob.override_request_resources.cpu | default 0.1 }}
   memory: {{ .Values.odoo.queuejob.override_request_resources.memory | default "1.2Gi" }}
 limits:
+  {{- if .Values.odoo.queuejob.override_resources.cpu_limit_enabled }}
   cpu: {{ .Values.odoo.queuejob.override_resources.cpu | default 4 }}
+  {{- end }}
   memory: {{ .Values.odoo.queuejob.override_resources.memory | default "3.5Gi" }}
 {{- else if eq .Values.odoo.instance_type "large" -}}
 requests:
   cpu: {{ .Values.odoo.queuejob.override_request_resources.cpu | default 0.1 }}
   memory: {{ .Values.odoo.queuejob.override_request_resources.memory | default "650Mi" }}
 limits:
+  {{- if .Values.odoo.queuejob.override_resources.cpu_limit_enabled }}
   cpu: {{ .Values.odoo.queuejob.override_resources.cpu | default 2 }}
+  {{- end }}
   memory: {{ .Values.odoo.queuejob.override_resources.memory | default "3Gi" }}
   {{- else -}}
 requests:
   cpu: {{ .Values.odoo.queuejob.override_request_resources.cpu | default 0.1 }}
   memory: {{ .Values.odoo.queuejob.override_resources.memory | default "650Mi" }}
 limits:
+  {{- if .Values.odoo.queuejob.override_resources.cpu_limit_enabled }}
   cpu: {{ .Values.odoo.queuejob.override_resources.cpu | default 1 }}
+  {{- end }}
   memory: {{ .Values.odoo.queuejob.override_resources.memory | default "2Gi" }}
   {{- end }}
 {{- end }}

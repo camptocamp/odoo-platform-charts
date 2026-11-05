@@ -1,6 +1,6 @@
 # Odoo Helm Chart
 
-A Helm chart to deploy Odoo on the Camptocamp platform (version `5.4.1`).
+A Helm chart to deploy Odoo on the Camptocamp platform (version `5.4.0`).
 
 This chart is meant to be used with projects using docker-odoo-project 5.4.x
 
@@ -50,7 +50,7 @@ helm install my-odoo ./odoo -f my-values.yaml
 |----------|------|-------|
 | `<name>-worker` or `<name>-thread` / `<name>-cron` | `Deployment` | Main Odoo pod(s), depending on mode |
 | `<name>-queuejob` | `Deployment` | Created only when `odoo.queuejob.enabled: true` |
-| `<name>-worker` / `<name>-thread` / `<name>-cron` | `Service` | Per-component ClusterIP services |
+| `<name>-worker` / `<name>-thread` / `<name>-cron` / `<name>-queuejob` | `Service` | Per-component ClusterIP services |
 | `<name>-metrics` | `Service` | Exposes port 8080 for Prometheus scraping |
 | `<name>` | `Service` | Compatibility service pointing to the main component |
 | `odoo-config-<type>` | `ConfigMap` | Odoo environment configuration per pod type |
@@ -109,11 +109,11 @@ helm install my-odoo ./odoo -f my-values.yaml
 | `image.odoo.repository` | Odoo image repository | `ghcr.io/camptocamp/customer_odoo` |
 | `image.odoo.tag` | Odoo image tag | `xx.0.1.0.0` |
 | `image.nginx.repository` | Nginx image repository | `camptocamp.azurecr.io/odoo/odoo-nginx` |
-| `image.nginx.tag` | Nginx image tag | `xx.0-1.6.0` |
+| `image.nginx.tag` | Nginx image tag | `xx.0-1.12.1` |
 | `image.odoohealthz.repository` | Health check sidecar repository | `camptocamp.azurecr.io/odoo/odoo-k8s-healthz` |
-| `image.odoohealthz.tag` | Health check sidecar tag | `app-1.7.0` |
+| `image.odoohealthz.tag` | Health check sidecar tag | `app-1.8.0` |
 | `image.preinit_manager.repository` | Pre-init manager repository | `camptocamp.azurecr.io/odoo/odoo-preinit-manager` |
-| `image.preinit_manager.tag` | Pre-init manager tag | `1.2.2` |
+| `image.preinit_manager.tag` | Pre-init manager tag | `1.3.1` |
 | `image.curl.repository` | Curl image (used in init containers) | `camptocamp.azurecr.io/odoo/curl` |
 | `image.curl.tag` | Curl image tag | `7.81.0` |
 | `imagePullSecrets` | Image pull secrets | `[{name: github-packages}]` |
@@ -135,9 +135,11 @@ helm install my-odoo ./odoo -f my-values.yaml
 | `odoo.demo` | Enable demo data | `"False"` |
 | `odoo.server_wide_modules` | Server-wide modules (comma-separated) | depends on odoo_version |
 | `odoo.server_env_config` | server_env module configuration | `""` |
+| `odoo.extraEnv` | Extra environment variables (key/value map) added to the `odoo-config` ConfigMaps | `{}` |
 | `odoo.kwkhtmltopdf_server_url` | KWKHTMLtoPDF server URL | `http://kwkhtmltopdf.bs-kwkhtmltopdf01250:8080` |
 | `odoo.override_limits` | Override Odoo internal memory/worker limits | `{}` |
-| `odoo.override_resources` | Override pod CPU/memory resource requests/limits | `{}` |
+| `odoo.override_resources` | Configure worker/thread CPU and memory limits (also queue job limits in `workers` mode) | `{cpu_limit_enabled: true}` |
+| `odoo.override_resources.cpu_limit_enabled` | Set to `false` to omit the worker/thread CPU limit (also applies to queue job pods in `workers` mode) | `true` |
 
 ### Odoo Limits
 
@@ -193,7 +195,8 @@ helm install my-odoo ./odoo -f my-values.yaml
 | `odoo.cron.db.max_conn` | Max DB connections for cron | `20` |
 | `odoo.cron.limits.max_cron` | Max cron threads | `2` |
 | `odoo.cron.override_limits` | Override cron internal limits | `{}` |
-| `odoo.cron.override_resources` | Override cron pod resources | `{}` |
+| `odoo.cron.override_resources` | Configure cron pod CPU and memory limits | `{cpu_limit_enabled: true}` |
+| `odoo.cron.override_resources.cpu_limit_enabled` | Set to `false` to omit the cron CPU limit in `hybrid` mode | `true` |
 
 ### Queue Job Component
 
@@ -204,7 +207,8 @@ helm install my-odoo ./odoo -f my-values.yaml
 | `odoo.queuejob.channels` | Queue job channels | `"root:2"` |
 | `odoo.queuejob.db.max_conn` | Max DB connections | `5` |
 | `odoo.queuejob.override_limits` | Override internal limits | `{}` |
-| `odoo.queuejob.override_resources` | Override pod resources | `{}` |
+| `odoo.queuejob.override_resources` | Configure queue job CPU and memory limits in `hybrid` mode; `workers` mode uses `odoo.override_resources` | `{cpu_limit_enabled: true}` |
+| `odoo.queuejob.override_resources.cpu_limit_enabled` | Set to `false` to omit the queue job CPU limit in `hybrid` mode | `true` |
 
 ### Instance Sizing Profiles
 
@@ -217,6 +221,27 @@ Resource requests and internal Odoo limits are automatically set based on `odoo.
 | `xlarge` | 14 | 4 | 3.5Gi |
 
 Use `odoo.override_limits` and `odoo.override_resources` to fine-tune individual values.
+
+### Disabling CPU Limits
+
+CPU limits are enabled by default for all instance sizes (`standard`, `large`, and `xlarge`). Set `cpu_limit_enabled` to the boolean `false` to omit `resources.limits.cpu` from the corresponding Odoo container. CPU requests and memory settings remain unchanged.
+
+```yaml
+odoo:
+  override_resources:
+    cpu_limit_enabled: false
+  cron:
+    override_resources:
+      cpu_limit_enabled: false
+  queuejob:
+    override_resources:
+      cpu_limit_enabled: false
+```
+
+- In `workers` mode, worker and queue job pods intentionally share `odoo.override_resources`; the queue job-specific setting is not used.
+- In `hybrid` mode, thread pods use `odoo.override_resources`, cron pods use `odoo.cron.override_resources`, and queue job pods use `odoo.queuejob.override_resources`.
+
+When `cpu_limit_enabled` is `true`, the CPU limit uses the corresponding `override_resources.cpu` override or the instance-size default. When it is `false`, the CPU limit is omitted even if a CPU override is provided. This setting does not disable the pods or affect sidecar resources.
 
 ### Health Checks
 
@@ -379,3 +404,20 @@ volumeMounts:
     - name: my-qj-volume
       mountPath: /etc/my-secret
 ```
+
+## Extra Environment Variables
+
+Additional environment variables can be passed to Odoo through `odoo.extraEnv`. Each key is added to the
+`odoo-config-<type>` ConfigMap of every pod type (worker/thread/cron/queuejob), so it reaches the Odoo
+container, the `marabunta-migration` init container and the `odoohealthz` sidecar. Values are rendered as
+strings, and any change triggers a rollout through the ConfigMap hash annotation.
+
+```yaml
+odoo:
+  extraEnv:
+    ODOO_FOO: "bar"
+    SOME_FLAG: "1"
+```
+
+Variables already managed by the chart (e.g. `LOG_LEVEL`, `SERVER_WIDE_MODULES`) have dedicated values; prefer
+those. Setting one of them in `extraEnv` produces a duplicate key in the ConfigMap, and the `extraEnv` value wins.

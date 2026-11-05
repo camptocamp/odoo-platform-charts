@@ -20,6 +20,20 @@ spec:
       podSelector:
         matchLabels:
           app.kubernetes.io/name: prometheus
+  - from: # DEV
+    - namespaceSelector:
+        matchLabels:
+          kubernetes.io/metadata.name: alloy-infra
+      podSelector:
+        matchLabels:
+          app.kubernetes.io/name: alloy
+  - from: # PROD
+    - namespaceSelector:
+        matchLabels:
+          kubernetes.io/metadata.name: alloy-infrastructure
+      podSelector:
+        matchLabels:
+          app.kubernetes.io/name: alloy
   {{- if .Values.networkPolicies.enableSharedPrintinServices }}
   - from:
     - namespaceSelector:

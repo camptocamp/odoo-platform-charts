@@ -1,12 +1,55 @@
 # Odoo Chart Changelog
 
-## [5.4.1] - 2026-09-08
+## [5.8.0](https://github.com/camptocamp/odoo-platform-charts/compare/odoo-5.7.0...odoo-5.8.0) (2026-10-30)
 
-- Add `componentNodeSelector`, to set a node selector on any component
-  (`thread`, `cron`, `worker`, `queuejob`) with no dependency on `odoo.mode`
-  or `separateOdooComponents`. Merged on top of the global `nodeSelector`;
-  `separateOdooComponents` behaviour is unchanged
-- default pre-init manager version: 1.2.2
+
+### Features
+
+* upgrade Nginx image to 1.12.1 ([#211](https://github.com/camptocamp/odoo-platform-charts/issues/211)) ([6726643](https://github.com/camptocamp/odoo-platform-charts/commit/6726643590b215b1d14a18a5251dc15e784a7d42))
+
+
+### Bug Fixes
+
+* odooqueue ports and service definition ([#196](https://github.com/camptocamp/odoo-platform-charts/issues/196)) ([4489c09](https://github.com/camptocamp/odoo-platform-charts/commit/4489c099e41308ef566dd0b5664fba3d321fc95e))
+
+## [5.7.0](https://github.com/camptocamp/odoo-platform-charts/compare/odoo-5.6.0...odoo-5.7.0) (2026-10-23)
+
+
+### Features
+
+* added variable to disabled cpu limit ([82f0089](https://github.com/camptocamp/odoo-platform-charts/commit/82f00896762b4467e3e3c7b92610244a896eb86d))
+
+## [5.6.0](https://github.com/camptocamp/odoo-platform-charts/compare/odoo-5.5.1...odoo-5.6.0) (2026-10-23)
+
+
+### Features
+
+* added workflow for release ([f0ba03c](https://github.com/camptocamp/odoo-platform-charts/commit/f0ba03c3e5bab4edfe3dd141e9ed419bed6e4e62))
+* added workflow for release ([576a1fa](https://github.com/camptocamp/odoo-platform-charts/commit/576a1fadcef199d8bc735a3063d3c18d0e1730db))
+* implementation of automatisation release ([#192](https://github.com/camptocamp/odoo-platform-charts/issues/192)) ([72f9c9f](https://github.com/camptocamp/odoo-platform-charts/commit/72f9c9f8fd73da33c331570171d6b284b061730a))
+
+
+### Bug Fixes
+
+* **odoo:** remove broken 5.5.x odoo Charts to avoid issues ([#197](https://github.com/camptocamp/odoo-platform-charts/issues/197)) ([419dfae](https://github.com/camptocamp/odoo-platform-charts/commit/419dfaeb8d1c54db6caee74dbb15906c405185ce))
+* publish chart package ([576a1fa](https://github.com/camptocamp/odoo-platform-charts/commit/576a1fadcef199d8bc735a3063d3c18d0e1730db))
+
+## [unreleased] - xxx
+
+## [5.5.1] - 2026-10-08 [BROKEN DO NOT USE]
+=======
+
+- fix: odooqueue port and service definition
+- update preinit-manager to 1.3.1 to fix crash
+
+## [5.5.0] - 2026-10-06 [BROKEN DO NOT USE]
+
+- Add `odoo.extraEnv` to define extra environment variables in the `odoo-config` ConfigMaps
+- Add `odoo.override_request_resources` and `odoo.cron.override_request_resources` to override CPU/memory requests of http (thread) and cron pods
+- change default nginx to 1.12.0
+- use preinit manager 1.3.0
+- add monitoring for odoo memory used
+- add a service for scaling odooqueue pods
 
 ## [5.4.0] - 2026-08-14
 

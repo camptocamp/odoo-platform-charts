@@ -67,4 +67,7 @@ data:
   {{- else }}
     {{- include "odoo.component-limits" (dict "compo" .Values.odoo "default_max_conn" 5 "default_max_cron" "1") | nindent 2 -}}
   {{- end -}}
+  {{- range $key, $val := .Values.odoo.extraEnv }}
+  {{ $key }}: {{ $val | quote }}
+  {{- end }}
 {{- end }}

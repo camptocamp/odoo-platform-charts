@@ -28,21 +28,27 @@ networkPolicies:
 #        kubernetes.io/metadata.name: xxxx
 serviceMonitor:
   enabled: false
+serviceMonitorOdooMetrics:
+    enabled: false
+
+    # scrapeInterval defaults to odoo.metrics.scrapeInterval if not set
+    # scrapeInterval: 15s
+    # fallbackScrapeProtocol: PrometheusText0.0.4
 
 image:
   pullPolicy: IfNotPresent
   preinit_manager:
     repository: camptocamp.azurecr.io/ghcrio/camptocamp/odoo-preinit-manager
-    tag: 1.2.2
+    tag: 1.3.1
   odoo:
     repository: ghcr.io/camptocamp/customer_odoo
     tag: xx.0.1.0.0
   nginx:
     repository: camptocamp.azurecr.io/ghcrio/camptocamp/docker-odoo-nginx
-    tag: xx.0-1.6.0
+    tag: xx.0-1.12.1
   odoohealthz:
     repository: camptocamp.azurecr.io/ghcrio/camptocamp/odoo-k8s-healthz
-    tag: app-1.7.0
+    tag: app-1.8.0
   curl:
     repository: camptocamp.azurecr.io/dockerhub/curlimages/curl
     tag: 7.81.0
@@ -233,8 +239,15 @@ preinit_manager: {}
   # onering_svc: ""
 
 nginx:
-  odooHost: localhost
+  odooHost: 127.0.0.1
   odooLongpollingPort: "8072"
+  resolverOptions:
+    enabled: false # if enabled, values will be set in NGINX_RESOLVER_OPTIONS
+  # values: "ipv6=off"
+  # resolver is normally not set, there is a startup script that guesses if
+  # from /etc/resolv.conf
+  # resolver: ""
+  # realIPFrom: ""
 
 odoo:
   odoo_version: 18.0
@@ -301,6 +314,9 @@ odoo:
   kwkhtmltopdf_server_url: http://kwkhtmltopdf.bs-kwkhtmltopdf01250:8080
   server_env_config: ""
   server_wide_modules: ""
+  extraEnv: {}
+    # ODOO_FOO: "bar"
+    # SOME_FLAG: 1
   demo: "False"
   marabunta:
     enabled: "True"
@@ -316,9 +332,13 @@ odoo:
     # memory_soft: 6501171
     # memory_hard: 2097152
     # workers: 2
-  override_resources: {}
+  override_resources:
+    cpu_limit_enabled: true # set to false to disable cpu limits
     # cpu: 5
     # memory: 8Gi
+  override_request_resources: {}
+    # cpu: 0.05
+    # memory: 360Mi
 
   cron:
     defaultReplicaCount: 1
@@ -330,15 +350,20 @@ odoo:
       # workers: 1
     limits:
       max_cron: 2
-    override_resources: {}
+    override_resources:
+      cpu_limit_enabled: true # set to false to disable cpu limits
       # cpu: 5
       # memory: 8Gi
+    override_request_resources: {}
+      # cpu: 0.05
+      # memory: 360Mi
 
   queuejob:
     defaultReplicaCount: 1
     db:
       max_conn: 5
-    override_resources: {}
+    override_resources:
+      cpu_limit_enabled: true # set to false to disable cpu limits
     override_limits: {}
     override_request_resources: {}
       # memory_soft: 6501173

@@ -1,0 +1,40 @@
+---
+name: offsite-backups-benchmark
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - offsite-backups/**
+
+permissions:
+  contents: read
+
+jobs:
+  benchmark:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: offsite-backups/tests
+    steps:
+      - name: Checkout the repository
+        uses: actions/checkout@v7
+
+      - name: Build the preloaded images
+        run: docker compose build
+
+      # The result line of the chart command becomes the job summary table.
+      - name: Benchmark the chart command
+        run: |
+          cat >> "$GITHUB_STEP_SUMMARY" <<'EOF'
+          ### Chart rclone copy benchmark (20ms latency, 3 drifted files)
+          | Duration | HEAD requests to S3 | Files copied |
+          |---|---|---|
+          EOF
+          docker compose run --rm benchmark benchmark-chart-command | tee /tmp/benchmark.log
+          sed -n 's/^=== chart: \(.*\), \(.*\) HEAD requests, \(.*\) files copied$/| \1 | \2 | \3 |/p' \
+            /tmp/benchmark.log >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Stop the containers
+        if: always()
+        run: docker compose down -t 1
