@@ -34,7 +34,6 @@
 * **odoo:** remove broken 5.5.x odoo Charts to avoid issues ([#197](https://github.com/camptocamp/odoo-platform-charts/issues/197)) ([419dfae](https://github.com/camptocamp/odoo-platform-charts/commit/419dfaeb8d1c54db6caee74dbb15906c405185ce))
 * publish chart package ([576a1fa](https://github.com/camptocamp/odoo-platform-charts/commit/576a1fadcef199d8bc735a3063d3c18d0e1730db))
 
-## [unreleased] - xxx
 
 ## [5.5.1] - 2026-10-08 [BROKEN DO NOT USE]
 =======
