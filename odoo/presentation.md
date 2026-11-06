@@ -1,6 +1,6 @@
 # Odoo Helm Chart — Technical Presentation
 
-**Chart**: `odoo` v5.3.10
+**Chart**: `odoo` v5.8.0
 **Maintainer**: Camptocamp
 **Target platform**: Azure Kubernetes Service (AKS)
 
@@ -179,23 +179,23 @@ Config for workers mode:
 
 | Profile | K8s CPU limit | K8s Mem limit | `WORKERS` | `LIMIT_MEMORY_SOFT` | `LIMIT_MEMORY_HARD` |
 |---------|---------------|---------------|-----------|---------------------|---------------------|
-| `standard` | 1 | 2.2 GiB | 7 | 650 MiB | 2 GiB |
-| `large` | 2 | 3 GiB | 14 | 650 MiB | 4 GiB |
-| `xlarge` | 4 | 3.5 GiB | 14 | 650 MiB | 4 GiB |
+| `standard` | 1 | 2.2 GiB | 7 | 620 MiB | 2000 MiB |
+| `large` | 2 | 3 GiB | 14 | 620 MiB | 4000 MiB |
+| `xlarge` | 4 | 3.5 GiB | 14 | 620 MiB | 4000 MiB |
 
 Thread mode always sets `WORKERS=0` (Odoo threaded mode) and has different memory limits (the values are the one for chart >= 5.3.11):
 
 | Profile | K8s CPU limit | K8s Mem limit | `WORKERS` | `LIMIT_MEMORY_SOFT` | `LIMIT_MEMORY_HARD` |
 |---------|---------------|---------------|-----------|---------------------|---------------------|
-| `standard` | 1 | 2.2 GiB | 0 | 1.02 GiB | 1.2 GiB |
-| `large` | 2 | 3 Gi | 0 | 1.275 GiB | 1.5 GiB |
-| `xlarge` | 4 | 3.5 GiB | 0 | 1.7 GiB | 2 GiB |
+| `standard` | 1 | 1.2 GiB | 0 | 1.02 GiB | 1.2 GiB |
+| `large` | 2 | 1.5 GiB | 0 | 1.275 GiB | 1.5 GiB |
+| `xlarge` | 4 | 2 GiB | 0 | 1.7 GiB | 2 GiB |
 
 By default, in threaded mode you get a different number of replica based on the instance size (this is not part of the chart, it comes from the app template):
 
 | Profile | odoo-thread replica |
-|---------+---------------------|
-| ̀ standard` | 4 |
+|---------|---------------------|
+| `standard` | 4 |
 | `large` | 5 |
 | `xlarge` | 6 | 
 
@@ -203,17 +203,17 @@ By default, in threaded mode you get a different number of replica based on the 
 
 | Profile | K8s CPU limit | K8s Mem limit | `WORKERS` | `LIMIT_MEMORY_SOFT` | `LIMIT_MEMORY_HARD` |
 |---------|---------------|---------------|-----------|---------------------|---------------------|
-| `standard` | 1 | 2 GiB | 1 | 750 MiB | 2 GiB |
-| `large` | 2 | 3 GiB | 1 | 1 GB | 2.5 GiB |
-| `xlarge` | 4 | 3.5 GiB | 2 | 1.5 GB | 3 GiB |
+| `standard` | 1 | 2 GiB | 1 | 715 MiB | 1.95 GiB |
+| `large` | 2 | 3 GiB | 1 | 1 GiB | 2.5 GiB |
+| `xlarge` | 4 | 3.5 GiB | 2 | 1.5 GiB | 3 GiB |
 
 ### 6.3 QueueJob pod
 
 | Profile | K8s CPU limit | K8s Mem limit | `WORKERS` | `DB_MAXCONN` |
 |---------|---------------|---------------|-----------|--------------|
-| `standard` | 1 | 2 Gi | 3 | 5 |
-| `large` | 2 | 3 Gi | 5 | 5 |
-| `xlarge` | 4 | 3.5 Gi | 7 | 5 |
+| `standard` | 1 | 2 GiB | 3 | 5 |
+| `large` | 2 | 3 GiB | 5 | 5 |
+| `xlarge` | 4 | 3.5 GiB | 7 | 5 |
 
 All sizes can be overridden at any granularity via `odoo.override_resources` and `odoo.override_limits`.
 
@@ -562,7 +562,7 @@ apiVersion: v2
 name: odoo
 description: A Helm chart to deploy Odoo on CampToCamp own platform
 type: application
-version: 5.3.10
+version: 5.8.0
 ```
 
 ---
@@ -699,9 +699,9 @@ Values by instance type:
 
 | Profile | `WORKERS` | `LIMIT_MEMORY_HARD` | CPU limit | Mem limit |
 |---------|-----------|---------------------|-----------|-----------|
-| `standard` | 7 | 2 GB | 1 | 2.2 Gi |
-| `large` | 14 | 4 GB | 2 | 3 Gi |
-| `xlarge` | 14 | 4 GB | 4 | 3.5 Gi |
+| `standard` | 7 | 1.95 GiB | 1 | 2.2 GiB |
+| `large` | 14 | 3.91 GiB | 2 | 3 GiB |
+| `xlarge` | 14 | 3.91 GiB | 4 | 3.5 GiB |
 
 ---
 
@@ -719,9 +719,9 @@ Values by instance type:
 
 | Profile | `WORKERS` | `LIMIT_MEMORY_HARD` | CPU limit | Mem limit |
 |---------|-----------|---------------------|-----------|-----------|
-| `standard` | 0 | 900 MB | 1 | 1.2 Gi |
-| `large` | 0 | 1.5 GB | 2 | 1.5 Gi |
-| `xlarge` | 0 | 2 GB | 4 | 2 Gi |
+| `standard` | 0 | 1.2 GiB | 1 | 1.2 GiB |
+| `large` | 0 | 1.5 GiB | 2 | 1.5 GiB |
+| `xlarge` | 0 | 2 GiB | 4 | 2 GiB |
 
 ---
 
@@ -739,9 +739,9 @@ Values by instance type:
 
 | Profile | `WORKERS` | `LIMIT_MEMORY_HARD` | CPU limit | Mem limit |
 |---------|-----------|---------------------|-----------|-----------|
-| `standard` | 1 | 2 GB | 1 | 2 Gi |
-| `large` | 1 | 2.5 GB | 2 | 3 Gi |
-| `xlarge` | 2 | 3 GB | 4 | 3.5 Gi |
+| `standard` | 1 | 1.95 GiB | 1 | 2 GiB |
+| `large` | 1 | 2.5 GiB | 2 | 3 GiB |
+| `xlarge` | 2 | 3 GiB | 4 | 3.5 GiB |
 
 ---
 
@@ -759,9 +759,9 @@ Values by instance type:
 
 | Profile | `WORKERS` | `LIMIT_MEMORY_HARD` | CPU limit | Mem limit |
 |---------|-----------|---------------------|-----------|-----------|
-| `standard` | 3 | 2 GB | 1 | 2 Gi |
-| `large` | 5 | 2.5 GB | 2 | 3 Gi |
-| `xlarge` | 7 | 3 GB | 4 | 3.5 Gi |
+| `standard` | 3 | 1.95 GiB | 1 | 2 GiB |
+| `large` | 5 | 2.5 GiB | 2 | 3 GiB |
+| `xlarge` | 7 | 3 GiB | 4 | 3.5 GiB |
 
 ---
 

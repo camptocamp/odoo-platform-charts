@@ -1,8 +1,8 @@
 # Odoo Helm Chart
 
-A Helm chart to deploy Odoo on the Camptocamp platform (version `5.4.0`).
+A Helm chart to deploy Odoo on the Camptocamp platform (version `5.8.0`).
 
-This chart is meant to be used with projects using docker-odoo-project 5.4.x
+This chart is meant to be used with projects using docker-odoo-project >= 5.5.4
 
 ## Overview
 
@@ -209,9 +209,9 @@ Resource requests and internal Odoo limits are automatically set based on `odoo.
 
 | Profile | Workers | CPU limit | Memory limit |
 |---------|---------|-----------|--------------|
-| `standard` | 7 | 1 | 2.2Gi |
-| `large` | 14 | 2 | 3Gi |
-| `xlarge` | 14 | 4 | 3.5Gi |
+| `standard` | 7 | 1 | 2 GiB |
+| `large` | 14 | 2 | 3 GiB |
+| `xlarge` | 14 | 4 | 3.5 GiB |
 
 Use `odoo.override_limits` and `odoo.override_resources` to fine-tune individual values.
 
