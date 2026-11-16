@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.2](https://github.com/camptocamp/odoo-platform-charts/compare/offsite-backups-0.2.1...offsite-backups-0.2.2) (2026-11-16)
+
+
+### Features
+
+* **external-secrets:** support `v1` CRDs ([be8f412a](https://github.com/camptocamp/odoo-platform-charts/commit/be8f412a24697a215cbe65cf0a1bac06dc5d923a))
+
 ## [0.2.1](https://github.com/camptocamp/odoo-platform-charts/compare/offsite-backups-0.2.0...offsite-backups-0.2.1) (2026-10-23)
 
 
