@@ -5,8 +5,7 @@
 
 ### Features
 
-* **external-secrets:** update prerequisites ([9ef04b6](https://github.com/camptocamp/odoo-platform-charts/commit/9ef04b6ce5fc5da4daf5c6c72c61260731825c91))
-* **external-secrets:** update prerequisites ([88c8a03](https://github.com/camptocamp/odoo-platform-charts/commit/88c8a03b216edb9fffc61d5e5392ce81e4642674))
+* **external-secrets:** support `v1` CRDs ([be8f412a](https://github.com/camptocamp/odoo-platform-charts/commit/be8f412a24697a215cbe65cf0a1bac06dc5d923a))
 
 ## [0.2.1](https://github.com/camptocamp/odoo-platform-charts/compare/offsite-backups-0.2.0...offsite-backups-0.2.1) (2026-10-23)
 
