@@ -5,7 +5,7 @@ Deploys Celebrimbor with an Nginx sidecar, Azure Workload Identity, Azure Key Va
 ## Prerequisites
 
 - Helm 3 and Kubernetes.
-- External Secrets Operator and its `SecretStore` / `ExternalSecret` CRDs.
+- External Secrets Operator and its `SecretStore` / `ExternalSecret` CRDs (`v1beta1` or `v1`).
 - Azure Workload Identity configured for the selected ServiceAccount.
 - Azure Key Vault access for the configured managed identity.
 - Redis and Azure storage configuration.
@@ -42,14 +42,14 @@ helm upgrade --install celebrimbor ./celebrimbor \
 
 ## Main values
 
-| Value group | Purpose |
-|---|---|
-| `identity.*`, `keyvaultName`, `serviceAccountName` | Azure Workload Identity and Key Vault access |
-| `image.*`, `replicaCount`, `resources.*` | Images, scaling, and per-container resources |
-| `celebrimbor.*` | Application runtime, internal cron, additional secrets, and key backup |
-| `ingress.*` | Traefik route, host names, and IP allow list |
-| `volumes`, `volumeMounts` | Additional Pod storage |
-| `nodeSelector`, `tolerations`, `affinity` | Scheduling |
+| Value group                                        | Purpose                                                                |
+| -------------------------------------------------- | ---------------------------------------------------------------------- |
+| `identity.*`, `keyvaultName`, `serviceAccountName` | Azure Workload Identity and Key Vault access                           |
+| `image.*`, `replicaCount`, `resources.*`           | Images, scaling, and per-container resources                           |
+| `celebrimbor.*`                                    | Application runtime, internal cron, additional secrets, and key backup |
+| `ingress.*`                                        | Traefik route, host names, and IP allow list                           |
+| `volumes`, `volumeMounts`                          | Additional Pod storage                                                 |
+| `nodeSelector`, `tolerations`, `affinity`          | Scheduling                                                             |
 
 ## Operational notes
 

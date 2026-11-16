@@ -5,7 +5,7 @@ Runs scheduled `rclone` backups from Azure Blob Storage to an offsite S3 or Swif
 ## Prerequisites
 
 - Helm 3 and Kubernetes.
-- External Secrets Operator with `SecretStore` and `ExternalSecret` CRDs.
+- External Secrets Operator and its `SecretStore` / `ExternalSecret` CRDs (`v1beta1` or `v1`).
 - Azure Workload Identity and Key Vault access for the configured ServiceAccounts.
 - Nodes matching the chart's fixed `miscapps` / `prod` selector.
 - Network access to Azure Blob Storage, Azure Key Vault, and the selected offsite provider.
