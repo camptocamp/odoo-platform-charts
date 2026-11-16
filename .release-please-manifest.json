@@ -1,7 +1,7 @@
 {
   "odoo": "5.8.0",
   "autossh": "0.0.8",
-  "celebrimbor": "0.10.1",
+  "celebrimbor": "0.10.2",
   "kwkhtmltopdf": "0.1.6",
   "mailpit": "0.3.17",
   "offsite-backups": "0.2.1",
