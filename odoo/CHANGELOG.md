@@ -1,5 +1,13 @@
 # Odoo Chart Changelog
 
+## [5.9.0](https://github.com/camptocamp/odoo-platform-charts/compare/odoo-5.8.0...odoo-5.9.0) (2026-11-18)
+
+
+### Features
+
+* add global nodeselector per components ([a8b138d](https://github.com/camptocamp/odoo-platform-charts/commit/a8b138daf24a6bd31622809d2ab194c8e7571211))
+* add global nodeselector per components ([f28ca7b](https://github.com/camptocamp/odoo-platform-charts/commit/f28ca7bb9e2906d635ad9656ea0e07de6686a93f))
+
 ## [5.8.0](https://github.com/camptocamp/odoo-platform-charts/compare/odoo-5.7.0...odoo-5.8.0) (2026-10-30)
 
 
