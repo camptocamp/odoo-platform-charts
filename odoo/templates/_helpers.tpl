@@ -82,6 +82,13 @@ Odoo configuration to be reused within multiple pods
     secretKeyRef:
       name: {{ .Values.odoo.db.secret.name | quote }}
       key: {{ .Values.odoo.db.secret.host | quote }}
+  {{- if .Values.odoo.pgbouncer.enabled }}
+- name: ODOO_IMDISPATCHER_DB_HOST
+  valueFrom: 
+  secretKeyRef:
+    name: {{ .Values.odoo.db.secret.name | quote }}
+    key: {{ .Values.odoo.db.secret.host | quote }}
+  {{- end}}
 - name: DB_NAME
   valueFrom:
     secretKeyRef:
@@ -97,8 +104,15 @@ Odoo configuration to be reused within multiple pods
     secretKeyRef:
       name: {{ .Values.odoo.db.secret.name | quote }}
       key: {{ .Values.odoo.db.secret.password | quote }}
+  {{- if .Values.odoo.pgbouncer.enabled }}
+- name: DB_PORT
+  value: {{ .Values.odoo.db.port | default 6432" | quote }}
+- name: ODOO_IMDISPATCHER_DB_PORT
+  value: {{ .Values.odoo.db.port | default "5432" | quote }}
+  {{- else }}
 - name: DB_PORT
   value: {{ .Values.odoo.db.port | default "5432" | quote }}
+  {{- end }}
   {{- if .Values.odoo.redis.enabled }}
 - name: ODOO_SESSION_REDIS_URL
   valueFrom:

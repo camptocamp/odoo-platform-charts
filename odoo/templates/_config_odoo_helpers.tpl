@@ -38,6 +38,9 @@ data:
   ODOO_SESSION_REDIS_PREFIX: {{ include "odoo.name" . }}
   {{- end }}
   RUNNING_ENV: {{ .Values.odoo.env }}
+
+  ## TODO: add the bus_alt_connection module to the preloaded modules if pgbouncer is enabled
+  ## TODO also but not here : update documentation :-) 
   {{- if gt .Values.odoo.odoo_version 17.0 }}
   {{- if eq .pod_type "queuejob" }}
   SERVER_WIDE_MODULES: {{ printf "%s,queue_job" (.Values.odoo.server_wide_modules | default "web,session_redis,logging_json") }}
